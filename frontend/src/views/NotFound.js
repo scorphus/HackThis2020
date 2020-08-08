@@ -5,8 +5,8 @@ function NotFound() {
     let location = useLocation();
 
     return (
-        <div>
-            <p>Page not found at {location.pathname}</p>
+        <div className="container">
+            <p>Page not found: {location.pathname}</p>
         </div>
     );
 }

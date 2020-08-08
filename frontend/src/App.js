@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+import "./styles/global.css";
+
 import Home from "./views/Home";
 import NotFound from "./views/NotFound";
 
@@ -10,7 +12,7 @@ function App() {
             <div className="App">
                 <Switch>
                     <Route exact path="/login">
-                        <div>login</div>
+                        <h1>Login</h1>
                     </Route>
                     <Route exact path="/">
                         <Home />
