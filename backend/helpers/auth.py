@@ -7,11 +7,11 @@ import db
 
 def login(username, password):
     user = db.db.users.find({"user":username})
-    for record in user:
-        if(not record['pass'] == password):
-            return "INVALID PASSWORD"
     if(len(dumps(user)) == 2):
         return "INVALID USER"
+   for record in user:
+        if(not record['pass'] == password):
+            return "INVALID PASSWORD"
     user = dumps(user)
     return user
 
@@ -37,4 +37,3 @@ def register(email, username, password):
     db.db.users.insert_one({"user":username, "pass":password, "email":email, "interests":[]})
     user = dumps(db.db.users.find({"user":username}))
     return user
-

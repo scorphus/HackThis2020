@@ -39,12 +39,6 @@ def background_thread():
 def index():
     return render_template('index.html', async_mode=socketio.async_mode)
 
-# only for debugging
-@app.route('/setup')
-def setup():
-    return "HI"
-    
-
 @app.route('/login')
 def login():
     username = request.args.get('username').lower()
