@@ -4,6 +4,13 @@ from flask import Flask, render_template, session, request, \
     copy_current_request_context
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
     close_room, rooms, disconnect
+from flask_pymongo import pymongo
+from bson.json_util import loads, dumps
+
+import os, sys
+sys.path.append(os.path.abspath('./helpers'))
+import db
+import auth
 
 # Set this variable to "threading", "eventlet" or "gevent" to test the
 # different async modes, or leave it set to None for the application to choose
@@ -32,6 +39,24 @@ def background_thread():
 def index():
     return render_template('index.html', async_mode=socketio.async_mode)
 
+# only for debugging
+@app.route('/setup')
+def setup():
+    return "HI"
+    
+
+@app.route('/login')
+def login():
+    username = request.args.get('username').lower()
+    password = request.args.get('password').lower()
+    return auth.login(username, password)
+
+@app.route('/register')
+def register():
+    username = request.args.get('username').lower()
+    password = request.args.get('password').lower()
+    email = request.args.get('email').lower()
+    return auth.register(email, username, password)
 
 @socketio.on('my_event', namespace='/test')
 def test_message(message):
