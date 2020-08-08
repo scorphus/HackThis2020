@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import "./styles/global.css";
+import "./styles/main.scss";
 
 import Home from "./views/Home";
 import NotFound from "./views/NotFound";
