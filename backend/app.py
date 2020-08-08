@@ -7,6 +7,8 @@ from flask_socketio import SocketIO, emit, join_room, leave_room, \
 from flask_pymongo import pymongo
 from bson.json_util import loads, dumps
 
+from flask_mail import Mail, Message
+
 import os, sys
 sys.path.append(os.path.abspath('./helpers'))
 import db
@@ -22,6 +24,15 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
+
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'hackthiswinningteam@gmail.com'
+app.config['MAIL_DEFAULT_SENDER'] = 'hackthiswinningteam@gmail.com'
+app.config['MAIL_PASSWORD'] = 'a1secret'
+mail = Mail(app)
 
 
 def background_thread():
@@ -50,7 +61,19 @@ def register():
     username = request.args.get('username').lower()
     password = request.args.get('password').lower()
     email = request.args.get('email').lower()
-    return auth.register(email, username, password)
+    
+    msg_string = auth.register(email, username, password)
+    if(msg_string[0] == 'P'):
+        msg = Message(subject="Verify your email", sender=app.config.get("MAIL_USERNAME"), recipients=[email], body=msg_string)
+        mail.send(msg)
+        return "DONE"
+    return msg_string
+
+@app.route('/register/<num>')
+def verify(num):
+    email = request.args.get('email').lower()
+    print(num)
+    return auth.verify(num, email)
 
 @socketio.on('my_event', namespace='/test')
 def test_message(message):
