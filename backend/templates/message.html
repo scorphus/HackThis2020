@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <title>Flask_Chat_Window</title>
+  </head>
+  <body>
+    <!--Navigation Bar-->
+    <nav>
+    </nav>
+    <div id = "main">
+        <!--Message Area-->
+        <h>Insert Topic: Weee</h>
+        <div id = "message_box"></div>
+        <!--Input Message-->
+        <div id = "input_area">
+            <input type = "text" id = "input_message" placeholder = "Type Here" autocomplete = "off">
+            <button type = "button" id = "send_button">SEND MESSAGE</button>
+        </div>
+        <!--Buttons-->
+        <button type = "button" id = "highlight_button">HIGHLIGHT</button>
+        <button type = "button" id = "finished_button">I'M FINISHED</button>
+    </div>
+
+    <!--Get From/To Usernames and Other Variables-->
+    <script type = "text/javascript" charset = "utf-8">
+        const from_username = `{{ from_user|e }}`;
+        const to_username = `{{ to_user|e }}`;
+    </script>
+    <!--SocketIO JS SetUp-->
+    <script src = "//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <!--SocketIO JS-->
+    <script type = "text/javascript" charset = "utf-8">
+        document.addEventListener('DOMContentLoaded', () => {
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+            socket.on('connect', () => {
+                const p = document.createElement('p');
+                const br = document.createElement('br');
+                const span_username = document.createElement('span');
+                span_username.innerHTML = from_username;
+                p.innerHTML = span_username.outerHTML + "You have connected" + br.outerHTML;
+                document.querySelector('#message_box').append(p);
+            });
+            socket.on('message', data => {
+                const p = document.createElement('p');
+                const span_username = document.createElement('span');
+                const br = document.createElement('br');
+                span_username.innerHTML = to_username;
+                p.innerHTML = span_username.outerHTML + br.outerHTML + data.message + br.outerHTML;
+                document.querySelector('#message_box').append(p);
+            });
+            //Sending a Message
+            document.querySelector('#send_button').onclick = () => {
+                socket.send({"message": document.querySelector('#input_message').value,"from": from_username, "to": to_username});
+            }
+        });
+    </script>
+  </body>
+  </html>
