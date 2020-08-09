@@ -1,0 +1,110 @@
+@import "./colors.scss";
+@import "./main.scss";
+
+.container {
+  position: relative;
+}
+
+.bar {
+  width: 100%;
+  background-color: grey;
+  height: 5vw;
+
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 2vw;
+
+  .signUp {
+    background-color: lightgreen;
+    border-radius: 10px;
+    height: 3.5vw;
+    width: 7vw;
+    text-align: center;
+
+    h1 {
+      font-size: 1rem;
+      font-weight: 100;
+    }
+  }
+
+  .navBar {
+    background-color: white;
+    border-radius: 8px;
+    margin-right: 2vw;
+    height: 3.5vw;
+    width: 3.5vw;
+    
+position: relative;
+    .hamburger {   
+        position: absolute;
+        top: 5px;
+        width: 100%;            
+      div {
+        width: 60%;
+        height: 2px;
+        background-color: black;
+        margin: 6px auto;
+      }
+    }
+  }
+}
+
+.square {
+  position: absolute;
+  top: 2vw;
+  left: 2vw;
+
+  background-color: red;
+  height: 8vw;
+  width: 8vw;
+}
+
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2vw;
+  margin-top: 3vw;
+  text-align: center;
+}
+
+.user {
+  h1 {
+    font-size: 3rem;
+  }
+  height: 8vw;
+}
+
+.caption {
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 100;
+  }
+}
+
+.searchBar {
+  width: 40vw;
+  height: 4vw;
+  position: relative;
+  margin: auto;
+
+  input {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+
+  .icon {
+    position: absolute;
+    top: 0.5vw;
+    right: 1vw;
+    height: 3vw;
+    width: 3vw;
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
