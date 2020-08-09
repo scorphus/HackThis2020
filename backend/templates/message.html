@@ -37,7 +37,7 @@
                 const br = document.createElement('br');
                 const span_username = document.createElement('span');
                 span_username.innerHTML = from_username;
-                p.innerHTML = span_username.outerHTML + "You have connected" + br.outerHTML;
+                p.innerHTML = span_username.outerHTML + " has connected" + br.outerHTML;
                 document.querySelector('#message_box').append(p);
             });
             socket.on('message', data => {

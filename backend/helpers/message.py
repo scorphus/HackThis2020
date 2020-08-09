@@ -9,7 +9,7 @@ socketio = SocketIO(app)
 @app.route('/<from_user>/messages/<to_user>')
 def sessions(from_user,to_user):
     # maybe add authentication in the future
-    return render_template('message.html', to_user = to_user)
+    return render_template('message.html', from_user = from_user, to_user = to_user)
 
 def messageReceived(methods=['GET', 'POST']):
     print('Message Received')
