@@ -1,10 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 import "./styles/main.scss";
 
 import Home from "./views/Home";
 import NotFound from "./views/NotFound";
+import Login from "./views/Login";
+import Register from "./views/Register";
 
 function App() {
     return (
@@ -12,9 +14,14 @@ function App() {
             <div className="App">
                 <Switch>
                     <Route exact path="/login">
-                        <h1>Login</h1>
+                        <Login />
+                    </Route>
+                    <Route exact path="/register">
+                        <Register />
                     </Route>
                     <Route exact path="/">
+                        <Link to="/login">Login</Link>
+                        <Link to="/register">Register</Link>
                         <Home />
                     </Route>
                     <Route>
