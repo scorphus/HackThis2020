@@ -51,17 +51,18 @@ def background_thread():
 def index():
     return render_template('index.html', async_mode=socketio.async_mode)
 
-@app.route('/login')
+@app.route('/login', methods=["POST"])
 def login():
-    username = request.args.get('username').lower()
-    password = request.args.get('password').lower()
+    username = request.form.get('username').lower()
+    password = request.form.get('password').lower()
+    print(username + " " + password)
     return auth.login(username, password)
 
-@app.route('/register')
+@app.route('/register', methods=["POST"])
 def register():
-    username = request.args.get('username').lower()
-    password = request.args.get('password').lower()
-    email = request.args.get('email').lower()
+    username = request.form.get('username').lower()
+    password = request.form.get('password').lower()
+    email = request.form.get('email').lower()
     
     msg_string = auth.register(email, username, password)
     if(msg_string[0] == 'P'):
@@ -72,12 +73,13 @@ def register():
 
 @app.route('/register/<num>')
 def verify(num):
-    email = request.args.get('email').lower()
-    print(num)
-    return auth.verify(num, email)
+    user = request.args.get('user').lower()
+    return auth.verify(num, user)
 
-@app.route('/create_topic/<topic>/<subject>')
+@app.route('/create_topic', methods=["POST"])
 def new(topic, subject):
+    topic = request.args.get('topic').lower()
+    subject = request.args.get('subject').lower()
     topics.create_topic(topic, subject)
     return "DONE"
 

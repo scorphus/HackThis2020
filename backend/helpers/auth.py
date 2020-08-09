@@ -8,14 +8,12 @@ from flask_mail import Message
 import db
 
 def login(username, password):
-    user = db.db.users.find({"user":username})
-    if(len(dumps(user)) == 2):
+    user = db.db.users.find_one({"user":username})
+    if(not user):
         return "INVALID USER"
-    for record in user:
-       if(not record['pass'] == password):
-           return "INVALID PASSWORD"
-    user = dumps(user)
-    return user
+    if(not user['pass'] == password):
+        return "INVALID PASSWORD"
+    return dumps(user)
 
 def valid_username(username):
     return username.isalnum()
@@ -37,15 +35,22 @@ def register(email, username, password):
     elif(not valid_password(password)):
         return "INVALID PASSWORD"
     db.db.users.insert_one({"user":username, "pass":password, "email":email, "confirmed":False, "interests":[]})
-    link = "http://127.0.0.1:5000/register/" + str(hash(email))
-    msg = "Please visit this link to verify your account: " + link + "?email=" + email
+    link = "http://127.0.0.1:5000/register/" + str(hash(username))
+    msg = "Please visit this link to verify your account: " + link + "?user=" + username
     return msg
 
-def verify(code, email):
-    if(not code == str(hash(email))):
+def verify(code, user):
+    if(not code == str(hash(user))):
         return "INVALID"
-    db.db.users.update_one({"email":email}, {"$set":{"confirmed":True}})
+    db.db.users.update_one({"user":user}, {"$set":{"confirmed":True}})
     return "DONE"
 
-
+def is_verified(user):
+    user = db.db.users.find({"user":username})
+    if(len(dumps(user))==2):
+        return False
+    for record in user:
+        if(record['confirmed']):
+            return True
+    return False
     
