@@ -31,6 +31,15 @@
     a {
         color: white;
     }
+
+    .switchAuth {
+        background-color: $color6;
+        color: $color0;
+        text-decoration: none;
+        text-align: center;
+        padding: 10px;
+        font-size: 1.1rem;
+    }
 }
 
 .formBox {
@@ -45,14 +54,20 @@
         align-items: flex-start;
 
         input {
-            &:not(:last-child) {
-                margin-bottom: 20px;
-            }
             display: block;
         }
 
         label {
             font-size: 1.25rem;
+            &:not(:first-child) {
+                margin-top: 20px;
+            }
+        }
+
+        .loginButton {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
         }
     }
 }
@@ -94,6 +109,7 @@
             &:hover {
                 box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
                 transform: translate(-3px, -3px);
+                cursor: pointer;
             }
 
             &.selected {
@@ -105,12 +121,33 @@
             }
         }
     }
+}
 
-    .back {
-        float: left;
-    }
+.button {
+    border: none;
+    font-size: 1.1rem;
+    min-width: 120px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: $color0;
+    color: $color1;
 
-    .signUp {
-        float: right;
+    transition: 0.2s;
+
+    &:hover {
+        border-radius: 0;
+        cursor: pointer;
     }
+}
+
+.floatingRight {
+    position: absolute;
+    right: 0;
+    bottom: -60px;
+}
+
+.floatingLeft {
+    position: absolute;
+    left: 0;
+    bottom: -60px;
 }

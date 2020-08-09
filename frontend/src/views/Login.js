@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 import styles from "../styles/Auth.module.scss";
 
@@ -15,9 +16,9 @@ function Login() {
             <div className={styles.infoBox}>
                 <h1>Welcome Back!</h1>
                 <p>Please login to your account to start using NAME.</p>
-                <p>
-                    Don't have an account? <a href="/register">Sign up.</a>
-                </p>
+                <Link className={styles.switchAuth} to="/register">
+                    Don't have an account yet?
+                </Link>
             </div>
             <div className={styles.formBox}>
                 <form
@@ -38,7 +39,12 @@ function Login() {
                         id="password"
                         ref={register}
                     />
-                    <button type="submit">Login</button>
+                    <button
+                        className={`${styles.loginButton} ${styles.button}`}
+                        type="submit"
+                    >
+                        Login
+                    </button>
                 </form>
             </div>
         </div>
