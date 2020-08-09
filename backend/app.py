@@ -13,6 +13,8 @@ import os, sys
 sys.path.append(os.path.abspath('./helpers'))
 import db
 import auth
+import subjects
+import topics
 
 # Set this variable to "threading", "eventlet" or "gevent" to test the
 # different async modes, or leave it set to None for the application to choose
@@ -45,7 +47,6 @@ def background_thread():
                       {'data': 'Server generated event', 'count': count},
                       namespace='/test')
 
-
 @app.route('/')
 def index():
     return render_template('index.html', async_mode=socketio.async_mode)
@@ -74,6 +75,15 @@ def verify(num):
     email = request.args.get('email').lower()
     print(num)
     return auth.verify(num, email)
+
+@app.route('/create_topic/<topic>/<subject>')
+def new(topic, subject):
+    topics.create_topic(topic, subject)
+    return "DONE"
+
+@app.route('/get_subjects')
+def get_subjects():
+    return subjects.get_subjects()
 
 @socketio.on('my_event', namespace='/test')
 def test_message(message):
