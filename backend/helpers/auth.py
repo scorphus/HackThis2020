@@ -43,7 +43,7 @@ def verify(code, user):
     if(not code == str(hash(user))):
         return "INVALID"
     db.db.users.update_one({"user":user}, {"$set":{"confirmed":True}})
-    return "DONE"
+    return dumps(db.db.users.find_one({"user":user}))
 
 def is_verified(user):
     user = db.db.users.find({"user":username})
