@@ -34,12 +34,12 @@
     margin-right: 2vw;
     height: 3.5vw;
     width: 3.5vw;
-    
-position: relative;
-    .hamburger {   
-        position: absolute;
-        top: 5px;
-        width: 100%;            
+
+    position: relative;
+    .hamburger {
+      position: absolute;
+      top: 5px;
+      width: 100%;
       div {
         width: 60%;
         height: 2px;
@@ -107,4 +107,12 @@ position: relative;
       width: 100%;
     }
   }
+}
+
+.cardContainer {
+  display: flex;
+  margin-top: 5vw;
+  align-items: center;
+  justify-content: center;
+  gap: 10vw;
 }
