@@ -12,7 +12,7 @@
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 
-    background-color: $color2;
+    background-color: $color5;
 
     display: flex;
 }
@@ -120,23 +120,6 @@
             &.available {
             }
         }
-    }
-}
-
-.button {
-    border: none;
-    font-size: 1.1rem;
-    min-width: 120px;
-    height: 40px;
-    border-radius: 10px;
-    background-color: $color0;
-    color: $color1;
-
-    transition: 0.2s;
-
-    &:hover {
-        border-radius: 0;
-        cursor: pointer;
     }
 }
 
