@@ -18,14 +18,14 @@ class AddCard extends React.Component {
       justifyContent: "center",
       borderRadius: this.props.border,
       fontSize: "1rem",
+      boxShadow: "-4px 4px 10px rgba(0,0,0,0.5)"
     };    
 
     const imgStyle = {
-        marginTop: "5vw"        
     }
     
     const headerStyle = {
-        marginTop: "1vw",
+        margin: "20px 0 0 0",
         fontWeight: "50"
     }
 

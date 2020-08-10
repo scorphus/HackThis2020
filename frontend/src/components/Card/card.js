@@ -16,7 +16,8 @@ class Card extends React.Component {
       alignItems: "center",
       justifyContent: "center",
       borderRadius: "10px",
-      fontSize: "2rem"
+      fontSize: "2rem",
+      boxShadow: "-4px 4px 10px rgba(0,0,0,0.5)"
     };
 
     const headerStyle = {

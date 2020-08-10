@@ -23,14 +23,12 @@ class Home extends React.Component {
     return (
       <div className={styles.container}>
         <div className={styles.bar}>
-          <div className={styles.signUp}>
-            <h1>Sign Up</h1>
-          </div>
+          <button className={styles.signUp}>
+              Sign Up
+          </button>
           <div className={styles.navBar}>
             <div className={styles.hamburger}>
-              <div></div>
-              <div></div>
-              <div></div>
+                <i class="fa fa-bars" aria-hidden="true"></i>
             </div>
           </div>
         </div>
