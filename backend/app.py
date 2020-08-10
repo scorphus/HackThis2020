@@ -1,32 +1,35 @@
 #!/usr/bin/env python
 from threading import Lock
 from flask import Flask, render_template, session, request, \
-    copy_current_request_context
+    copy_current_request_context, make_response
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
     close_room, rooms, disconnect
 from flask_pymongo import pymongo
 from bson.json_util import loads, dumps
-
 from flask_mail import Mail, Message
+import uuid
+import os, sys, time
 
-import os, sys
+# Local Imports
+from form_setup import *
+from helpers.auth import register
+
 sys.path.append(os.path.abspath('./helpers'))
-import db
-import auth
-import subjects
-import topics
 
-# Set this variable to "threading", "eventlet" or "gevent" to test the
-# different async modes, or leave it set to None for the application to choose
-# the best option based on installed packages.
-async_mode = None
+# # Set this variable to "threading", "eventlet" or "gevent" to test the
+# # different async modes, or leave it set to None for the application to choose
+# # the best option based on installed packages.
+# async_mode = None
 
+# Create the app
 app = Flask(__name__)
+app.debug = False  # debugger mode
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app, async_mode=async_mode)
+socketio = SocketIO(app)
 thread = None
 thread_lock = Lock()
 
+# Mailing
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = False
@@ -36,40 +39,51 @@ app.config['MAIL_DEFAULT_SENDER'] = 'hackthiswinningteam@gmail.com'
 app.config['MAIL_PASSWORD'] = 'a1secret'
 mail = Mail(app)
 
+# Home Page or smth for redirects
+@app.route('/', methods = ["GET", "POST"])
+def home():
+    # Temp set to index.html. Change to home.html once homepage made
+    return "Home Page Lol"
 
-def background_thread():
-    """Example of how to send server generated events to clients."""
-    count = 0
-    while True:
-        socketio.sleep(10)
-        count += 1
-        socketio.emit('my_response',
-                      {'data': 'Server generated event', 'count': count},
-                      namespace='/test')
+# Cookies
+def delete_cookie(key):
+    res = make_response("Cookie Removed")
+    res.set_cookie(key, '', max_age=0)
+    return res
 
-@app.route('/')
-def index():
-    return render_template('index.html', async_mode=socketio.async_mode)
-
-@app.route('/login')
+# Login, Logout, Registration
+@app.route('/login', methods = ["GET", "POST"])
 def login():
-    username = request.args.get('username').lower()
-    password = request.args.get('password').lower()
-    return auth.login(username, password)
+    # If haven't logged in (Normal Case)
+    if not request.cookies.get('login_info'):
+        log_form = LoginForm()
+        if log_form.validate_on_submit():
+            res = make_response(("Welcome Back, {}").format(log_form.username.data))
+            res.set_cookie("login_info", value=str(log_form.username.data), max_age=None)
+            return res
+        return render_template("login.html", form = log_form)
+    # If already logged in and trying to troll
+    else:
+        return redirect(url_for('home'))
 
-@app.route('/register')
+@app.route('/logout', methods = ["GET"])
+def logout():
+    if not request.cookies.get('login_info'):
+         return "Huh? Trying to exit when you haven't even signed in?? Smh."
+    # Return home when logged out or w/e
+    res = make_response(redirect(url_for('home')))
+    res.set_cookie("login_info", '', max_age=0)
+    res.set_cookie("room_id", '', max_age=0)
+    return res
+
+@app.route('/register', methods = ["GET", "POST"])
 def register():
-    username = request.args.get('username').lower()
-    password = request.args.get('password').lower()
-    email = request.args.get('email').lower()
+    reg_form = RegistrationForm()
+    if reg_form.validate_on_submit():
+        #registered_info = cookie('login_info', value=reg_form.username.data, max_age=None)
+        return helpers.auth.register(reg_form.email.data, reg_form.username.data, reg_form.password.data)
+    return render_template("register.html", form = reg_form)
     
-    msg_string = auth.register(email, username, password)
-    if(msg_string[0] == 'P'):
-        msg = Message(subject="Verify your email", sender=app.config.get("MAIL_USERNAME"), recipients=[email], body=msg_string)
-        mail.send(msg)
-        return "DONE"
-    return msg_string
-
 @app.route('/register/<num>')
 def verify(num):
     email = request.args.get('email').lower()
@@ -85,89 +99,51 @@ def new(topic, subject):
 def get_subjects():
     return subjects.get_subjects()
 
-@socketio.on('my_event', namespace='/test')
-def test_message(message):
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',
-         {'data': message['data'], 'count': session['receive_count']})
+# CHAT FUNCTION HERE
+@app.route('/messages/make_room')
+def make_room():
+    # If logged out and trying to troll
+    if not request.cookies.get('login_info'):
+        return redirect(url_for('home'))
+    else:
+        #Generate Room ID
+        random_room_id = "temp"
+        #random_room_id = uuid.uuid4().hex
+        res = make_response(redirect(url_for('sessions', room_id = random_room_id)))
+        res.set_cookie("room_id", value=random_room_id, max_age=None)
+        return res
 
+@app.route('/messages/<room_id>')
+def sessions(room_id):
+    # If logged out and trying to troll
+    if not request.cookies.get('login_info'):
+        return redirect(url_for('home'))
+    # If logged in
+    else:
+        username = request.cookies.get('login_info')
+        room = request.cookies.get('room_id')
+        return render_template('message.html', username = username, room = room)
 
-@socketio.on('my_broadcast_event', namespace='/test')
-def test_broadcast_message(message):
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',
-         {'data': message['data'], 'count': session['receive_count']},
-         broadcast=True)
+def messageReceived(methods=['GET', 'POST']):
+    print('Message Received') 
 
+@socketio.on('message')
+def message(data):
+    msg = data["msg"]
+    username = data["from_username"]
+    room = data["room"]
+    time_stamp = time.strftime('%b-%d %I:%M%p', time.localtime())
+    socketio.send({"msg": msg, "from_username": username, "time_stamp": time_stamp}, room = room)
 
-@socketio.on('join', namespace='/test')
-def join(message):
-    join_room(message['room'])
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',
-         {'data': 'In rooms: ' + ', '.join(rooms()),
-          'count': session['receive_count']})
+@socketio.on('join')
+def on_join(data):
+    join_room(data["room"])
+    send({"msg": data["from_username"] + " has joined the room " + data["room"]}, room = data["room"])
 
-
-@socketio.on('leave', namespace='/test')
-def leave(message):
-    leave_room(message['room'])
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',
-         {'data': 'In rooms: ' + ', '.join(rooms()),
-          'count': session['receive_count']})
-
-
-@socketio.on('close_room', namespace='/test')
-def close(message):
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response', {'data': 'Room ' + message['room'] + ' is closing.',
-                         'count': session['receive_count']},
-         room=message['room'])
-    close_room(message['room'])
-
-
-@socketio.on('my_room_event', namespace='/test')
-def send_room_message(message):
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',
-         {'data': message['data'], 'count': session['receive_count']},
-         room=message['room'])
-
-
-@socketio.on('disconnect_request', namespace='/test')
-def disconnect_request():
-    @copy_current_request_context
-    def can_disconnect():
-        disconnect()
-
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    # for this emit we use a callback function
-    # when the callback function is invoked we know that the message has been
-    # received and it is safe to disconnect
-    emit('my_response',
-         {'data': 'Disconnected!', 'count': session['receive_count']},
-         callback=can_disconnect)
-
-
-@socketio.on('my_ping', namespace='/test')
-def ping_pong():
-    emit('my_pong')
-
-
-@socketio.on('connect', namespace='/test')
-def test_connect():
-    global thread
-    with thread_lock:
-        if thread is None:
-            thread = socketio.start_background_task(background_thread)
-    emit('my_response', {'data': 'Connected', 'count': 0})
-
-
-@socketio.on('disconnect', namespace='/test')
-def test_disconnect():
-    print('Client disconnected', request.sid)
-
+@socketio.on('leave')
+def on_leave(data):
+    leave_room(data["room"])
+    send({"msg": "F: " + data["from_username"] + " has left the room " + data["room"]}, room = data["room"])
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

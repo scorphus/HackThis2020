@@ -23,8 +23,9 @@
 
     <!--Get From/To Usernames and Other Variables-->
     <script type = "text/javascript" charset = "utf-8">
-        const from_username = `{{ from_user|e }}`;
-        const to_username = `{{ to_user|e }}`;
+        const from_username = `{{ username|e }}`;
+        const time_stamp = `{{ time_stamp }}`;
+        const room_id = `{{ room|e }}`;
     </script>
     <!--SocketIO JS SetUp-->
     <script src = "//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
@@ -33,24 +34,50 @@
         document.addEventListener('DOMContentLoaded', () => {
             var socket = io.connect('http://' + document.domain + ':' + location.port);
             socket.on('connect', () => {
+                joinRoom(room_id);
                 const p = document.createElement('p');
                 const br = document.createElement('br');
                 const span_username = document.createElement('span');
                 span_username.innerHTML = from_username;
-                p.innerHTML = span_username.outerHTML + " has connected" + br.outerHTML;
+                p.innerHTML = "You have connected! Enter a message or something." + br.outerHTML;
                 document.querySelector('#message_box').append(p);
             });
             socket.on('message', data => {
+                // Check if the message is sent by user or by someone else
+                if (data.from_username == from_username) {
+                    // If sent by user
+                    // SPECIFY self message attribute here :D
+                }
+                else {
+                    // If sent by someone else
+                    // SPECIFY self message attribute here :D
+                }
                 const p = document.createElement('p');
                 const span_username = document.createElement('span');
+                span_username.innerHTML = data.from_username;
+                const span_timestamp = document.createElement('span');
+                span_timestamp.innerText = data.time_stamp;
                 const br = document.createElement('br');
-                span_username.innerHTML = to_username;
-                p.innerHTML = span_username.outerHTML + br.outerHTML + data.message + br.outerHTML;
+                p.innerHTML = span_username.outerHTML + br.outerHTML + data.msg + br.outerHTML + span_timestamp.outerHTML;
                 document.querySelector('#message_box').append(p);
             });
-            //Sending a Message
+            // Sending a Message
             document.querySelector('#send_button').onclick = () => {
-                socket.send({"message": document.querySelector('#input_message').value,"from": from_username, "to": to_username});
+                socket.send({"msg": document.querySelector('#input_message').value,"from_username": from_username, "time_stamp": time_stamp, "room": room_id});
+                document.querySelector('#input_message').value = '';
+            }
+            // Toggling Message Rooms
+            function leaveRoom(room) {
+                socket.emit('leave', { 'username': from_username, 'room': room_id})
+                if (confirm("Are you sure you want to leave the conversation? Unless you've sent the transcript to your email, you will lose the message history.")) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            function joinRoom(room) {
+                socket.emit('join', { 'username': from_username, 'room': room_id})
+                document.querySelector('#message_box').value = '';
             }
         });
     </script>
