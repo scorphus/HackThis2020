@@ -69,7 +69,7 @@ function Credentials({ onSubmit }) {
                 <p>{/* error message */}</p>
                 <label htmlFor="email">Email</label>
                 <input type="email" name="email" id="password" ref={register} />
-                <button className={`${styles.floatingRight} ${styles.button}`}>
+                <button className={`${styles.floatingRight} button`}>
                     Continue
                 </button>
             </form>
@@ -152,15 +152,12 @@ function InterestSelect({ onSubmit, back }) {
                         ))}
                 </div>
             </div>
-            <button
-                onClick={back}
-                className={`${styles.floatingLeft} ${styles.button}`}
-            >
+            <button onClick={back} className={`${styles.floatingLeft} button`}>
                 Back
             </button>
             <button
                 onClick={() => onSubmit(selected)}
-                className={`${styles.floatingRight} ${styles.button}`}
+                className={`${styles.floatingRight} button`}
             >
                 Sign up
             </button>
