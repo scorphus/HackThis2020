@@ -1,4 +1,6 @@
 import React from "react";
+
+import Card from "../components/Card/card";
 import searchImg from "../assets/search_glass.png";
 
 import styles from "../styles/Home.module.scss";
@@ -33,6 +35,7 @@ function Home() {
           </div>
         </div>
       </div>
+      <Card topic="Math" backgroundColor="red" width="20vw" height="10vw"/>
     </div>
   );
 }
