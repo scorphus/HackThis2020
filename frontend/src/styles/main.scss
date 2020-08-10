@@ -1,6 +1,35 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,700;1,400&display=swap");
+@import "./colors.scss";
+
+body {
+    margin: 0;
+}
 
 body * {
     font-family: "Poppins", sans-serif;
     box-sizing: border-box;
+}
+
+html,
+body,
+#root,
+.App {
+    height: 100%;
+}
+
+.button {
+    border: none;
+    font-size: 1.1rem;
+    min-width: 120px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: $color0;
+    color: $color1;
+
+    transition: 0.2s;
+
+    &:hover {
+        border-radius: 0;
+        cursor: pointer;
+    }
 }
