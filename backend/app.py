@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 from threading import Lock
 from flask import Flask, render_template, session, request, \
-    copy_current_request_context
+    copy_current_request_context, redirect
+from flask_session import Session
+from functools import wraps
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
     close_room, rooms, disconnect
 from flask_pymongo import pymongo
 from bson.json_util import loads, dumps
+
+from flask import g, request, redirect, url_for
 
 from flask_mail import Mail, Message
 
@@ -26,6 +30,10 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
+
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 465
@@ -49,14 +57,15 @@ def background_thread():
 
 @app.route('/')
 def index():
+    session.clear()
     return render_template('index.html', async_mode=socketio.async_mode)
 
 @app.route('/login', methods=["POST"])
 def login():
     username = request.form.get('username').lower()
     password = request.form.get('password').lower()
-    print(username + " " + password)
-    return auth.login(username, password)
+    session["user_info"] = auth.login(username, password)
+    return session["user_info"]
 
 @app.route('/register', methods=["POST"])
 def register():
@@ -74,13 +83,26 @@ def register():
 @app.route('/register/<num>')
 def verify(num):
     user = request.args.get('user').lower()
-    return auth.verify(num, user)
+    verify = auth.verify(num, user)
+    if(verify[0] != "I"):
+        session["user_info"] = verify
+        return session["user_info"]
+    return verify
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return "LOGGED OUT"
+
+@app.route('/userinfotest')
+def userinfotest():
+    return session["user_info"]
 
 @app.route('/summary', methods=["POST"])
 def send_summary(): 
     body = request.form.get('body')
     topic = request.form.get('topic')
-    email = request.form.get('email').lower()
+    email = loads(session["user_info"])
     msg = Message(subject="Your summary from " + topic, sender=app.config.get("MAIL_USERNAME"), recipients=[email])
     msg.html = render_template("email.html", content=body)
     mail.send(msg)
@@ -88,14 +110,23 @@ def send_summary():
 
 @app.route('/create_topic', methods=["POST"])
 def new(topic, subject):
-    topic = request.args.get('topic').lower()
-    subject = request.args.get('subject').lower()
+    topic = request.form.get('topic').lower()
+    subject = request.form.get('subject').lower()
     topics.create_topic(topic, subject)
     return "DONE"
 
 @app.route('/get_subjects')
 def get_subjects():
     return subjects.get_subjects()
+
+@app.route('/add_interests', methods=["POST"])
+def add_interests():
+    user = loads(session["user_info"])["user"]
+    interests = request.form.get('interests')
+    db.db.users.update_one({"user":user}, {"$set":{"interests":interests}})
+    # update user info
+    session["user_info"] = dumps(db.db.users.find_one({"user":user}))
+    return "DONE"
 
 @socketio.on('my_event', namespace='/test')
 def test_message(message):
