@@ -7,6 +7,7 @@ import Home from "./views/Home";
 import NotFound from "./views/NotFound";
 import Login from "./views/Login";
 import Register from "./views/Register";
+import Chat from "./views/Chat";
 
 function App() {
     return (
@@ -19,9 +20,13 @@ function App() {
                     <Route exact path="/register">
                         <Register />
                     </Route>
+                    <Route exact path="/chat">
+                        <Chat />
+                    </Route>
                     <Route exact path="/">
                         <Link to="/login">Login</Link>
                         <Link to="/register">Register</Link>
+                        <Link to="/chat">Chat</Link>
                         <Home />
                     </Route>
                     <Route>
