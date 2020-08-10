@@ -3,6 +3,7 @@
 
 .container {
   position: relative;
+  background-color: #FAFAFA;
 }
 
 .bar {
@@ -10,9 +11,9 @@
   background-color: grey;
   height: 5vw;
 
-  display: flex;
-  justify-content: right;
+  display: flex;  
   align-items: center;
+  justify-content: flex-end;
   gap: 2vw;
 
   .signUp {
@@ -37,14 +38,19 @@
 
     position: relative;
     .hamburger {
+      margin-top: 0.5rem;
       position: absolute;
       top: 5px;
       width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.5rem;
       div {
         width: 60%;
         height: 2px;
         background-color: black;
-        margin: 6px auto;
+        margin: auto;
       }
     }
   }
