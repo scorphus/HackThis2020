@@ -76,6 +76,16 @@ def verify(num):
     user = request.args.get('user').lower()
     return auth.verify(num, user)
 
+@app.route('/summary', methods=["POST"])
+def send_summary(): 
+    body = request.form.get('body')
+    topic = request.form.get('topic')
+    email = request.form.get('email').lower()
+    msg = Message(subject="Your summary from " + topic, sender=app.config.get("MAIL_USERNAME"), recipients=[email])
+    msg.html = render_template("email.html", content=body)
+    mail.send(msg)
+    return "DONE"
+
 @app.route('/create_topic', methods=["POST"])
 def new(topic, subject):
     topic = request.args.get('topic').lower()
