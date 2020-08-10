@@ -3,7 +3,7 @@
 
 .container {
   position: relative;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 
 .bar {
@@ -11,7 +11,7 @@
   background-color: grey;
   height: 5vw;
 
-  display: flex;  
+  display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 2vw;
@@ -32,7 +32,7 @@
   .navBar {
     background-color: white;
     border-radius: 8px;
-    margin-right: 2vw;
+    margin-right: 2vw;    
     height: 3.5vw;
     width: 3.5vw;
 
@@ -92,7 +92,7 @@
   width: 40vw;
   height: 4vw;
   position: relative;
-  margin: auto;
+  margin: auto;  
 
   input {
     width: 100%;
@@ -121,4 +121,143 @@
   align-items: center;
   justify-content: center;
   gap: 10vw;
+}
+
+.learningContainer {
+  display: flex;
+  
+  gap: 5vw;
+
+  .living {
+    width: 50%;
+    margin-top: 5vw;
+    margin-left: 5vw;
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .livingContent {
+    width: 50%;    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .livingText {      
+      text-align: center;      
+      font-size: 2rem;      
+      line-height: 4rem;
+      width: 70%;
+      margin: 0 auto;
+
+      p {
+        font-weight: 10;
+        width: 100%;
+      }
+    }    
+
+    .livingButton {
+      height: 10%;
+      width: 40%; 
+      margin: 0 auto;                
+
+      button {        
+        background-color: #5CC8A1;
+        border-radius: 15px;
+        border: none;        
+        height: 100%;
+        width: 100%;
+        font-size: 1.75rem;
+      }
+    }
+  }
+}
+
+.expandContainer {
+  display: flex;
+
+  .living {
+    width: 80%;
+    margin-top: 5vw;
+    margin-left: 5vw;
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .livingContent {
+    width: 50%;    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .livingText {      
+      text-align: center;      
+      font-size: 2rem;      
+      line-height: 4rem;
+      width: 80%;
+      margin: 0 auto;
+
+      p {
+        font-weight: 10;
+        width: 100%;
+      }
+    }    
+
+    .livingButton {
+      height: 10%;
+      width: 60%; 
+      margin: 0 auto;                
+
+      button {        
+        background-color: #5CC8A1;
+        border-radius: 15px;
+        border: none;        
+        height: 100%;
+        width: 100%;
+        font-size: 1.75rem;
+      }
+    }
+  }  
+}
+
+.limitContainer {
+  background-image: url("../assets/sky.svg");
+  display: flex;
+  flex-direction: column;
+
+  
+  .content {    
+    font-size: 3rem;
+    margin: 4vw auto 1vw;
+    height: 50%;
+    width: 60%;
+    text-align: center;
+    
+    p {
+      line-height: 5rem;
+      font-weight: 400;
+    }
+  }
+
+  .button {     
+    width: 20%;
+    margin: 0 auto 5vw;
+
+    button {
+      border-radius: 15px;
+      padding: 15px;
+      border: none;
+      background-color: #5CC8A1;
+      font-size: 2rem;
+      height: 100%;
+      width: 100%;
+    }
+  }
 }

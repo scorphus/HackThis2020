@@ -2,6 +2,8 @@ import React from "react";
 
 import Card from "../components/Card/card";
 import searchImg from "../assets/search_glass.png";
+import livingImg from "../assets/LivingRoomTalking.svg";
+import oneImg from "../assets/OneOnOne.svg";
 
 import styles from "../styles/Home.module.scss";
 
@@ -9,13 +11,13 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cardCount: 0
+      cardCount: 0,
     };
   }
 
   addCard = () => {
-    this.setState({cardCount: this.state.cardCount + 1});
-  }
+    this.setState({ cardCount: this.state.cardCount + 1 });
+  };
 
   render() {
     return (
@@ -48,14 +50,53 @@ class Home extends React.Component {
           </div>
         </div>
         <div className={styles.cardContainer}>
-          <Card topic="Math" add={false} backgroundColor="red" width="30vw" height="15vw" />
-          <Card add={true} width="30vw" height="15vw"/>
+          <Card
+            topic="Math"
+            add={false}
+            backgroundColor="red"
+            width="30vw"
+            height="15vw"
+          />
+          <Card add={true} border="20px" width="30vw" height="15vw" />
         </div>
-        <div classname={styles.learningContainer}>
+        <div className={styles.learningContainer}>
+          <div className={styles.living}>
+            <img src={livingImg}></img>
+          </div>
+          <div className={styles.livingContent}>
+            <div className={styles.livingText}>
+              <p>
+                Take your learning to the next level with a technique made by
+                one of the world's most influential scientists
+              </p>
+            </div>
+            <div className={styles.livingButton}>
+              <button>Learn More</button>
+            </div>
+          </div>
         </div>
-        <div className={styles.expandContainer}>          
+        <div className={styles.expandContainer}>
+          <div className={styles.livingContent}>
+            <div className={styles.livingText}>
+              <p>
+                Expand your understanding by engaging in 1-on-1 conversations
+              </p>
+            </div>
+            <div className={styles.livingButton}>
+              <button>Get Started</button>
+            </div>
+          </div>
+          <div className={styles.living}>
+            <img src={oneImg}></img>
+          </div>
         </div>
-        <div className={styles.limitContainer}>          
+        <div className={styles.limitContainer}>
+          <div className={styles.content}>
+            <p>There's no limit to what you can learn when you use NAME</p>
+          </div>
+          <div className={styles.button}>
+            <button>Let's Go!</button>
+          </div>
         </div>
       </div>
     );

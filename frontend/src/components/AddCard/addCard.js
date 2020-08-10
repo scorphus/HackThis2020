@@ -16,7 +16,7 @@ class AddCard extends React.Component {
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      borderRadius: "10px",
+      borderRadius: this.props.border,
       fontSize: "1rem",
     };    
 

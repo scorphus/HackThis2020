@@ -31,7 +31,7 @@ class Card extends React.Component {
         </div>
         );      
     } else {
-      return <AddCard height={this.props.height} width={this.props.width} />
+      return <AddCard height={this.props.height} width={this.props.width} border={this.props.border}/>
     }
   }
 }
