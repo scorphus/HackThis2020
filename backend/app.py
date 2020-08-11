@@ -121,10 +121,17 @@ def make_room():
     #else:
         #Generate Room ID
         #random_room_id = "temp"
+<<<<<<< HEAD
         #random_room_id = uuid.uuid4().hex
         #res = make_response(redirect(url_for('sessions', room_id = random_room_id)))
         #res.set_cookie("room_id", value=random_room_id, max_age=None)
         #return res
+=======
+        random_room_id = uuid.uuid4().hex
+        res = make_response(redirect(url_for('sessions', room_id = random_room_id)))
+        res.set_cookie("room_id", value=random_room_id, max_age=None)
+        return res
+>>>>>>> 15b6c5e5393e989f804dd36dd772746c79ca825c
 
 @app.route('/messages/<room_id>')
 def sessions(room_id):
@@ -161,7 +168,11 @@ def on_join(data):
 @socketio.on('leave')
 def on_leave(data):
     leave_room(data["room"])
+<<<<<<< HEAD
     socketio.send({"msg": data["from_username"] + " has left the room " + data["room"]}, room = data["room"])
+=======
+    send({"msg": data["from_username"] + " has left the room " + data["room"]}, room = data["room"])
+>>>>>>> 15b6c5e5393e989f804dd36dd772746c79ca825c
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
