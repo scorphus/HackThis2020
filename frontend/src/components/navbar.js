@@ -14,7 +14,9 @@ export const NavigationBar = () => {
     <button className={styles.icon} onClick={() => setResponsive(!responsive) }>
       {responsive ? <i class="fa fa-times" aria-hidden="true"></i> : <i class="fa fa-bars"></i> }
     </button>
-    <div className="profileContainer">
+    <button disabled={true} className={responsive ? styles.tempButton : styles.tempButtonHide} ></button>
+
+    <div className={styles.profileButton}>
       <Card
         add={false}
         backgroundColor={colors.primaryColor3}

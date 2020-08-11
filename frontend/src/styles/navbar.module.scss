@@ -26,24 +26,29 @@
         }
     }
 
-    div {
-        float: right;
-        padding: 4px 7px;
-        border: none;
-
-        > button {
-            background-color: $primaryColor3;
-
-            > a {
-                font-size: 23px;
-                text-decoration: none;
-                color: white;
-            }
-        }
-    }
-
     .icon {
         display: none;
+    }
+
+    .tempButtonHide {
+        display: None
+    }
+    
+}
+
+.profileButton {
+    float: right;
+    padding: 4px 7px;
+    border: none;
+
+    > button {
+        background-color: $primaryColor3;
+
+        > a {
+            font-size: 23px;
+            text-decoration: none;
+            color: white;
+        }
     }
 }
 
@@ -89,7 +94,6 @@
     }
 
     .navBar .logo {
-        position: relative;
         float: left;
         left: 0;
         top: 0;
@@ -106,7 +110,7 @@
     z-index: 100;
 
     .logo {
-        display: none;
+        display: None;
     }
 
     .icon {
@@ -119,11 +123,6 @@
         right: 0;
         top: 0;
         border-radius: 4px;
-    }
-
-    div {
-        visibility: hidden;
-        opacity: 0;
     }
 
     > a {
@@ -146,5 +145,32 @@
         background-color: $mutedColor3;
         color: white;
     }
-}
+
+    .tempButton:disabled {
+        float: none;
+        background-color: $basegrey;
+        text-align: left;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 40px;
+        border: 0px;
+        height: 60px;
+    }
+
+    .profileButton {
+        float: left;
+        padding: 4px 7px;
+        border: none;
+    
+        > button {
+            background-color: $primaryColor3;
+    
+            > a {
+                font-size: 23px;
+                text-decoration: none;
+                color: white;
+            }
+        }
+    }
+  }
 // }
