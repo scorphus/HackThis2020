@@ -1,0 +1,5 @@
+In mathematics, the Pythagorean theorem, also known as Pythagoras' theorem, is a fundamental relation in Euclidean geometry among the three sides of a right triangle.
+It states that the area of the square whose side is the hypotenuse (the side opposite the right angle) is equal to the sum of the areas of the squares on the other two sides.
+The theorem can be generalized in various ways, including higher-dimensional spaces, to spaces that are not Euclidean, to objects that are not right triangles, and indeed, to objects that are not triangles at all, but n-dimensional solids.
+Therefore, the white space within each of the two large squares must have equal area.
+Equating the area of the white space yields the Pythagorean theorem, Q.E.D.[2]
