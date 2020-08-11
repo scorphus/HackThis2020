@@ -8,6 +8,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room, \
     close_room, rooms, disconnect
 from flask_pymongo import pymongo
 from bson.json_util import loads, dumps
+from flask_cors import CORS
 
 from flask import g, request, redirect, url_for
 
@@ -30,6 +31,8 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
+
+CORS(app)
 
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
