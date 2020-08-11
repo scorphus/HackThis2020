@@ -3,7 +3,7 @@ import React from "react";
 function Profile() {
     return (
         <div>
-            <h1>You are a potato cool.</h1>
+           <h1 style={{textAlign: 'center'}}>Welcome, potato!</h1>
         </div>
     );
 }

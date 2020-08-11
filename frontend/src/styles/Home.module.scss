@@ -1,0 +1,542 @@
+@import "./colors.scss";
+@import "./main.scss";
+
+.container {
+  position: relative;
+  background-color: #fafafa;
+}
+
+.bar {
+  width: 100%;
+  background-color: grey;
+  height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+
+  .signUp {
+    background-color: $primaryColor3;
+    border-radius: 10px;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+
+    font-size: 1.5rem;
+    font-weight: normal;
+  }
+
+  .navBar {
+    background-color: white;
+    border-radius: 8px;
+
+    font-size: 1.5rem;
+    padding: 5px 10px;
+
+    margin-right: 10px;
+
+    position: relative;
+    .hamburger {
+      gap: 0.5rem;
+      div {
+        width: 60%;
+        height: 2px;
+        background-color: black;
+        margin: auto;
+      }
+    }
+  }
+}
+
+.square {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+
+  background-color: red;
+  height: 120px;
+  width: 120px;
+}
+
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2vw;
+  margin-top: 3vw;
+  text-align: center;
+}
+
+.user {
+  h1 {
+    font-size: 3rem;
+  }
+  height: 8vw;
+}
+
+.caption {
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 100;
+  }
+}
+
+.searchBar {
+  width: 40vw;
+  height: 4vw;
+  position: relative;
+  margin: auto;
+
+  input {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid #555555;
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    padding-right: 80px;
+  }
+
+  .icon {
+    position: absolute;
+    top: 0.5vw;
+    right: 1vw;
+    height: 3vw;
+    width: 3vw;
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+.cardContainer {
+  display: flex;
+  margin: 10vw auto;
+  align-items: center;
+  justify-content: center;
+  gap: 5vw;
+}
+
+.learningContainer {
+  display: flex;
+
+  gap: 5vw;
+
+  .living {
+    width: 50%;
+    margin-top: 5vw;
+    margin-left: 5vw;
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .livingContent {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .livingText {
+      text-align: center;
+      font-size: 2rem;
+      line-height: 4rem;
+      width: 500px;
+      margin: 0 auto;
+
+      p {
+        font-weight: 10;
+        width: 100%;
+      }
+    }
+
+    .livingButton {
+      height: 10%;
+      width: 40%;
+      margin: 0 auto;
+
+      button {
+        background-color: $mutedColor3;
+        border-radius: 15px;
+        border: none;
+        height: 100%;
+        width: 100%;
+        font-size: 1.75rem;
+        transition: 150ms;
+      }
+
+      button:focus {
+        outline: 0;
+      }
+
+      button:active {
+        transition: 150ms;
+        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+}
+
+.expandContainer {
+  display: flex;
+
+  .living {
+    width: 80%;
+    margin-top: 5vw;
+    margin-left: 5vw;
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .livingContent {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .livingText {
+      text-align: center;
+      font-size: 2rem;
+      line-height: 4rem;
+      width: 80%;
+      margin: 0 auto;
+
+      p {
+        font-weight: 10;
+        width: 100%;
+      }
+    }
+
+    .livingButton {
+      height: 10%;
+      width: 60%;
+      margin: 0 auto;
+
+      button {
+        background-color: $mutedColor3;
+        border-radius: 15px;
+        border: none;
+        height: 100%;
+        width: 100%;
+        font-size: 1.75rem;
+        transition: 150ms;
+      }
+
+      button:focus {
+        outline: 0;
+      }
+
+      button:active {
+        transition: 150ms;
+        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+}
+
+.limitContainer {
+  background-image: url("../assets/sky.svg");
+  display: flex;
+  flex-direction: column;
+
+  .content {
+    font-size: 3rem;
+    margin: 4vw auto 1vw;
+    height: 50%;
+    width: 60%;
+    text-align: center;
+
+    p {
+      line-height: 5rem;
+      font-weight: 400;
+    }
+  }
+
+  .button {
+    width: 20%;
+    margin: 0 auto 5vw;
+
+    button {
+      border-radius: 15px;
+      padding: 15px;
+      border: none;
+      background-color: $mutedColor3;
+      font-size: 2rem;
+      height: 100%;
+      width: 100%;
+      transition: 150ms;
+    }
+
+    button:focus {
+      outline: 0;
+    }
+
+    button:active {
+      transition: 150ms;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+// responsive design
+@media only screen and (max-width: 1000px) {
+  .cardContainer {
+    flex-direction: column;
+  }
+
+  .learningContainer {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .expandContainer {
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .searchContainer {
+    .searchBar {
+      input {
+        font-size: 1rem;      
+      }
+    }
+  }
+
+  .learningContainer {
+    gap: 0;
+    .living {
+      width: 80%;
+      margin: auto;
+    }
+
+    .livingContent {
+      margin: auto;
+
+      .livingText {
+        text-align: center;
+        width: 100%;
+      }
+
+      .livingButton {
+        font-size: 1rem;
+        width: 60%;
+      }
+    }
+  }
+
+  .expandContainer {
+    margin-top: 10vw;
+
+    .living {
+      width: 80%;
+      margin: auto;
+    }
+  }
+
+  .limitContainer {
+    .content {
+      font-size: 1.5rem;
+
+      p {
+        line-height: 3rem;
+      }
+    }
+
+    .button {
+      width: 50%;
+    }
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .searchContainer {
+    gap: 0;
+    height: 40vw;
+
+    .user {
+      height: 30%;
+    }
+
+    .caption {
+      margin-top: 5vw;
+    }
+
+    .searchBar {
+      margin: 5vw auto;                  
+      width: 60%;      
+      input {    
+        padding: 3vw;         
+        font-size: 1rem;      
+      }
+      .icon {
+        top: 1.5vw;
+      }
+    }    
+  }
+
+  .learningContainer {
+    gap: 0;
+    .living {
+      width: 80%;
+      margin: auto;
+    }
+
+    .livingContent {
+      margin: auto;
+
+      .livingText {
+        text-align: center;
+        width: 100%;
+      }
+
+      .livingButton {
+        font-size: 1rem;
+        width: 60%;
+      }
+    }
+  }
+
+  .expandContainer {
+    margin-top: 10vw;
+
+    .living {
+      width: 80%;
+      margin: auto;
+    }
+  }
+
+  .limitContainer {
+    .content {
+      font-size: 1.5rem;
+
+      p {
+        line-height: 3rem;
+      }
+    }
+
+    .button {
+      width: 50%;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .square {
+    height: 20vw;
+    width: 20vw;
+  }
+
+  .searchContainer {
+    margin-top: 10vw;
+    height: 50vw;
+
+    .user {
+      margin-top: 5vw;
+      height: 30%;
+      h1 {
+        font-size: 2rem;
+      }
+    }
+    
+    .searchBar {
+      width: 80%;
+      input {
+        padding: 5vw;       
+        font-size: 1rem;
+      }
+      .icon {
+        top: 60%;
+        right: 3vw;
+        height: 5vw;
+        width: 5vw;        
+      }
+    }
+  }
+  
+  .cardContainer {
+    margin-top: 30vw;
+  }
+
+  .learningContainer {
+    gap: 0;
+    .living {
+      width: 80%;
+      margin: auto;
+    }
+
+    .livingContent {
+      margin: auto;
+      width: 80%;
+      .livingText {
+        text-align: center;
+        font-size: 1rem;
+        width: 100%;
+
+        p {
+          line-height: 2rem;
+        }
+      }
+
+      .livingButton {
+        width: 80%;
+
+        button {
+          font-size: 1.5rem;
+          padding: 1rem;
+        }
+      }
+    }
+  }
+
+  .expandContainer {
+    margin-top: 10vw;
+
+    .livingContent {
+      width: 80%;
+      margin: auto;
+
+      .livingText {
+        p {
+          font-size: 1rem;
+          line-height: 2rem;
+        }
+      }
+
+      .livingButton {
+        width: 80%;
+        button {
+          padding: 1rem;
+        }
+      }
+    }
+  }
+
+  .limitContainer {
+    .content {
+      p {
+        font-size: 1.5rem;
+        line-height: 3rem;
+      }
+    }
+
+    .button {
+      width: 50%;
+
+      button {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}

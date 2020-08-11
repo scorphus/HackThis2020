@@ -1,0 +1,18 @@
+.addcard {
+    transition: 200ms;
+    box-shadow: -4px 4px 10px rgba(0,0,0,0.5);
+}
+
+.addcard:hover {
+    transition: 200ms;
+    box-shadow: none;
+}
+
+.addcard:focus {
+    outline: 0;
+}
+
+.addcard:active {
+    transition: 200ms;
+    box-shadow: inset -4px 4px 10px rgba(0,0,0,0.5);
+}

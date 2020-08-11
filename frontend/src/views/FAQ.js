@@ -3,8 +3,7 @@ import React from "react";
 function Faq() {
     return (
         <div>
-            <h1>Question: Are you potatoes?</h1>
-            <p>Answer: Yes.</p>
+            <h1 style={{textAlign: 'center'}}>Under Construction.</h1>
         </div>
     );
 }

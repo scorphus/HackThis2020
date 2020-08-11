@@ -1,8 +1,17 @@
-$color0: #000000;
-$color1: #ffffff;
-$color2: #f9e0b4;
-$color3: #89c5cc;
-$color4: #ee774d;
-$color5: #eec271;
-$color6: #5cc8a1;
-$color7: #636d73;
+$primaryColor1: #F2541B;
+$primaryColor2: #F2B84B;
+$primaryColor3: #27B68B;
+$mutedColor1: #EE774D;
+$mutedColor2: #EEC271;
+$mutedColor3: #5CC8A1;
+$mutedColor4: #89C5CC;
+
+:export {
+    primaryColor1: $primaryColor1;
+    primaryColor2: $primaryColor2;
+    primaryColor3: $primaryColor3;
+    mutedColor1: $mutedColor1;
+    mutedColor2: $mutedColor2;
+    mutedColor3: $mutedColor3;
+    mutedColor4: $mutedColor4;
+}
