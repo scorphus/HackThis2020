@@ -16,8 +16,8 @@ function App() {
     return (
         <React.Fragment>
             <Router>
-                <NavigationBar />
                 <div className="App">
+                    <NavigationBar />
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/profile" component={Profile} />
