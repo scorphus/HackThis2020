@@ -1,11 +1,8 @@
 import React from "react";
 import AddCard from "../AddCard/addCard";
+import './card.css';
 
 class Card extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const containerStyle = {
       color: "black",
@@ -15,24 +12,23 @@ class Card extends React.Component {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      borderRadius: "10px",
-      fontSize: "2rem",
-      boxShadow: "-4px 4px 10px rgba(0,0,0,0.5)"
+      border: "none",
+      borderRadius: this.props.borderRadius,
+      fontSize: "2rem"
     };
 
     const headerStyle = {
       fontWeight: "50"
     }
 
-    let button;
-    if (this.props.add == false) {
+    if (this.props.add === false) {
       return (
-        <div style={containerStyle}>
+        <button className="card" style={containerStyle}>
           <h1 style={headerStyle}>{this.props.topic}</h1>
-        </div>
+        </button>
         );      
     } else {
-      return <AddCard height={this.props.height} width={this.props.width} border={this.props.border}/>
+      return <AddCard height={this.props.height} width={this.props.width} borderRadius={this.props.borderRadius}/>
     }
   }
 }

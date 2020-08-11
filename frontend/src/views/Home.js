@@ -6,6 +6,7 @@ import livingImg from "../assets/LivingRoomTalking.svg";
 import oneImg from "../assets/OneOnOne.svg";
 
 import styles from "../styles/Home.module.scss";
+import colors from "../styles/colors.scss"
 
 class Home extends React.Component {
   constructor(props) {
@@ -20,6 +21,9 @@ class Home extends React.Component {
   };
 
   render() {
+    const cardWidth = "300px"
+    const cardHeight = "150px"
+
     return (
       <div className={styles.container}>
         <div className={styles.bar}>
@@ -28,7 +32,7 @@ class Home extends React.Component {
           </button>
           <div className={styles.navBar}>
             <div className={styles.hamburger}>
-                <i class="fa fa-bars" aria-hidden="true"></i>
+                <i className="fa fa-bars" aria-hidden="true"></i>
             </div>
           </div>
         </div>
@@ -51,11 +55,20 @@ class Home extends React.Component {
           <Card
             topic="Math"
             add={false}
-            backgroundColor="red"
-            width="30vw"
-            height="15vw"
+            backgroundColor={colors.primaryColor1}
+            width={cardWidth}
+            height={cardHeight}
+            borderRadius="30px"
           />
-          <Card add={true} border="20px" width="30vw" height="15vw" />
+          <Card
+            topic="Math"
+            add={false}
+            backgroundColor={colors.primaryColor2}
+            width={cardWidth}
+            height={cardHeight}
+            borderRadius="30px"
+          />
+          <Card add={true} borderRadius="30px" width={cardWidth} height={cardHeight} />
         </div>
         <div className={styles.learningContainer}>
           <div className={styles.living}>

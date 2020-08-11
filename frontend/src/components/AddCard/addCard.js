@@ -1,11 +1,8 @@
 import React from "react";
-import plus from "../../assets/+.png";
+import plus from "../../assets/+.svg";
+import './addCard.css';
 
 class AddCard extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const containerStyle = {
       color: "black",
@@ -16,9 +13,9 @@ class AddCard extends React.Component {
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      borderRadius: this.props.border,
-      fontSize: "1rem",
-      boxShadow: "-4px 4px 10px rgba(0,0,0,0.5)"
+      borderRadius: this.props.borderRadius,
+      border: "none",
+      fontSize: "1rem"
     };    
 
     const imgStyle = {
@@ -30,10 +27,10 @@ class AddCard extends React.Component {
     }
 
     return (
-      <div style={containerStyle}>
+      <button className="addcard" style={containerStyle}>
         <img src={plus} style={imgStyle} width="20%" height="40%"></img>
         <h1 style={headerStyle}>Create New</h1>
-      </div>
+      </button>
     );
   }
 }
