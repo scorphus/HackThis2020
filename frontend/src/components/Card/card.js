@@ -24,7 +24,7 @@ class Card extends React.Component {
     if (this.props.add === false) {
       return (
         <button className="card" style={containerStyle}>
-          <h1 style={headerStyle}>{this.props.topic}</h1>
+          {this.props.children}
         </button>
         );      
     } else {

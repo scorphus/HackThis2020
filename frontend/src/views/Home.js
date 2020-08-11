@@ -33,23 +33,12 @@ class Home extends React.Component {
 
     return (
       <div className={styles.container}>
-        {/* <div className={styles.bar}>
-          <button className={styles.signUp}>
-              Sign Up
-          </button>
-          <div className={styles.navBar}>
-            <div className={styles.hamburger}>
-                <i className="fa fa-bars" aria-hidden="true"></i>
-            </div>
-          </div>
-        </div>
-        <div className={styles.square}></div> */}
         <div data-aos="fade-down" className={styles.searchContainer}>
           <div className={styles.user}>
             <h1>Feynman</h1>
           </div>
           <div className={styles.caption}>
-            <h1>A World Class Learning Experience</h1>
+            <h2>A World Class Learning Experience</h2>
           </div>
           <div className={styles.searchBar}>
             <input type="text" placeholder="Learn something new..."></input>
@@ -60,21 +49,19 @@ class Home extends React.Component {
         </div>
         <div data-aos="fade-up" className={styles.cardContainer}>
           <Card
-            topic="Spanish"
             add={false}
             backgroundColor={colors.primaryColor1}
             width={cardWidth}
             height={cardHeight}
             borderRadius="30px"
-          />
+          ><p style={{fontWeight: "300", fontSize: "48px"}}>Spanish</p></Card>
           <Card
-            topic="Physics"
             add={false}
             backgroundColor={colors.primaryColor2}
             width={cardWidth}
             height={cardHeight}
             borderRadius="30px"
-          />
+          ><p style={{fontWeight: "300", fontSize: "48px"}}>Physics</p></Card>
           <Card add={true} borderRadius="30px" width={cardWidth} height={cardHeight} />
         </div>
         <div data-aos="fade-right" className={styles.learningContainer}>

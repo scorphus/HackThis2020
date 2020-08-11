@@ -1,27 +1,45 @@
+@import './colors.scss';
+
 .navBar {
-    background-color: #636D73;
+    background-color: $basegrey;
     overflow: hidden;
-    z-index: 5000000;
+    z-index: 100;
      
-    a {
+    > a {
         float: right;
         display: block;
         background-color: #636D73;
         color: white;
         text-align: center;
-        padding: 14px 16px;
+        padding: 14px 20px;
         text-decoration: none;
         font-size: 23px;
     }
 
-    a:hover {
+    > a:hover {
         background-color: #ddd;
         color: black;
     }
 
-    a.active {
-        background-color: #4CAF50;
+    > a.active {
+        background-color: $mutedColor3;
         color: white;
+    }
+
+    div {
+        float: right;
+        padding: 4px 7px;
+        border: none;
+
+        > button {
+            background-color: $primaryColor3;
+
+            > a {
+                font-size: 23px;
+                text-decoration: none;
+                color: white;
+            }
+        }
     }
 
     .icon {
@@ -101,10 +119,15 @@
         border-radius: 4px;
     }
 
-    a {
+    div {
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    > a {
         float: none;
         display: block;
-        background-color: #636D73;
+        background-color: $basegrey;
         color: white;
         text-align: left;
         padding: 14px 16px;
@@ -112,13 +135,13 @@
         font-size: 17px;
     }
 
-    a:hover {
+    > a:hover {
         background-color: #ddd;
         color: black;
     }
 
-    a.active {
-        background-color: #4CAF50;
+    > a.active {
+        background-color: $mutedColor3;
         color: white;
     }
   }
