@@ -7,6 +7,11 @@ import oneImg from "../assets/OneOnOne.svg";
 
 import styles from "../styles/Home.module.scss";
 import colors from "../styles/colors.scss"
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+AOS.init({
+    duration: 1200,
+})
 
 class Home extends React.Component {
   constructor(props) {
@@ -37,7 +42,7 @@ class Home extends React.Component {
           </div>
         </div>
         <div className={styles.square}></div>
-        <div className={styles.searchContainer}>
+        <div data-aos="fade-down" className={styles.searchContainer}>
           <div className={styles.user}>
             <h1>NAME</h1>
           </div>
@@ -51,7 +56,7 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
-        <div className={styles.cardContainer}>
+        <div data-aos="fade-up" className={styles.cardContainer}>
           <Card
             topic="Math"
             add={false}
@@ -70,7 +75,7 @@ class Home extends React.Component {
           />
           <Card add={true} borderRadius="30px" width={cardWidth} height={cardHeight} />
         </div>
-        <div className={styles.learningContainer}>
+        <div data-aos="fade-right" className={styles.learningContainer}>
           <div className={styles.living}>
             <img src={livingImg}></img>
           </div>
@@ -86,7 +91,7 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
-        <div className={styles.expandContainer}>
+        <div data-aos="fade-left" className={styles.expandContainer}>
           <div className={styles.livingContent}>
             <div className={styles.livingText}>
               <p>
@@ -101,7 +106,7 @@ class Home extends React.Component {
             <img src={oneImg}></img>
           </div>
         </div>
-        <div className={styles.limitContainer}>
+        <div data-aos="fade-up" className={styles.limitContainer}>
           <div className={styles.content}>
             <p>There's no limit to what you can learn when you use NAME</p>
           </div>
