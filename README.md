@@ -17,14 +17,14 @@ This website brings this technique to you in a sleek and modern service.
 ## User flow
 
 1. Sign in/log in to save the subjects you're an expert at and the subjects you want to learn
-![Sign-in Page](/Designs/subjectsPage.png) check
+![Sign-in Page](/Designs/subjectsPage.png)
 2. Sources to learn the subject you want to learn - quick links to top 3 results of Google and Wikipedia
 
 3. After learning, try to explain the topic to someone that is 5 years old
-![Source and Summary Page](/Designs/summaryPage.png) check
+![Source and Summary Page](/Designs/summaryPage.png)
 4. Chat with an expert in a 1-on-1 realtime chat, with email verification to prevent trolls and harrassment
 ![Chat Page](/Designs/chatpage.png)
 5. For the person reading to the explanation, provides a summary using gensim, an NLP library
 
 6. Reflect on what you learned and what you need to improve on
-![Reflect Page](/Designs/reflectionPage.png) check
+![Reflect Page](/Designs/reflectionPage.png)
