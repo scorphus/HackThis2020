@@ -43,18 +43,18 @@ mail = Mail(app)
 @app.route('/', methods = ["GET", "POST"])
 def home():
     # Temp set to index.html. Change to home.html once homepage made
-    return "Home Page Lol"
+    return "Home Page Lol. Anyone can see this"
 
-# Cookies
-def delete_cookie(key):
-    res = make_response("Cookie Removed")
-    res.set_cookie(key, '', max_age=0)
-    return res
+# Home Page or smth for redirects
+@app.route('/dashboard', methods = ["GET", "POST"])
+def dashboard():
+    # Temp set to index.html. Change to home.html once homepage made
+    return "Pretend this is the dashboard lol. You should only see this when logged in."
 
 # Login, Logout, Registration
 @app.route('/login', methods = ["GET", "POST"])
 def login():
-    # If haven't logged in (Normal Case)
+    # Verify not logged in
     if not request.cookies.get('login_info'):
         log_form = LoginForm()
         if log_form.validate_on_submit():
@@ -62,15 +62,16 @@ def login():
             res.set_cookie("login_info", value=str(log_form.username.data), max_age=None)
             return res
         return render_template("login.html", form = log_form)
-    # If already logged in and trying to troll
+    # Already logged in. Redirect to home page
     else:
-        return redirect(url_for('home'))
+        return redirect(url_for('dashboard'))
 
 @app.route('/logout', methods = ["GET"])
 def logout():
+    # Already Logged out
     if not request.cookies.get('login_info'):
-         return "Huh? Trying to exit when you haven't even signed in?? Smh."
-    # Return home when logged out or w/e
+        return redirect(url_for('home'))
+    # Logging out. Redirect to home
     res = make_response(redirect(url_for('home')))
     res.set_cookie("login_info", '', max_age=0)
     res.set_cookie("room_id", '', max_age=0)
@@ -78,16 +79,18 @@ def logout():
 
 @app.route('/register', methods = ["GET", "POST"])
 def register():
-    reg_form = RegistrationForm()
-    if reg_form.validate_on_submit():
-        #registered_info = cookie('login_info', value=reg_form.username.data, max_age=None)
-        return helpers.auth.register(reg_form.email.data, reg_form.username.data, reg_form.password.data)
-    return render_template("register.html", form = reg_form)
+    # Verify not already logged in 
+    if not request.cookies.get('login_info'):
+        reg_form = RegistrationForm()
+        if reg_form.validate_on_submit():
+            #registered_info = cookie('login_info', value=reg_form.username.data, max_age=None)
+            return helpers.auth.register(reg_form.email.data, reg_form.username.data, reg_form.password.data)
+        return render_template("register.html", form = reg_form)
+    return redirect(url_for('dashboard')) 
     
 @app.route('/register/<num>')
 def verify(num):
     email = request.args.get('email').lower()
-    print(num)
     return auth.verify(num, email)
 
 @app.route('/create_topic/<topic>/<subject>')
@@ -107,8 +110,8 @@ def make_room():
         return redirect(url_for('home'))
     else:
         #Generate Room ID
-        random_room_id = "temp"
-        #random_room_id = uuid.uuid4().hex
+        #random_room_id = "temp"
+        random_room_id = uuid.uuid4().hex
         res = make_response(redirect(url_for('sessions', room_id = random_room_id)))
         res.set_cookie("room_id", value=random_room_id, max_age=None)
         return res
@@ -132,7 +135,9 @@ def message(data):
     msg = data["msg"]
     username = data["from_username"]
     room = data["room"]
-    time_stamp = time.strftime('%b-%d %I:%M%p', time.localtime())
+    # Return epoch time so it won't return some random time in a server in Germany lmao
+    time_stamp = time.time()
+    #time_stamp = time.strftime('%b-%d %I:%M%p', time.localtime())
     socketio.send({"msg": msg, "from_username": username, "time_stamp": time_stamp}, room = room)
 
 @socketio.on('join')
@@ -143,7 +148,7 @@ def on_join(data):
 @socketio.on('leave')
 def on_leave(data):
     leave_room(data["room"])
-    send({"msg": "F: " + data["from_username"] + " has left the room " + data["room"]}, room = data["room"])
+    send({"msg": data["from_username"] + " has left the room " + data["room"]}, room = data["room"])
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
