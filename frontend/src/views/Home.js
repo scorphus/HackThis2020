@@ -1,4 +1,6 @@
 import React from "react";
+import SearchBar from "../components/SearchBar";
+
 
 import Card from "../components/Card/card";
 import searchImg from "../assets/search_glass.png";
@@ -31,7 +33,7 @@ class Home extends React.Component {
 
     return (
       <div className={styles.container}>
-        <div className={styles.bar}>
+        {/* <div className={styles.bar}>
           <button className={styles.signUp}>
               Sign Up
           </button>
@@ -41,10 +43,10 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
-        <div className={styles.square}></div>
+        <div className={styles.square}></div> */}
         <div data-aos="fade-down" className={styles.searchContainer}>
           <div className={styles.user}>
-            <h1>NAME</h1>
+            <h1>Feynman</h1>
           </div>
           <div className={styles.caption}>
             <h1>A World Class Learning Experience</h1>
@@ -58,7 +60,7 @@ class Home extends React.Component {
         </div>
         <div data-aos="fade-up" className={styles.cardContainer}>
           <Card
-            topic="Math"
+            topic="Spanish"
             add={false}
             backgroundColor={colors.primaryColor1}
             width={cardWidth}
@@ -66,7 +68,7 @@ class Home extends React.Component {
             borderRadius="30px"
           />
           <Card
-            topic="Math"
+            topic="Physics"
             add={false}
             backgroundColor={colors.primaryColor2}
             width={cardWidth}
@@ -108,7 +110,7 @@ class Home extends React.Component {
         </div>
         <div data-aos="fade-up" className={styles.limitContainer}>
           <div className={styles.content}>
-            <p>There's no limit to what you can learn when you use NAME</p>
+            <p>There's no limit to what you can learn when you use Feynman</p>
           </div>
           <div className={styles.button}>
             <button>Let's Go!</button>
