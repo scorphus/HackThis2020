@@ -28,6 +28,6 @@ export const NavigationBar = () => {
     <Link to="/aboutus">About Us</Link>
     <Link to="/faq">FAQ</Link>
     <Link to="/" class="active">Home</Link>
-    <a href="/"><img className={styles.logo} src={logo}/></a>
+    <a href="/"><img className={styles.logo} src={logo} alt="Logo"/></a>
   </div>);
 }

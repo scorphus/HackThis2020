@@ -17,13 +17,9 @@ class Card extends React.Component {
       fontSize: "2rem"
     };
 
-    const headerStyle = {
-      fontWeight: "50"
-    }
-
     if (this.props.add === false) {
       return (
-        <button className="card" style={containerStyle}>
+        <button className="card" style={containerStyle} onClick={this.props.onClick}>
           {this.props.children}
         </button>
         );      

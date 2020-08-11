@@ -1,6 +1,4 @@
 import React from "react";
-import SearchBar from "../components/SearchBar";
-
 
 import Card from "../components/Card/card";
 import searchImg from "../assets/search_glass.png";
@@ -33,21 +31,21 @@ class Home extends React.Component {
 
     return (
       <div className={styles.container}>
-        <div data-aos="fade-down" className={styles.searchContainer}>
-          <div className={styles.user}>
+        <div className={styles.searchContainer}>
+          <div data-aos="fade-down"  className={styles.user}>
             <h1>Feynman</h1>
           </div>
-          <div className={styles.caption}>
+          <div data-aos="fade-down" data-aos-delay="300" className={styles.caption}>
             <h2>A World Class Learning Experience</h2>
           </div>
-          <div className={styles.searchBar}>
+          <div data-aos="fade-down" data-aos-delay="600" className={styles.searchBar}>
             <input type="text" placeholder="Learn something new..."></input>
             <div className={styles.icon}>
-              <img src={searchImg}></img>
+              <img src={searchImg} alt="Search icon"></img>
             </div>
           </div>
         </div>
-        <div data-aos="fade-up" className={styles.cardContainer}>
+        <div data-aos="fade-up" data-aos-delay="600" className={styles.cardContainer}>
           <Card
             add={false}
             backgroundColor={colors.primaryColor1}
@@ -66,7 +64,7 @@ class Home extends React.Component {
         </div>
         <div data-aos="fade-right" className={styles.learningContainer}>
           <div className={styles.living}>
-            <img src={livingImg}></img>
+            <img src={livingImg} alt="Living room conversation"></img>
           </div>
           <div className={styles.livingContent}>
             <div className={styles.livingText}>
@@ -92,7 +90,7 @@ class Home extends React.Component {
             </div>
           </div>
           <div className={styles.living}>
-            <img src={oneImg}></img>
+            <img src={oneImg} alt="Two people talking in a whiteboard"></img>
           </div>
         </div>
         <div data-aos="fade-up" className={styles.limitContainer}>
