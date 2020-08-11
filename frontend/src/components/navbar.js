@@ -25,9 +25,9 @@ export const NavigationBar = () => {
         children={<a href="/profile">Profile</a>}
         />
     </div>
-    <Link to="/aboutus">About Us</Link>
-    <Link to="/faq">FAQ</Link>
-    <Link to="/" class="active">Home</Link>
-    <a href="/"><img className={styles.logo} src={logo}/></a>
+    <Link className={styles.navLink} to="/aboutus">About Us</Link>
+    <Link className={styles.navLink} to="/faq">FAQ</Link>
+    <Link className={styles.navLink} to="/" >Home</Link>
+    <Link to="/" className={styles.logo}><img src={logo} /></Link>
   </div>);
 }
