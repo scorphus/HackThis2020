@@ -19,24 +19,13 @@ function App() {
                 <NavigationBar />
                 <div className="App">
                     <Switch>
-                        <Route exact path="/login">
-                            <h1>Login</h1>
-                        </Route>
-                        <Route exact path="/">
-                            <Home />
-                        </Route>
-                        <Route>
-                            <NotFound />
-                        </Route>
+                        <Route exact path="/" component={Home} />
+                        <Route exact path="/profile" component={Profile} />
+                        <Route exact path="/faq" component={Faq} />
+                        <Route exact path="/aboutus" component={AboutUs} />
+                        <Route component={NotFound} />
                     </Switch>
                 </div>
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/profile" component={Profile} />
-                    <Route exact path="/faq" component={Faq} />
-                    <Route exact path="/aboutus" component={AboutUs} />
-                    <Route component={NotFound} />
-                </Switch>
             </Router>
         </React.Fragment>
     );
