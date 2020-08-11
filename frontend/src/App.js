@@ -12,7 +12,6 @@ import Login from "./views/Login";
 import Register from "./views/Register";
 import Chat from "./views/Chat";
 
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { NavigationBar } from './components/navbar';
 
 function App() {
