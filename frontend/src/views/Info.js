@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React from 'react';
 import { Link } from "react-router-dom";
 
 import Card from "../components/Card/card";
 import Tile from "../components/Tile/Tile";
-import SearchBarAlt from "../components/SearchBarAlt/SearchBarAlt";
-import TopicSelector from "../components/TopicSelector/TopicSelector";
 import GoogleLogo from "../assets/GoogleLogo.svg";
 import WikipediaLogo from "../assets/Wikipedia_W.svg";
 
 import styles from "../styles/CreateNew.module.scss";
-import colors from "../styles/colors.scss";
-
+import "../styles/info.scss";
+import colors from "../styles/colors.scss"
 // animation on scroll library
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -18,24 +16,17 @@ AOS.init({
     duration: 1200,
 })
 
-export default function CreateNew(props) {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
-    const [summary, setSummary] = useState("");
-
+export default function Info(props) {
     // const topic = props.topic;
     const topic = "pythagoras"; // test term
     const googleSearchTerm = topic.replace(' ', '+');
     const wikipediaSearchTerm = topic.replace(' ', '_');
 
-    function handleSearchChange(result) {        
-        console.log(result);
-        setSearchTerm(result);
-    }
+    // const summary = props.summary;
+    const summary = "Here is an example summary of the topic";
 
-    function handleSummaryChange(event) {
-        setSummary(event.target.value);
-    }
+    // const links = props.links;
+    const links = ["https://plato.stanford.edu/entries/pythagoras/", "https://www.ancient.eu/Pythagoras/", "https://www.britannica.com/biography/Pythagoras"];
 
     return (
         <div className={styles.container}>
@@ -54,29 +45,10 @@ export default function CreateNew(props) {
                         borderRadius="20px"
                         boxShadow="-4px 4px 4px rgba(0,0,0,0.5)">
                     <h2 style={{textAlign: "center", fontWeight: "normal", fontSize: "28px", marginTop: "-20px"}}><br/>Summary</h2>
-                    <textarea onChange={handleSummaryChange} style={{height: "30vw", marginBottom: "20px"}} rows={20} placeholder="Write your summary here"/>
+                    <p style={{height: "30vw", marginBottom: "20px"}}>{summary}</p>
                 </Tile>
             </div>
             <div className={styles.rightHalf} data-aos="fade-left" data-aos-duration="500">
-                <Tile   backgroundColor={colors.primaryColor1}
-                        width="100%"
-                        height="425px"
-                        borderRadius="20px"
-                        boxShadow="-4px 4px 4px rgba(0,0,0,0.5)">
-                    <h2 style={{textAlign: "center", fontWeight: "normal", fontSize: "28px"}}>Select one Subject</h2>
-                    <SearchBarAlt style={{width:"350px", height:"50px", borderRadius: "10px"}} 
-                        placeholderText="Search for subject"
-                        text={searchTerm}
-                        handleChange={handleSearchChange}
-                        onClick={() => {
-                            // retrieve search results
-                            const SEResults = ["something here", "something else here", "even more shit here",
-                            "something here", "something else here", "even more shit here","something here", "something else here", "even more shit here",];
-                            setSearchResults(SEResults);
-                        }}
-                        />
-                    <TopicSelector results={searchResults} selectLimit={1} style={{backgroundColor: "#fafafa"}}/>
-                </Tile>
                 <Tile   backgroundColor={colors.primaryColor2}
                         width="100%"
                         height="150px"
@@ -88,19 +60,30 @@ export default function CreateNew(props) {
                         <a href={`https://en.wikipedia.org/w/index.php?search=${wikipediaSearchTerm}`}><img src={WikipediaLogo} alt="Link to Wikipedia page"/></a>
                     </div>
                 </Tile>
+                <div className="infoLinkContainer">
+                    {links.map((link) => {
+                        const urlBaseRegex = /^.+?[^/:](?=[?/]|$)/g;
+                        const startOfBaseUrl = link.match(urlBaseRegex);
+
+                        return <Card
+                        add={false}
+                        backgroundColor={colors.mutedColor2}
+                        width="100%"
+                        height="60px"
+                        borderRadius="15px"
+                        className="infoLink"
+                        fontSize="1.4rem"
+                        >
+                            <a href={link}>{startOfBaseUrl}</a>
+                        </Card>
+                    })}
+                </div>
                 <Card
                     add={false}
                     backgroundColor={colors.primaryColor3}
                     width="100%"
                     height="75px"
-                    borderRadius="20px"
-                    onClick={(event) => {
-                        const alphanumeric = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890"
-                        if (searchTerm.length === 0 || !searchTerm.includes(alphanumeric)) {
-                            console.log("not a valid term")
-                            event.preventDefault();
-                        }
-                    }}>
+                    borderRadius="20px">
                     <Link to="/chat" style={{textDecoration: "none", color: "black"}} data={{
                         isSummarizer: true,
                         summary: summary

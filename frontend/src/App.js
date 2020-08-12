@@ -9,6 +9,7 @@ import Profile from "./views/Profile";
 import Faq from "./views/FAQ";
 import NotFound from "./views/NotFound";
 import CreateNew from "./views/CreateNew";
+import Info from "./views/Info";
 
 import { NavigationBar } from './components/navbar';
 
@@ -24,6 +25,7 @@ function App() {
                         <Route exact path="/faq" component={Faq} />
                         <Route exact path="/aboutus" component={AboutUs} />
                         <Route exact path="/createnew" render={(props) => (<CreateNew {...props}/>)} />
+                        <Route exact path="/info" render={(props) => (<Info {...props}/>)} />
                         {/* 404 page MUST be last */}
                         <Route component={NotFound} />
                     </Switch>

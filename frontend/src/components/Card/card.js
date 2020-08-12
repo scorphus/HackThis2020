@@ -12,14 +12,14 @@ class Card extends React.Component {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      border: "none",
+      border: this.props.border || "none",
       borderRadius: this.props.borderRadius,
-      fontSize: "2rem"
+      fontSize: this.props.fontSize || "2rem"
     };
 
     if (this.props.add === false) {
       return (
-        <button className="card" style={containerStyle} onClick={this.props.onClick}>
+        <button className={`card ${this.props.className}`} style={containerStyle} onClick={this.props.onClick}>
           {this.props.children}
         </button>
         );      
