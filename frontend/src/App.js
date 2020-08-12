@@ -8,6 +8,7 @@ import AboutUs from "./views/AboutUs";
 import Profile from "./views/Profile";
 import Faq from "./views/FAQ";
 import NotFound from "./views/NotFound";
+import Reflection from "./views/Reflection";
 
 import { NavigationBar } from './components/navbar';
 
@@ -22,6 +23,7 @@ function App() {
                         <Route exact path="/profile" component={Profile} />
                         <Route exact path="/faq" component={Faq} />
                         <Route exact path="/aboutus" component={AboutUs} />
+                        <Route exact path="/reflection" component={Reflection} />
                         <Route component={NotFound} />
                     </Switch>
                 </div>
