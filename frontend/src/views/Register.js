@@ -6,24 +6,20 @@ import { Link } from "react-router-dom";
 
 function Register() {
     const [formStage, setFormStage] = useState(0);
-    const [userData, setUserData] = useState();
+
+    const [creds, setCreds] = useState({})
+    const [interests, setInterests] = useState([])
 
     function onCredSubmit(data) {
-      setUserData(data);
-      /* const requestOptions = {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      };
-      fetch('http://127.0.0.1:5000/register', requestOptions).then(data => console.log(data))*/
+      setCreds(data);
       setFormStage(formStage + 1);
     }
 
     function onInterestSubmit(interest_list) {
-      const data = {...userData, ...{"interests":interest_list}}
+      console.log(creds)
+      console.log(interests)
+      const data = {...creds, ...{"interests":interests}}
+      console.log(data)
       const requestOptions = {
         method: 'POST',
         credentials: 'include',
@@ -37,11 +33,13 @@ function Register() {
 
     const stage =
         formStage === 0 ? (
-            <Credentials onSubmit={onCredSubmit} />
+            <Credentials creds={creds} onSubmit={onCredSubmit} />
         ) : (
             <InterestSelect
-                onSubmit={onInterestSubmit}
+                interests={interests}
+                setInterests={setInterests}
                 back={() => setFormStage(formStage - 1)}
+                onSubmit={onInterestSubmit}
             />
         );
 
@@ -64,8 +62,17 @@ function Register() {
     );
 }
 
-function Credentials({ onSubmit }) {
-    const { register, handleSubmit } = useForm();
+function Credentials({ creds, onSubmit }) {
+    const { register, handleSubmit } = useForm(
+        {
+            defaultValues: {
+                username: creds.username,
+                password: creds.password,
+                email: creds.email
+            }
+        }
+    );
+
     return (
         <div className={styles.formBox}>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.authForm}>
@@ -110,9 +117,8 @@ const subjects = [
     "potato",
 ];
 
-function InterestSelect({ onSubmit, back }) {
+function InterestSelect({ interests, setInterests, onSubmit, back }) {
     const { register, watch } = useForm();
-    const [selected, setSelected] = useState([]);
     const [available, setAvailable] = useState(subjects);
     const query = watch("search") || "";
 
@@ -121,7 +127,7 @@ function InterestSelect({ onSubmit, back }) {
             <div
                 onClick={() => {
                     setAvailable(available.filter((subj) => subj !== subject));
-                    setSelected(selected.concat(subject));
+                    setInterests(interests.concat(subject));
                 }}
                 className={styles.available}
             >
@@ -134,7 +140,7 @@ function InterestSelect({ onSubmit, back }) {
         return (
             <div
                 onClick={() => {
-                    setSelected(selected.filter((subj) => subj !== subject));
+                    setInterests(interests.filter((subj) => subj !== subject));
                     setAvailable(available.concat(subject));
                 }}
                 className={styles.selected}
@@ -156,7 +162,7 @@ function InterestSelect({ onSubmit, back }) {
             />
             <div className={styles.resultContainer}>
                 <div className={styles.results}>
-                    {selected.sort().map((subj) => (
+                    {interests.sort().map((subj) => (
                         <Selected key={subj} subject={subj} />
                     ))}
                     {available
@@ -173,7 +179,7 @@ function InterestSelect({ onSubmit, back }) {
                 Back
             </button>
             <button
-                onClick={() => onSubmit(selected)}
+                onClick={onSubmit}
                 className={`${styles.floatingRight} button`}
             >
                 Sign up
