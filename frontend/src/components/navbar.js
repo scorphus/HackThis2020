@@ -30,6 +30,6 @@ export const NavigationBar = () => {
     <Link className={styles.navLink} to="/aboutus">About Us</Link>
     <Link className={styles.navLink} to="/faq">FAQ</Link>
     <Link className={styles.navLink} to="/" >Home</Link>
-    <Link to="/reflection" className={styles.logo}><img src={logo} /></Link>
+    <Link to="/" className={styles.logo}><img src={logo} /></Link>
   </div>);
 }

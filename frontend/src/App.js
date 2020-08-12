@@ -24,6 +24,7 @@ function App() {
                         <Route exact path="/faq" component={Faq} />
                         <Route exact path="/aboutus" component={AboutUs} />
                         <Route exact path="/reflection" component={Reflection} />
+                        <Route exact path="/queue" component={Queue}/>
                         <Route component={NotFound} />
                     </Switch>
                 </div>
