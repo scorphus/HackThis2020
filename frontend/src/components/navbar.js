@@ -12,7 +12,7 @@ export const NavigationBar = () => {
   return (
   <div className={responsive ? styles.navBarResponsive : styles.navBar} id="myNavBar">
     <button className={styles.icon} onClick={() => setResponsive(!responsive) }>
-      {responsive ? <i class="fa fa-times" aria-hidden="true"></i> : <i class="fa fa-bars"></i> }
+      {responsive ? <i className="fa fa-times" aria-hidden="true"></i> : <i className="fa fa-bars"></i> }
     </button>
     <div className="profileContainer">
       <Card
@@ -27,7 +27,7 @@ export const NavigationBar = () => {
     </div>
     <Link to="/aboutus">About Us</Link>
     <Link to="/faq">FAQ</Link>
-    <Link to="/" class="active">Home</Link>
+    <Link to="/" className="active">Home</Link>
     <a href="/"><img className={styles.logo} src={logo} alt="Logo"/></a>
   </div>);
 }

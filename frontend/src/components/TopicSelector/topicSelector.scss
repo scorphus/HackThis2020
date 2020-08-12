@@ -1,0 +1,30 @@
+@import '../../styles/colors.scss';
+
+.topicSelector {
+    width: 95%;
+    height: 300px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding: 20px;
+    overflow: scroll;
+}
+
+.entry, .entry-disabled {
+    background-color: $basegrey;
+    border: none;
+    color: #fafafa;
+    transition: 150ms;
+    padding: 0 10px;
+    line-height: 14px;  // pseudo "negative padding" effect
+    border-radius: 5px;
+    margin: 3px;
+}
+
+.entry:focus {
+    outline: 0;
+}
+
+.entry:active {
+    transition: 150ms;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.75);
+}

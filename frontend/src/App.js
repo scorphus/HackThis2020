@@ -23,8 +23,9 @@ function App() {
                         <Route exact path="/profile" component={Profile} />
                         <Route exact path="/faq" component={Faq} />
                         <Route exact path="/aboutus" component={AboutUs} />
+                        <Route exact path="/createnew" render={(props) => (<CreateNew {...props}/>)} />
+                        {/* 404 page MUST be last */}
                         <Route component={NotFound} />
-                        <Route exact path="/createnew" render={(props) => (<CreateNew {...props} topic="Pythagorean Theorem"/>)} />
                     </Switch>
                 </div>
             </Router>
