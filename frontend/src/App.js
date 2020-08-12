@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import "./styles/main.scss";
 
@@ -18,8 +18,8 @@ function App() {
     return (
         <React.Fragment>
             <Router>
-                <NavigationBar />
                 <div className="App">
+                    <NavigationBar />
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/profile" component={Profile} />

@@ -1,0 +1,19 @@
+.card {
+    transition: 200ms;
+    box-shadow: -4px 4px 10px rgba(0,0,0,0.5);
+}
+
+.card:hover {
+    transition: 200ms;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.card:focus {
+    outline: 0;
+}
+
+.card:active {
+    transition: 200ms;
+    box-shadow: inset -4px 4px 10px rgba(0,0,0,0.5);
+}
