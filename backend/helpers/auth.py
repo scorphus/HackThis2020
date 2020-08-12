@@ -24,7 +24,7 @@ def valid_email(email):
 def valid_password(password):
     return len(password) >= 8
 
-def register(email, username, password):
+def register(email, username, password, interests):
     existing = dumps(db.db.users.find({"user":username}))
     if(len(existing) != 2):
         return "USER EXISTS"
@@ -34,7 +34,7 @@ def register(email, username, password):
         return "INVALID EMAIL"
     elif(not valid_password(password)):
         return "INVALID PASSWORD"
-    db.db.users.insert_one({"user":username, "pass":password, "email":email, "confirmed":False, "interests":[]})
+    db.db.users.insert_one({"user":username, "pass":password, "email":email, "confirmed":False, "interests":interests})
     link = "http://127.0.0.1:5000/register/" + str(hash(username))
     msg = "Please visit this link to verify your account: " + link + "?user=" + username
     return msg

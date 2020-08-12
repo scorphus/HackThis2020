@@ -9,13 +9,30 @@ function Register() {
     const [userData, setUserData] = useState();
 
     function onCredSubmit(data) {
-        setUserData(data);
-        console.log(userData);
-        setFormStage(formStage + 1);
+      setUserData(data);
+      /* const requestOptions = {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      };
+      fetch('http://127.0.0.1:5000/register', requestOptions).then(data => console.log(data))*/
+      setFormStage(formStage + 1);
     }
 
-    function onInterestSubmit(interests) {
-        console.log(interests);
+    function onInterestSubmit(interest_list) {
+      const data = {...userData, ...{"interests":interest_list}}
+      const requestOptions = {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      };
+      fetch('http://127.0.0.1:5000/register', requestOptions).then(data => console.log(data))
     }
 
     const stage =
@@ -68,7 +85,7 @@ function Credentials({ onSubmit }) {
                 />
                 <p>{/* error message */}</p>
                 <label htmlFor="email">Email</label>
-                <input type="email" name="email" id="password" ref={register} />
+                <input type="email" name="email" id="email" ref={register} />
                 <button className={`${styles.floatingRight} button`}>
                     Continue
                 </button>

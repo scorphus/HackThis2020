@@ -32,6 +32,7 @@ socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
 
+app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 
 app.config["SESSION_PERMANENT"] = False
@@ -67,18 +68,21 @@ def index():
 @cross_origin(supports_credentials=True)
 def login():
     req = request.get_json()
-    username = req['username']
+    print(req)
+    username = req['username'].lower()
     password = req['password']
     session["user_info"] = auth.login(username, password)
     return session["user_info"]
 
 @app.route('/register', methods=["POST"])
+@cross_origin(supports_credentials=True)
 def register():
-    username = request.form.get('username').lower()
-    password = request.form.get('password').lower()
-    email = request.form.get('email').lower()
-    
-    msg_string = auth.register(email, username, password)
+    req = request.get_json()
+    username = req['username'].lower()
+    password = req['password']
+    email = req['email']
+    interests = req['interests']
+    msg_string = auth.register(email, username, password, interests)
     if(msg_string[0] == 'P'):
         msg = Message(subject="Verify your email", sender=app.config.get("MAIL_USERNAME"), recipients=[email], body=msg_string)
         mail.send(msg)
@@ -86,6 +90,7 @@ def register():
     return msg_string
 
 @app.route('/register/<num>')
+@cross_origin(supports_credentials=True)
 def verify(num):
     user = request.args.get('user').lower()
     verify = auth.verify(num, user)
@@ -95,6 +100,7 @@ def verify(num):
     return verify
 
 @app.route('/logout')
+@cross_origin(supports_credentials=True)
 def logout():
     session.clear()
     return "LOGGED OUT"
@@ -104,6 +110,7 @@ def userinfotest():
     return session["user_info"]
 
 @app.route('/summary', methods=["POST"])
+@cross_origin(supports_credentials=True)
 def send_summary(): 
     body = request.form.get('body')
     topic = request.form.get('topic')
@@ -114,6 +121,7 @@ def send_summary():
     return "DONE"
 
 @app.route('/create_topic', methods=["POST"])
+@cross_origin(supports_credentials=True)
 def new(topic, subject):
     topic = request.form.get('topic').lower()
     subject = request.form.get('subject').lower()
@@ -121,13 +129,16 @@ def new(topic, subject):
     return "DONE"
 
 @app.route('/get_subjects')
+@cross_origin(supports_credentials=True)
 def get_subjects():
     return subjects.get_subjects()
 
 @app.route('/add_interests', methods=["POST"])
+@cross_origin(supports_credentials=True)
 def add_interests():
     user = loads(session["user_info"])["user"]
-    interests = request.form.get('interests')
+    req = request.get_json();
+    interests = req["interests"]
     db.db.users.update_one({"user":user}, {"$set":{"interests":interests}})
     # update user info
     session["user_info"] = dumps(db.db.users.find_one({"user":user}))
