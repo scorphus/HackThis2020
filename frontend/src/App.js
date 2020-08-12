@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./styles/main.scss";
 
 import Home from "./views/Home";
+import Dashboard from "./views/Dashboard";
 import AboutUs from "./views/AboutUs";
 import Profile from "./views/Profile";
 import Faq from "./views/FAQ";
@@ -21,7 +22,8 @@ function App() {
                     <NavigationBar />
                     <Switch>
                         <Route exact path="/" component={Home} />
-                        <Route exact path="/profile" component={Profile} />
+                        <Route exact path="/dashboard" component={Dashboard} />
+                        <Route exact path="/profile" render={(props) => (<Profile {...props}/>)} />
                         <Route exact path="/faq" component={Faq} />
                         <Route exact path="/aboutus" component={AboutUs} />
                         <Route exact path="/createnew" render={(props) => (<CreateNew {...props}/>)} />

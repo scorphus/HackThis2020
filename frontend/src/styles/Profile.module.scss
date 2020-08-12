@@ -1,0 +1,19 @@
+.profileContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > * {
+        margin: 4vw 2vw 1vw;
+    }
+}
+
+.contentMain {
+    width: 60vw;
+}
+
+.contentSide {
+    width: 10vw;
+    > * {
+        margin: 2vw 0;
+    }
+}

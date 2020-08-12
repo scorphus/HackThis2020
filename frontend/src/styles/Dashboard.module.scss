@@ -1,0 +1,29 @@
+.dashboardSearchContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8vh;
+}
+
+.cardContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > * {
+        margin: 2vh 1.5vw;
+        padding: 0 1vw;
+    }
+}
+
+.cardWrapper {
+    width: 28vw;
+}
+
+@media only screen and (max-width: 1000px) {
+    .cardContainer {
+        flex-direction: column;
+    }
+
+    .cardWrapper {
+        width: 75vw;
+    }
+}

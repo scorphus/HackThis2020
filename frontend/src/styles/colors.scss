@@ -6,6 +6,7 @@ $mutedColor2: #EEC271;
 $mutedColor3: #5CC8A1;
 $mutedColor4: #89C5CC;
 $basegrey: #636D73;
+$warningColor: #F25749;
 
 :export {
     primaryColor1: $primaryColor1;
@@ -16,4 +17,5 @@ $basegrey: #636D73;
     mutedColor3: $mutedColor3;
     mutedColor4: $mutedColor4;
     basegrey: $basegrey;
+    warningColor: $warningColor;
 }
