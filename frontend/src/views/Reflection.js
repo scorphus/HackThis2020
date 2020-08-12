@@ -20,6 +20,11 @@ class Reflection extends React.Component {
 
     return (
       <div className={styles.container}>
+        <div data-aos="fade-right" className={styles.summaryContainer}>
+          <form id="summary">
+            <textarea placeholder="Write some thoughts here..."></textarea>
+          </form>
+        </div>
         <div data-aos="fade-left" className={styles.textContainer}>
           <div className={styles.title}>
             <h1>Reflect</h1>
@@ -42,19 +47,14 @@ class Reflection extends React.Component {
                 This helps you correct any mistakes and builds upon your knowledge.
             </p>
           </div>
-        </div>
-        <div data-aos="fade-up" className={styles.buttonContainer}>
-          <div className={styles.reflectionButton}>
-            <button>Email me my reflection</button>
+          <div data-aos="fade-up" className={styles.buttonContainer}>
+            <div className={styles.reflectionButton}>
+              <button>Email me my reflection</button>
+            </div>
+            <div className={styles.topicButton}>
+              <button>I want to learn another topic</button>
+            </div>
           </div>
-           <div className={styles.topicButton}>
-            <button>I want to learn another topic</button>
-          </div>
-        </div>
-        <div data-aos="fade-right" className={styles.summaryContainer}>
-          <form id="summary">
-            <textarea placeholder="Write some thoughts here..."></textarea>
-          </form>
         </div>
       </div>
     );

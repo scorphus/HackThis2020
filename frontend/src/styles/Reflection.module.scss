@@ -2,66 +2,32 @@
 @import "./main.scss";
 
 .container {
-  position: relative;
+  // position: relative;
   background-color: #fafafa;
-  overflow: hidden;
-}
-
-.bar {
-  width: 100%;
-  background-color: $basegrey;
-  height: 60px;
-
   display: flex;
+  gap: 2vw;
   align-items: center;
-  justify-content: flex-end;
-  gap: 20px;
-
-  .signUp {
-    background-color: $primaryColor3;
-    border-radius: 10px;
-    border: none;
-    padding: 5px 10px;
-    text-align: center;
-
-    font-size: 1.5rem;
-    font-weight: normal;
-  }
-
-  .navBar {
-    background-color: white;
-    border-radius: 8px;
-
-    font-size: 1.5rem;
-    padding: 5px 10px;
-
-    margin-right: 10px;
-
-    position: relative;
-    .hamburger {
-      gap: 0.5rem;
-      div {
-        width: 60%;
-        height: 2px;
-        background-color: black;
-        margin: auto;
-      }
-    }
-  }
+  overflow: hidden;
+  margin: auto 10vw;
 }
+
 
 .textContainer {
-  position: relative;
-  left: 66vw;
-  width: 24vw;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  // position: relative;
+  // left: 66vw;
+  // width: 24vw;
 
   .title {
     h1 {
       font-size: 3rem;
     }
-    margin-top: 12vh;
     text-align: center;
-    margin-bottom: 10vh;
   }
 
   .congratulatoryText {
@@ -70,37 +36,35 @@
       font-weight: 100;
     }
     text-align: center;
-    margin-bottom: 6vh;
   }
 
   .awesome {
     p {
       font-size: 1.5rem;
-      font-weight: 100;
+      font-style: bold;
     }
     text-align: center;
-    margin-bottom: 4vh;
   }
 
   .nextSteps {
     p {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 100;
     }
     text-align: center;
-    margin-bottom: 4vh;
   }
 }
 
 .summaryContainer {
   text-align: center;
   margin: auto;
-  position: absolute;
-  left: 8vw;
-  top: 20vh;
-  gap: 2vw;
-  width: 50vw;
-  height: 50vw;
+  flex: 2;
+  // position: absolute;
+  // left: 8vw;
+  // top: 20vh;
+  // gap: 2vw;
+  // width: 50vw;
+  // height: 50vw;
   
   textarea {
     display: block;
@@ -108,14 +72,15 @@
     width: 100%;
     height: 50vh;
     font-size: 1.5rem;
+    padding: 10px;
   }
 }
 
 .buttonContainer {
   display: flex;
   flex-direction: row;
-  position: relative;
-  left: 66vw;
+  // position: relative;
+  // left: 66vw;
   width: 24vw;
 
   .reflectionButton {
@@ -173,6 +138,10 @@
 
 // responsive design
 @media only screen and (max-width: 1000px) {
+  .container {
+    flex-direction: column-reverse;
+  }
+
   .textContainer {
     left: 10vw;
     width: 80vw;
@@ -186,7 +155,7 @@
     justify-content: center;
     text-align: center;
     left: 0;
-    width: 50vw;
+    width: 80vw;
     height: 50vw;
     margin-bottom: 10vh;
 
