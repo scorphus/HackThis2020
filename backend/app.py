@@ -8,7 +8,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room, \
     close_room, rooms, disconnect
 from flask_pymongo import pymongo
 from bson.json_util import loads, dumps
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 from flask import g, request, redirect, url_for
 
@@ -64,9 +64,11 @@ def index():
     return render_template('index.html', async_mode=socketio.async_mode)
 
 @app.route('/login', methods=["POST"])
+@cross_origin(supports_credentials=True)
 def login():
-    username = request.form.get('username').lower()
-    password = request.form.get('password').lower()
+    req = request.get_json()
+    username = req['username']
+    password = req['password']
     session["user_info"] = auth.login(username, password)
     return session["user_info"]
 
