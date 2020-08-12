@@ -32,13 +32,13 @@ class Home extends React.Component {
     return (
       <div className={styles.container}>
         <div className={styles.searchContainer}>
-          <div data-aos="fade-down" data-aos-duration="500" className={styles.user}>
+          <div data-aos="fade-down" data-aos-duration="900" className={styles.user}>
             <h1>Feynman</h1>
           </div>
-          <div data-aos="fade-down" data-aos-duration="500" data-aos-delay="300" className={styles.caption}>
+          <div data-aos="fade-down" data-aos-duration="900" data-aos-delay="300" className={styles.caption}>
             <h2>A World Class Learning Experience</h2>
           </div>
-          <div data-aos="fade-down" data-aos-duration="500" data-aos-delay="600" className={styles.searchBar}>
+          <div data-aos="fade-down" data-aos-duration="900" data-aos-delay="600" className={styles.searchBar}>
             <input type="text" placeholder="Learn something new..."></input>
             <div className={styles.icon}>
               <img src={searchImg} alt="Search icon"></img>

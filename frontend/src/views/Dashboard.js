@@ -34,8 +34,8 @@ export default function Dashboard(props) {
     return (
         <div className={styles.dashboardContainer}>
             <h1 data-aos="fade-down" data-aos-duration="900" style={{ textAlign: "center", fontSize: "48px", marginTop: "50px"}}>Welcome, {username}</h1>
-            <h2 data-aos="fade-down" data-aos-duration="900" data-aos-delay="1200" style={{ textAlign: "center", fontSize: "28px", fontWeight: 400, marginBottom: "8vh", padding: "0 10vw"}}>What would you like to learn today?</h2>
-            <div data-aos="fade-down" data-aos-duration="900" data-aos-delay="2800" className={styles.dashboardSearchContainer}>
+            <h2 data-aos="fade-down" data-aos-duration="900" data-aos-delay="700" style={{ textAlign: "center", fontSize: "28px", fontWeight: 400, marginBottom: "8vh", padding: "0 10vw"}}>What would you like to learn today?</h2>
+            <div data-aos="fade-down" data-aos-duration="900" data-aos-delay="1500" className={styles.dashboardSearchContainer}>
                 <SearchBarAlt
                     style={{ width: "50vw", height: "75px", borderRadius: "25px" }}
                     placeholderText="Search for topic or subject"
@@ -44,7 +44,7 @@ export default function Dashboard(props) {
                     onClick={() => history.push(`/search?q=${searchTerm.replace(' ', '+')}`)}
                 />
             </div>
-            <div data-aos="fade-up" data-aos-duration="900" data-aos-delay="2800">
+            <div data-aos="fade-up" data-aos-duration="900" data-aos-delay="1500">
                 <h3 style={{ textAlign: "center", fontSize: "22px"}}>Your favorite subjects</h3>
                 <div className={styles.cardContainer}>
                     {userPrefs.map((pref, index) => {
