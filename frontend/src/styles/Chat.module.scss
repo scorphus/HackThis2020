@@ -34,6 +34,7 @@
         padding: 20px;
         overflow-y: auto;
         font-size: 1.25rem;
+        border-radius: 20px;
 
         .highlighted {
             background-color: $primaryColor2;
@@ -55,6 +56,12 @@
 
             .content {
                 margin: auto;
+            }
+
+            .timeStamp {
+                float: right;
+                color: rgba($color: $basegrey, $alpha: 0.5);
+                font-size: 1.1rem;
             }
         }
     }
@@ -90,6 +97,9 @@
         margin: 20px auto;
         width: auto;
         padding: 10px 10px;
+
+        border-radius: 10px;
+        border: 1px solid $basegrey;
     }
 
     button {

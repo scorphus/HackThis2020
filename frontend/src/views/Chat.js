@@ -1,36 +1,67 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { socket } from "../api";
-
-import styles from "../styles/Chat.module.scss";
 import Card from "../components/Card/card";
+import styles from "../styles/Chat.module.scss";
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+AOS.init({
+    duration: 1200,
+})
 
 const connectMsg = "Connected. Say hello!";
 const disconnectMsg = "Disconnected";
 
 function Chat() {
+    const history = useHistory();
+
     const [messages, setMessages] = useState([]);
-    const [status, setStatus] = useState(disconnectMsg);
+    const [status, setStatus] = useState(socket.connected ? connectMsg : disconnectMsg);
     const { handleSubmit, register, reset } = useForm();
     const bottomDiv = useRef(null);
+
+    function getTime(epochTime) {
+        if (!epochTime) return "";
+        const d = new Date(epochTime * 1000);
+        // i'm sorry
+        return `${d.getHours() % 12 || 12}:${d
+            .getMinutes()
+            .toString()
+            .padStart(2, "0")} ${d.getHours() >= 12 ? "PM" : "AM"}`;
+    }
+
+    function onFinish() {
+        history.push('/reflection')
+    }
+
+    useEffect(() => {
+        // joining and leaving the rooms on page load/unload
+
+        socket.emit("join", {
+            from_username: "bobthebuilder",
+            room: "temp"
+        })
+
+        return () => {
+            socket.emit("leave", {
+                from_username: "bobthebuilder",
+                room: "temp"
+            })
+        }
+
+    },[])
 
     useEffect(() => {
         socket.on("connect", () => {
             setStatus(connectMsg);
             console.log("connected");
             // Change from_username later to the legit login username
-            socket.emit("join", {
-                from_username: "bobthebuilder",
-                room: "temp",
-            });
         });
         socket.on("disconnect", () => {
             setStatus(disconnectMsg);
             console.log("disconnected");
-            socket.emit("leave", {
-                from_username: "bobthebuilder",
-                room: "temp",
-            });
         });
         socket.on("message", (data) => {
             console.log("got message");
@@ -43,9 +74,11 @@ function Chat() {
                 m.concat({
                     username: data.from_username,
                     content: data.msg,
+                    time: data.time_stamp,
+                    highlight: false
                 })
             );
-            bottomDiv.current.scrollIntoView({ behavior: "smooth" });
+            if(bottomDiv.current) bottomDiv.current.scrollIntoView({ behavior: "smooth" });
         });
     }, []);
 
@@ -56,16 +89,15 @@ function Chat() {
         socket.send({
             msg: data.content,
             from_username: data.username || "Feynman",
-            time_stamp: 1238901283,
             room: "temp",
         });
     }
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Physics: Simple Harmonic Motion</h1>
-            <h3 className={styles.status}>{status}</h3>
-            <div className={styles.windowContainer}>
+            <h1 className={styles.title} data-aos="fade-up" data-aos-once="true">Physics: Simple Harmonic Motion</h1>
+            <h3 className={styles.status} data-aos="fade-up" data-aos-delay="400" data-aos-once="true">{status}</h3>
+            <div className={styles.windowContainer} data-aos="fade" data-aos-delay="800" data-aos-once="true">
                 <div className={styles.messageWindow}>
                     {messages.map((message, idx) => {
                         let showName = true;
@@ -82,6 +114,10 @@ function Chat() {
                                 {showName && (
                                     <p className={styles.username}>
                                         {message.username}
+
+                                        <span className={styles.timeStamp}>
+                                            {getTime(message.time)}
+                                        </span>
                                     </p>
                                 )}
                                 <p
@@ -90,6 +126,11 @@ function Chat() {
                                             ? styles.highlighted
                                             : ""
                                     }`}
+                                    onClick={() => {
+                                        const m = messages.slice();
+                                        m[idx].highlight = !m[idx].highlight
+                                        setMessages(m)
+                                    }}
                                 >
                                     {message.content}
                                 </p>
@@ -105,17 +146,8 @@ function Chat() {
                         fontSize="1.5rem"
                         borderRadius="20px"
                         add={false}
-                        backgroundColor="#F2B84B"
-                    >
-                        Highlight
-                    </Card>
-                    <Card
-                        height="100px"
-                        width="200px"
-                        fontSize="1.5rem"
-                        borderRadius="20px"
-                        add={false}
                         backgroundColor="#F25749"
+                        onClick={onFinish}
                     >
                         I'm Finished
                     </Card>
@@ -128,6 +160,9 @@ function Chat() {
                         borderRadius="20px"
                         add={false}
                         backgroundColor="#EE774D"
+                        onClick={() => {
+                            history.goBack()
+                        }}
                     >
                         Back
                     </Card>
@@ -137,13 +172,17 @@ function Chat() {
                 autoComplete="off"
                 onSubmit={handleSubmit(onSubmit)}
                 className={styles.chatBox}
+                data-aos="fade-down"
+                data-aos-once="true"
             >
                 <input
+                    autoFocus={true}
                     type="text"
                     name="content"
                     placeholder="Enter your message..."
                     ref={register({
                         minLength: 1,
+                        maxLength: 1000,
                     })}
                 />
                 <button className={styles.button} type="submit">
