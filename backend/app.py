@@ -1,9 +1,25 @@
 #!/usr/bin/env python
 from threading import Lock
 from flask import Flask, render_template, session, request, \
-    copy_current_request_context
+    copy_current_request_context, redirect
+from flask_session import Session
+from functools import wraps
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
     close_room, rooms, disconnect
+from flask_pymongo import pymongo
+from bson.json_util import loads, dumps
+from flask_cors import CORS, cross_origin
+
+from flask import g, request, redirect, url_for
+
+from flask_mail import Mail, Message
+
+import os, sys
+sys.path.append(os.path.abspath('./helpers'))
+import db
+import auth
+import subjects
+import topics
 
 # Set this variable to "threading", "eventlet" or "gevent" to test the
 # different async modes, or leave it set to None for the application to choose
@@ -16,6 +32,22 @@ socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
 
+app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app)
+
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'hackthiswinningteam@gmail.com'
+app.config['MAIL_DEFAULT_SENDER'] = 'hackthiswinningteam@gmail.com'
+app.config['MAIL_PASSWORD'] = 'a1secret'
+mail = Mail(app)
+
 
 def background_thread():
     """Example of how to send server generated events to clients."""
@@ -27,11 +59,90 @@ def background_thread():
                       {'data': 'Server generated event', 'count': count},
                       namespace='/test')
 
-
 @app.route('/')
 def index():
+    session.clear()
     return render_template('index.html', async_mode=socketio.async_mode)
 
+@app.route('/login', methods=["POST"])
+@cross_origin(supports_credentials=True)
+def login():
+    req = request.get_json()
+    print(req)
+    username = req['username'].lower()
+    password = req['password']
+    session["user_info"] = auth.login(username, password)
+    return session["user_info"]
+
+@app.route('/register', methods=["POST"])
+@cross_origin(supports_credentials=True)
+def register():
+    req = request.get_json()
+    username = req['username'].lower()
+    password = req['password']
+    email = req['email']
+    interests = req['interests']
+    msg_string = auth.register(email, username, password, interests)
+    if(msg_string[0] == 'P'):
+        msg = Message(subject="Verify your email", sender=app.config.get("MAIL_USERNAME"), recipients=[email], body=msg_string)
+        mail.send(msg)
+        return "DONE"
+    return msg_string
+
+@app.route('/register/<num>')
+@cross_origin(supports_credentials=True)
+def verify(num):
+    user = request.args.get('user').lower()
+    verify = auth.verify(num, user)
+    if(verify[0] != "I"):
+        session["user_info"] = verify
+        return session["user_info"]
+    return verify
+
+@app.route('/logout')
+@cross_origin(supports_credentials=True)
+def logout():
+    session.clear()
+    return "LOGGED OUT"
+
+@app.route('/userinfotest')
+def userinfotest():
+    return session["user_info"]
+
+@app.route('/summary', methods=["POST"])
+@cross_origin(supports_credentials=True)
+def send_summary(): 
+    body = request.form.get('body')
+    topic = request.form.get('topic')
+    email = loads(session["user_info"])
+    msg = Message(subject="Your summary from " + topic, sender=app.config.get("MAIL_USERNAME"), recipients=[email])
+    msg.html = render_template("email.html", content=body)
+    mail.send(msg)
+    return "DONE"
+
+@app.route('/create_topic', methods=["POST"])
+@cross_origin(supports_credentials=True)
+def new(topic, subject):
+    topic = request.form.get('topic').lower()
+    subject = request.form.get('subject').lower()
+    topics.create_topic(topic, subject)
+    return "DONE"
+
+@app.route('/get_subjects')
+@cross_origin(supports_credentials=True)
+def get_subjects():
+    return subjects.get_subjects()
+
+@app.route('/add_interests', methods=["POST"])
+@cross_origin(supports_credentials=True)
+def add_interests():
+    user = loads(session["user_info"])["user"]
+    req = request.get_json();
+    interests = req["interests"]
+    db.db.users.update_one({"user":user}, {"$set":{"interests":interests}})
+    # update user info
+    session["user_info"] = dumps(db.db.users.find_one({"user":user}))
+    return "DONE"
 
 @socketio.on('my_event', namespace='/test')
 def test_message(message):

@@ -1,3 +1,6 @@
+## NOTES
+- PYTHONHASHSEED=0 needs to be set in your environment
+
 ## To install:
 
 - Set up and activate the virtual environment. One way to do this is with the following command:

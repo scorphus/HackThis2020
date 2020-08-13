@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import "./styles/main.scss";
 
+import Login from "./views/Login";
+import Register from "./views/Register";
+import Chat from "./views/Chat";
 import Home from "./views/Home";
 import Dashboard from "./views/Dashboard";
 import AboutUs from "./views/AboutUs";
@@ -21,6 +24,9 @@ function App() {
                 <div className="App">
                     <NavigationBar />
                     <Switch>
+                        <Route exact path="/login" component={Login}/>
+                        <Route exact path="/register" component={Register} />
+                        <Route exact path="/chat" component={Chat}/>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/dashboard" component={Dashboard} />
                         <Route exact path="/profile" render={(props) => (<Profile {...props}/>)} />

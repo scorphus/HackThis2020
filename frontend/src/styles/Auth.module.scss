@@ -1,0 +1,116 @@
+@import "./colors.scss";
+
+.container {
+    border-radius: 20px;
+
+    min-width: 60%;
+    min-height: 60%;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    background-color: $primaryColor2;
+
+    display: flex;
+}
+
+.infoBox {
+    flex: 1;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: black;
+    color: #fafafa;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    a {
+        color: white;
+    }
+
+    .switchAuth {
+        background-color: $primaryColor3;
+        color: black;
+        text-decoration: none;
+        text-align: center;
+        padding: 10px;
+        font-size: 1.1rem;
+    }
+}
+
+.formBox {
+    flex: 2;
+    padding: 20px;
+
+    form {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+
+        input {
+            width: 60%;
+            display: block;
+        }
+
+        label {
+            font-size: 1.25rem;
+            &:not(:first-child) {
+                margin-top: 20px;
+            }
+        }
+
+        .loginButton {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+        }
+    }
+}
+
+.interestBox {
+    flex: 2;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.floatingRight {
+    position: absolute;
+    right: 0;
+    bottom: -60px;
+}
+
+.floatingLeft {
+    position: absolute;
+    left: 0;
+    bottom: -60px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .container {
+        flex-direction: column-reverse;
+        width: 80%;
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        margin: 40px auto;
+    }
+
+    .formBox {
+        form {
+            .loginButton {
+                position: static;
+                margin-top: 10px;
+            }
+        }
+    }
+}
