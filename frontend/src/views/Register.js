@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 
 import styles from "../styles/Auth.module.scss";
 import { Link } from "react-router-dom";
+import TopicSelector from "../components/TopicSelector/TopicSelector";
 
 function Register() {
     const [formStage, setFormStage] = useState(0);
@@ -101,80 +102,12 @@ function Credentials({ creds, onSubmit }) {
     );
 }
 
-const subjects = [
-    "Mathematics",
-    "Computer Science",
-    "Biology",
-    "Chemistry",
-    "Physics",
-    "Psychology",
-    "Literature",
-    "Engineering",
-    "Finance",
-    "Electronics",
-    "Astronomy",
-    "Memeology",
-    "potato",
-];
 
 function InterestSelect({ interests, setInterests, onSubmit, back }) {
-    const { register, watch } = useForm();
-    const [available, setAvailable] = useState(subjects);
-    const query = watch("search") || "";
-
-    function Available({ subject }) {
-        return (
-            <div
-                onClick={() => {
-                    setAvailable(available.filter((subj) => subj !== subject));
-                    setInterests(interests.concat(subject));
-                }}
-                className={styles.available}
-            >
-                {subject}
-            </div>
-        );
-    }
-
-    function Selected({ subject }) {
-        return (
-            <div
-                onClick={() => {
-                    setInterests(interests.filter((subj) => subj !== subject));
-                    setAvailable(available.concat(subject));
-                }}
-                className={styles.selected}
-            >
-                {subject}
-            </div>
-        );
-    }
-
     return (
         <div className={styles.interestBox}>
             <h1>Select three interesting subjects</h1>
-            <input
-                type="search"
-                name="search"
-                placeholder="Search"
-                className={styles.searchBar}
-                ref={register}
-            />
-            <div className={styles.resultContainer}>
-                <div className={styles.results}>
-                    {interests.sort().map((subj) => (
-                        <Selected key={subj} subject={subj} />
-                    ))}
-                    {available
-                        .sort()
-                        .filter((subj) =>
-                            subj.toLowerCase().includes(query.toLowerCase())
-                        )
-                        .map((subj) => (
-                            <Available key={subj} subject={subj} />
-                        ))}
-                </div>
-            </div>
+            <TopicSelector subjects={interests} setSubjects={setInterests} maxSubjects={3} />
             <button onClick={back} className={`${styles.floatingLeft} button`}>
                 Back
             </button>
