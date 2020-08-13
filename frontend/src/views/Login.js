@@ -15,7 +15,7 @@ function Login() {
         credentials: 'include',
         body: JSON.stringify(data),
       };
-      fetch('http://127.0.0.1:5000/login', requestOptions).then(response => response.json()).then(data => console.log(data))
+      fetch('http://127.0.0.1:5000/login', requestOptions)
     }
 
     return (
