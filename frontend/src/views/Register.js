@@ -17,19 +17,14 @@ function Register() {
     }
 
     function onInterestSubmit(interest_list) {
-      console.log(creds)
-      console.log(interests)
       const data = {...creds, ...{"interests":interests}}
-      console.log(data)
       const requestOptions = {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'SameSite':'None' },
         credentials: 'include',
-        headers: { 
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify(data),
       };
-      fetch('http://127.0.0.1:5000/register', requestOptions).then(data => console.log(data))
+      fetch('http://127.0.0.1:5000/register', requestOptions)
     }
 
     const stage =
