@@ -14,8 +14,8 @@ AOS.init({
 
 export default function Profile(props) {
   //   const username = props.username;
-  const username = "potato";
-  
+  const username = "liseiden";
+
   // retrieve user prefs from database here
   //   const [searchResults, setSearchResults] = useState([props.subjectPrefs]);
   const [searchResults, setSearchResults] = useState(["Science", "Math", "CS"]);

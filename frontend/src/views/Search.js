@@ -47,7 +47,7 @@ export default function Search(props) {
 
   return (
     <div className={styles.container}>
-      <div data-aos="fade-down" data-aos-duration="200" className={styles.searchContainer}>
+      <div data-aos="fade-down" data-aos-duration="300" className={styles.searchContainer}>
         <SearchBarAlt style={{ width: "60vw", height: "75px", borderRadius: "20px" }}
           placeholderText="Search for subject"
           text={searchTerm}
@@ -57,7 +57,7 @@ export default function Search(props) {
           }}
         />
       </div>
-      <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="500" className={styles.cardContainer}>
+      <div data-aos="fade-up" data-aos-duration="700" data-aos-delay="500" className={styles.cardContainer}>
           {searchResults.map((result, index) => {
             let fontSize = result.length < 12 ? "2rem" : "1.5rem"
             return <Card key={index}
