@@ -8,6 +8,7 @@ export default function Tile(props) {
         width: props.width,
         height: props.height,
         borderRadius: props.borderRadius,
+        justifyContent: props.justifyContent,
         boxShadow: props.boxShadow,
     }
 

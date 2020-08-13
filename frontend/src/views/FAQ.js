@@ -1,10 +1,6 @@
 import React from "react";
 
-import Card from "../components/Card/card";
 import Tile from "../components/Tile/Tile";
-import searchImg from "../assets/search_glass.png";
-import livingImg from "../assets/LivingRoomTalking.svg";
-import oneImg from "../assets/OneOnOne.svg";
 
 import styles from "../styles/Faq.module.scss";
 import colors from "../styles/colors.scss"
@@ -39,10 +35,14 @@ class Faq extends React.Component {
                        new Question("Does this work?", "Of course.", "fade-left", colors.mutedColor2)]
     const output = questions.map((questions) => 
         <div data-aos={questions.fadeDir} data-aos-duration='500' data-aos-delay='600' className={styles.cardContainer}>
-            <Tile backgroundColor={questions.color} width={cardWidth} height={cardHeight} borderRadius='30px'>
-            <h1 className={styles.question}>{questions.question}</h1>
+            <Tile 
+                backgroundColor={questions.color} 
+                width={cardWidth} 
+                height={cardHeight} 
+                borderRadius='30px'
+                justifyContent='flex-start'>
+            <h1 className={styles.question}><b><i>{questions.question}</i></b></h1>
             <p className={styles.answer}>{questions.answer}</p>
-        
         </Tile></div>
     );
 
@@ -53,7 +53,7 @@ class Faq extends React.Component {
             <h1>Frequently Asked Questions</h1>
           </div>
         </div>
-        <div className={styles.tileContainer}>{output}</div>
+        <div>{output}</div>
       </div>
     );
   }

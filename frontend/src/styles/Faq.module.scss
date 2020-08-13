@@ -65,43 +65,45 @@
   height: 8vw;
 }
 
-.tileContainer {
+.cardContainer {
   display: flex;
   flex-direction: column;
-  margin: 10vw auto;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
   align-items: center;
-  justify-content: center;
   gap: 5vw;
+  text-align: left;
 
-.cardContainer {
   .question {
     font-weight: 300;
-    font-size: "300px";
+    font-size: 5vh;
   }
 
   .answer {
     font-weight: 300;
-    font-size: "225px";
+    font-size: 3vh;
   }
 }
 
-}
 
 // responsive design
 @media only screen and (max-width: 1000px) {
-  .tileContainer {
+  .cardContainer {
     flex-direction: column;
+    margin-top: 10vw;
   }
 }
 
 @media only screen and (max-width: 750px) {
   .title {
     gap: 0;
-    height: 40vw;
 
     .user {
       height: 30%;
-    }
+    } 
+  }
+  .cardContainer {
+    margin-top: 10vw;
   }
 }
 
@@ -115,12 +117,9 @@
       height: 30%;
     }
   }
-  
-  .tileContainer {
-    margin-top: 30vw;
-  }
 
   .cardContainer {
+    margin-top: 10vw;
     .question {
       font-weight: 300;
       font-size: "60px";
