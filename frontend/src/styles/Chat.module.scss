@@ -10,6 +10,10 @@
     margin: 0 auto;
 }
 
+.title {
+    text-align: center;
+}
+
 .status {
     margin-top: 0;
     color: $basegrey;
@@ -17,12 +21,14 @@
 
 .windowContainer {
     width: 100%;
-    flex-grow: 1;
+    height: auto;
+    flex: 1;
+
     position: relative;
 
     .messageWindow {
+        position: absolute;
         border: 1px solid black;
-        border-radius: 10px;
         width: 100%;
         height: 100%;
         padding: 20px;
@@ -79,7 +85,7 @@
     align-items: center;
 
     input[type="text"] {
-        flex-grow: 1;
+        flex: 1;
         font-size: 1em;
         margin: 20px auto;
         width: auto;
@@ -89,5 +95,68 @@
     button {
         margin-left: 20px;
         font-size: 1em;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .container {
+        width: 90%;
+    }
+    .windowContainer {
+        display: flex;
+        flex-direction: column;
+
+        .messageWindow {
+            overflow-y: scroll;
+            position: static;
+        }
+
+        .buttonBox {
+            position: initial;
+            top: unset;
+            right: unset;
+            transform: none;
+
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+
+            margin: 20px auto;
+
+            button:not(:last-child) {
+                margin-bottom: 0;
+            }
+        }
+
+        .back {
+            display: none;
+        }
+    }
+
+    .chatBox {
+        flex-direction: column;
+
+        input {
+            width: 100%;
+        }
+
+        padding-bottom: 20px;
+    }
+}
+
+.button {
+    border: none;
+    font-size: 1.1rem;
+    min-width: 120px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+
+    transition: 0.2s;
+
+    &:hover {
+        border-radius: 0;
+        cursor: pointer;
     }
 }

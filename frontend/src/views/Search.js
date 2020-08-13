@@ -48,7 +48,7 @@ export default function Search(props) {
   return (
     <div className={styles.container}>
       <div data-aos="fade-down" data-aos-duration="200" className={styles.searchContainer}>
-        <SearchBarAlt style={{ width: "800px", height: "75px", borderRadius: "20px" }}
+        <SearchBarAlt style={{ width: "60vw", height: "75px", borderRadius: "20px" }}
           placeholderText="Search for subject"
           text={searchTerm}
           handleChange={handleSearchChange}
@@ -81,9 +81,11 @@ export default function Search(props) {
           width={cardWidth} 
           height={cardHeight}
           onClick={() => {
-            props.history.push("/createnew", {
-              topic: searchTerm
-            })
+            if (searchTerm.length > 0) {
+              props.history.push("/createnew", {
+                topic: searchTerm
+              });
+            }
           }}
           />
       </div>

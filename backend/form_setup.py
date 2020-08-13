@@ -4,7 +4,7 @@ from wtforms.fields import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, EqualTo, Email, ValidationError
 
 # from helpers.auth import return_password, check_user_exists
-import helpers.db
+# import helpers.db
 
 '''def validate_account(form, field):
     entered_username = form.username.data

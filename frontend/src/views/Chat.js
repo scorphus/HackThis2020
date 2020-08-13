@@ -1,52 +1,64 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import io from "socket.io-client";
+import { socket } from "../api";
 
 import styles from "../styles/Chat.module.scss";
-import Card from "../components/Card/card"
+import Card from "../components/Card/card";
 
-const ENDPOINT = "http://127.0.0.1:5000"
-const socket = io(ENDPOINT)
-
-const connectMsg = "Connected. Say hello!"
-const disconnectMsg = "Connected: say hello!"
+const connectMsg = "Connected. Say hello!";
+const disconnectMsg = "Disconnected";
 
 function Chat() {
     const [messages, setMessages] = useState([]);
-    const [status, setStatus] = useState(disconnectMsg)
+    const [status, setStatus] = useState(disconnectMsg);
     const { handleSubmit, register, reset } = useForm();
     const bottomDiv = useRef(null);
 
     useEffect(() => {
-        console.log("Connecting to chat server...")
-
-        socket.on('connect', () => {
-            setStatus(connectMsg)
-            console.log("connected"); 
+        socket.on("connect", () => {
+            setStatus(connectMsg);
+            console.log("connected");
             // Change from_username later to the legit login username
-            socket.emit('join', { 'from_username': "bobthebuilder", 'room': "temp"})
+            socket.emit("join", {
+                from_username: "bobthebuilder",
+                room: "temp",
+            });
         });
-        socket.on('disconnect', () => {
-            setStatus(disconnectMsg)
+        socket.on("disconnect", () => {
+            setStatus(disconnectMsg);
             console.log("disconnected");
-            socket.emit('leave', { 'from_username': "bobthebuilder", 'room': "temp"})
+            socket.emit("leave", {
+                from_username: "bobthebuilder",
+                room: "temp",
+            });
         });
-        socket.on('message', (data) => {
+        socket.on("message", (data) => {
             console.log("got message");
-            console.log(data)
-            setMessages(m => m.concat({
-                username: data.from_username,
-                content: data.msg
-            }))
+            console.log(data);
+
+            if (data.msg.length == 0) {
+                return;
+            }
+            setMessages((m) =>
+                m.concat({
+                    username: data.from_username,
+                    content: data.msg,
+                })
+            );
             bottomDiv.current.scrollIntoView({ behavior: "smooth" });
-        })
-    }, [])
+        });
+    }, []);
 
     function onSubmit(data) {
         reset();
         console.log("sending message");
         console.log(data);
-        socket.send({"msg": data.content,"from_username": data.username || "Feynman", "time_stamp": 1238901283, "room": "temp" });
+        socket.send({
+            msg: data.content,
+            from_username: data.username || "Feynman",
+            time_stamp: 1238901283,
+            room: "temp",
+        });
     }
 
     return (
@@ -86,18 +98,6 @@ function Chat() {
                     })}
                     <div style={{ height: "20px" }} ref={bottomDiv}></div>
                 </div>
-                <div className={styles.back}>
-                    <Card
-                        height="50px"
-                        width="150px"
-                        fontSize="1.5rem"
-                        borderRadius="20px"
-                        add={false}
-                        backgroundColor="#EE774D"
-                    >
-                        Back
-                    </Card>
-                </div>
                 <div className={styles.buttonBox}>
                     <Card
                         height="100px"
@@ -120,6 +120,18 @@ function Chat() {
                         I'm Finished
                     </Card>
                 </div>
+                <div className={styles.back}>
+                    <Card
+                        height="50px"
+                        width="150px"
+                        fontSize="1.5rem"
+                        borderRadius="20px"
+                        add={false}
+                        backgroundColor="#EE774D"
+                    >
+                        Back
+                    </Card>
+                </div>
             </div>
             <form
                 autoComplete="off"
@@ -127,7 +139,6 @@ function Chat() {
                 className={styles.chatBox}
             >
                 <input
-                    autoFocus={true}
                     type="text"
                     name="content"
                     placeholder="Enter your message..."
@@ -135,7 +146,7 @@ function Chat() {
                         minLength: 1,
                     })}
                 />
-                <button className="button" type="submit">
+                <button className={styles.button} type="submit">
                     Send
                 </button>
             </form>
