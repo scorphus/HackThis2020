@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 import Card from "../components/Card/card";
 import TopicSelector from "../components/TopicSelector/TopicSelector";
@@ -13,12 +14,12 @@ AOS.init({
 });
 
 export default function Profile(props) {
-  //   const username = props.username;
-  const username = "potato";
+  const username = Cookies.get("username");
   
   // retrieve user prefs from database here
   //   const [searchResults, setSearchResults] = useState([props.subjectPrefs]);
-  const [searchResults, setSearchResults] = useState(["Science", "Math", "CS"]);
+  const interests = Cookies.get("interests").split("\\054").slice(0,-1);  // -1
+  const [searchResults, setSearchResults] = useState(interests);
 
   return (
     <div>

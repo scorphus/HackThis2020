@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 import Card from "../components/Card/card";
 import SearchBarAlt from "../components/SearchBarAlt/SearchBarAlt";
@@ -12,7 +13,7 @@ AOS.init({});
 
 export default function Dashboard(props) {
     // const username = props.username;
-    const username = "potato";
+    const username = Cookies.get("username");
 
     const history = useHistory();
     const [searchTerm, setSearchTerm] = useState("");
