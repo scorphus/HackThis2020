@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from threading import Lock
 from flask import Flask, render_template, session, request, \
-    copy_current_request_context, redirect, g, url_for
+    copy_current_request_context, redirect, g, url_for, Response, make_response
 from flask_session import Session
 from functools import wraps
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
@@ -14,11 +14,12 @@ from bson.json_util import loads, dumps
 import uuid
 import os, sys, time
 
-# Local Imports
 from form_setup import *
-from helpers.auth import register
-
 sys.path.append(os.path.abspath('./helpers'))
+# Local Imports
+import auth
+import db
+
 
 # # Set this variable to "threading", "eventlet" or "gevent" to test the
 # # different async modes, or leave it set to None for the application to choose
@@ -61,56 +62,63 @@ def dashboard():
     # Temp set to index.html. Change to home.html once homepage made
     return "Pretend this is the dashboard lol. You should only see this when logged in."
 
-# Login, Logout, Registration
-@app.route('/login', methods = ["GET", "POST"])
+@app.route('/login', methods=["POST"])
+# @cross_origin(supports_credentials=True)
 def login():
-    # TODO: change to taking json data 
-    # Verify not logged in
-    if not request.cookies.get('login_info'):
-        log_form = LoginForm()
-        if log_form.validate_on_submit():
-            res = make_response(("Welcome Back, {}").format(log_form.username.data))
-            res.set_cookie("login_info", value=str(log_form.username.data), max_age=None)
-            return res
-        # TODO: change to react pages
-        return render_template("login.html", form = log_form)
-    # Already logged in. Redirect to home page
-    else:
-        return redirect(url_for('dashboard'))
+    req = request.get_json()
+    print(req)
+    username = req['username'].lower()
+    password = req['password']
+    info = auth.login(username, password)
+    if(info[0] == "I"):
+        return "INVALID"
+    interest_string = ""
+    for subject in loads(info)["interests"]:
+        interest_string += subject + ","
+        print(subject)
+    print(interest_string)
+    res = make_response(redirect('http://localhost:3000/profile'))
+    res.set_cookie("username", value=str(username), max_age=None)
+    res.set_cookie("interests", value=str(interest_string), max_age=None)
+    return res
 
 @app.route('/logout', methods = ["GET"])
 def logout():
-    # Already Logged out
-    if not request.cookies.get('login_info'):
-        return redirect(url_for('home'))
-    # Logging out. Redirect to home
-    res = make_response(redirect(url_for('home')))
-    # Removing cookies by setting their max_age to zero
-    res.set_cookie("login_info", '', max_age=0)
+    res = make_response(redirect('http://localhost:3000'))
+    res.set_cookie("username", '', max_age=0)
+    res.set_cookie("interests", '', max_age=0)
     res.set_cookie("room_id", '', max_age=0)
     return res
-
-@app.route('/register', methods = ["GET", "POST"])
+ 
+@app.route('/register', methods=["POST"])
+# @cross_origin(supports_credentials=True)
 def register():
-    # Verify not already logged in 
-    if not request.cookies.get('login_info'):
-        reg_form = RegistrationForm()
-        if reg_form.validate_on_submit():
-            #registered_info = cookie('login_info', value=reg_form.username.data, max_age=None)
-            return helpers.auth.register(reg_form.email.data, reg_form.username.data, reg_form.password.data)
-        # TODO: change register.html to accept json instead of form and react pages
-        return render_template("register.html", form = reg_form)
-    return redirect(url_for('dashboard'))
-    
+    req = request.get_json()
+    username = req['username'].lower()
+    password = req['password']
+    email = req['email']
+    interests = req['interests']
+    msg_string = auth.register(email, username, password, interests)
+    if(msg_string[0] == 'P'):
+        msg = Message(subject="Verify your email", sender=app.config.get("MAIL_USERNAME"), recipients=[email], body=msg_string)
+        mail.send(msg)
+        return "DONE"
+    return msg_string
+
 @app.route('/register/<num>')
-@cross_origin(supports_credentials=True)
-def verify(num):
+# @cross_origin(supports_credentials=True)
+def verify_registration(num):
     user = request.args.get('user').lower()
-    verify = auth.verify(num, user)
-    if(verify[0] != "I"):
-        session["user_info"] = verify
-        return session["user_info"]
-    return verify
+    info = auth.verify(num, user)
+    if(info[0] != "I"):
+        interest_string = ""
+        for subject in loads(info)["interests"]:
+            interest_string += subject + ","
+        res = make_response(redirect('http://localhost:3000'))
+        res.set_cookie("username", value=str(loads(info)["user"]), max_age=None)
+        res.set_cookie("interests", value=str(interest_string), max_age=None)
+        return res
+    return info
 
 @app.route('/fetchuserdata')
 def fetch_user_data():
@@ -172,6 +180,12 @@ def sessions(room_id):
 def messageReceived(methods=['GET', 'POST']):
     print('Message Received') 
 
+@app.after_request
+def middleware_for_response(response):
+    # Allowing the credentials in the response.
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
+
 @socketio.on('message')
 def message(data):
     msg = data["msg"]
@@ -197,11 +211,6 @@ if __name__ == '__main__':
 
 # Unused code
 '''
-@app.route('/')
-def index():
-    session.clear()
-    return render_template('index.html', async_mode=socketio.async_mode)
-
 @app.route('/login', methods=["POST"])
 @cross_origin(supports_credentials=True)
 def login():

@@ -1,14 +1,14 @@
-#!/usr/bin/env python
+#u/usr/bin/env python
 from flask_pymongo import pymongo
 from bson.json_util import loads, dumps
 import re
 
 from flask_mail import Message
-# import helpers.db
-from db import *
+import db
+# from db import *
 
 def login(username, password):
-    user = users.find_one({"user":username})
+    user = db.db.users.find_one({"user":username})
     if(not user):
         return "INVALID USER"
     if(not user['pass'] == password):
@@ -31,16 +31,16 @@ def valid_password(password):
     return len(password) >= 8
 
 def register(email, username, password, interests):
-    existing = dumps(users.find({"user":username}))
+    existing = dumps(db.db.users.find({"user":username}))
     if(len(existing) != 2):
-        return "USER EXISTS"
+        return "INVALID: USER EXISTS"
     elif(not valid_username(username)):
         return "INVALID USERNAME"
     elif(not valid_email(email)):
         return "INVALID EMAIL"
     elif(not valid_password(password)):
         return "INVALID PASSWORD"
-    users.insert_one({"user":username, "pass":password, "email":email, "confirmed":False, "interests":interests})
+    db.db.users.insert_one({"user":username, "pass":password, "email":email, "confirmed":False, "interests":interests})
     link = "http://127.0.0.1:5000/register/" + str(hash(username))
     msg = "Please visit this link to verify your account: " + link + "?user=" + username
     return msg
@@ -48,8 +48,8 @@ def register(email, username, password, interests):
 def verify(code, user):
     if(not code == str(hash(user))):
         return "INVALID"
-    users.update_one({"user":user}, {"$set":{"confirmed":True}})
-    return dumps(users.find_one({"user":user}))
+    db.db.users.update_one({"user":user}, {"$set":{"confirmed":True}})
+    return dumps(db.db.users.find_one({"user":user}))
 
 def is_verified(user):
     user = users.find({"user":username})

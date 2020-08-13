@@ -24,9 +24,7 @@ function Register() {
       const requestOptions = {
         method: 'POST',
         credentials: 'include',
-        headers: { 
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json', 'SameSite':'None' },
         body: JSON.stringify(data),
       };
       fetch('http://127.0.0.1:5000/register', requestOptions).then(data => console.log(data))
