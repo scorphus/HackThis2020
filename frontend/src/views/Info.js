@@ -17,8 +17,9 @@ AOS.init({
 })
 
 export default function Info(props) {
-    // const topic = props.topic;
-    const topic = "pythagoras"; // test term
+    console.log(props.location.state.topic);
+    const topic = props.location.state.topic;
+    // const topic = "pythagoras"; // test term
     const googleSearchTerm = topic.replace(' ', '+');
     const wikipediaSearchTerm = topic.replace(' ', '_');
 
@@ -72,7 +73,7 @@ export default function Info(props) {
                         height="60px"
                         borderRadius="15px"
                         className="infoLink"
-                        fontSize="1.4rem"
+                        fontSize="1.2rem"
                         >
                             <a href={link}>{startOfBaseUrl}</a>
                         </Card>

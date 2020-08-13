@@ -1,51 +1,87 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
 import SearchBarAlt from "../components/SearchBarAlt/SearchBarAlt";
-
-
 import Card from "../components/Card/card";
-import searchImg from "../assets/search_glass.png";
-import livingImg from "../assets/LivingRoomTalking.svg";
-import oneImg from "../assets/OneOnOne.svg";
 
 import styles from "../styles/Search.module.scss";
 import colors from "../styles/colors.scss"
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-AOS.init({
-    duration: 1200,
-})
+AOS.init({});
 
-class Queue extends React.Component {
+export default function Search(props) {
+  const cardWidth = "300px";
+  const cardHeight = "150px";
 
-  render() {
-    const cardWidth = "300px"
-    const cardHeight = "150px"
+  const colorBankObj = colors;
+  delete colorBankObj.basegrey;
+  delete colorBankObj.warningColor;
+  const colorBank = Object.values(colorBankObj);
 
-    return (
-      <div className={styles.container}>
-        <div data-aos="fade-down" className={styles.searchContainer}>
-          <SearchBarAlt/>
-        </div>
-        <div data-aos="fade-up" className={styles.cardContainer}>
-          <Card
-            add={false}
-            backgroundColor={colors.primaryColor1}
-            width={cardWidth}
-            height={cardHeight}
-            borderRadius="30px"
-          ><p style={{fontWeight: "300", fontSize: "48px"}}>Spanish</p></Card>
-          <Card
-            add={false}
-            backgroundColor={colors.primaryColor2}
-            width={cardWidth}
-            height={cardHeight}
-            borderRadius="30px"
-          ><p style={{fontWeight: "300", fontSize: "48px"}}>Physics</p></Card>
-          <Card add={true} borderRadius="30px" width={cardWidth} height={cardHeight} />
-        </div>
-      </div>
-    );
+  const initialSearchTerm = props.location.search.substring(3,).replace('+', ' ').replace('%20', ' ');
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+  const [searchResults, setSearchResults] = useState([]);
+  function handleSearchChange(result) {        
+      console.log(result);
+      setSearchTerm(result);
   }
-}
 
-export default Queue;
+  // temporary placeholder until backend gets wired in
+  useEffect(() => {
+    async function populateInitialSearch() {
+      const SEResults = await fetch("https://dog.ceo/api/breeds/image/random");
+      setSearchResults(["Math", "Physics", "Science", "Biology", "Something here", "Somethingelsehere", "hi"]);
+    }
+    populateInitialSearch();
+  }, []);
+
+  // for debugging
+  useEffect(() => {
+    console.log(searchResults);
+  }, [searchResults]);
+
+  return (
+    <div className={styles.container}>
+      <div data-aos="fade-down" data-aos-duration="200" className={styles.searchContainer}>
+        <SearchBarAlt style={{ width: "800px", height: "75px", borderRadius: "20px" }}
+          placeholderText="Search for subject"
+          text={searchTerm}
+          handleChange={handleSearchChange}
+          onClick={() => {
+            props.history.push(`/search?q=${searchTerm}`)
+          }}
+        />
+      </div>
+      <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="500" className={styles.cardContainer}>
+          {searchResults.map((result, index) => {
+            let fontSize = result.length < 12 ? "2rem" : "1.5rem"
+            return <Card key={index}
+            add={false}
+            backgroundColor={colorBank[Math.floor(Math.random()*colorBank.length)]}
+            width={cardWidth}
+            height={cardHeight}
+            borderRadius="30px"
+            onClick={() => {
+              props.history.push("/info", {
+                topic: result
+              })
+            }}
+            >
+              <p style={{padding: "0 20px", fontSize: fontSize, color: "black", textDecoration: "none"}}>{result}</p>
+            </Card>
+          })}
+          <Card key={searchResults.length}
+          add={true} 
+          borderRadius="30px" 
+          width={cardWidth} 
+          height={cardHeight}
+          onClick={() => {
+            props.history.push("/createnew", {
+              topic: searchTerm
+            })
+          }}
+          />
+      </div>
+    </div>
+  );
+}

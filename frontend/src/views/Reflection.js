@@ -1,12 +1,8 @@
 import React from "react";
 
-import Card from "../components/Card/card";
-import searchImg from "../assets/search_glass.png";
-import livingImg from "../assets/LivingRoomTalking.svg";
-import oneImg from "../assets/OneOnOne.svg";
+// import Card from "../components/Card/card";
 
 import styles from "../styles/Reflection.module.scss";
-import colors from "../styles/colors.scss"
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 AOS.init({
@@ -15,9 +11,6 @@ AOS.init({
 
 class Reflection extends React.Component {
   render() {
-    const cardWidth = "300px"
-    const cardHeight = "150px"
-
     return (
       <div className={styles.container}>
         <div data-aos="fade-right" className={styles.summaryContainer}>

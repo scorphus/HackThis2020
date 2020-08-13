@@ -23,8 +23,9 @@ export default function CreateNew(props) {
     const [searchResults, setSearchResults] = useState([]);
     const [summary, setSummary] = useState("");
 
-    // const topic = props.topic;
-    const topic = "pythagoras"; // test term
+    console.log(props.location.state.topic);
+    const topic = props.location.state.topic;
+    // const topic = "pythagoras"; // test term
     const googleSearchTerm = topic.replace(' ', '+');
     const wikipediaSearchTerm = topic.replace(' ', '_');
 
@@ -64,7 +65,7 @@ export default function CreateNew(props) {
                         borderRadius="20px"
                         boxShadow="-4px 4px 4px rgba(0,0,0,0.5)">
                     <h2 style={{textAlign: "center", fontWeight: "normal", fontSize: "28px"}}>Select one Subject</h2>
-                    <SearchBarAlt style={{width:"350px", height:"50px", borderRadius: "10px"}} 
+                    <SearchBarAlt style={{width:"100%", height:"50px", borderRadius: "10px"}} 
                         placeholderText="Search for subject"
                         text={searchTerm}
                         handleChange={handleSearchChange}
