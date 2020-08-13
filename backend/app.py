@@ -78,8 +78,8 @@ def login():
         print(subject)
     print(interest_string)
     res = make_response(redirect('http://localhost:3000/profile'))
-    res.set_cookie("username", value=str(username), max_age=None)
-    res.set_cookie("interests", value=str(interest_string), max_age=None)
+    res.set_cookie("username", value=str(username), max_age=None, samesite='Lax')
+    res.set_cookie("interests", value=str(interest_string), max_age=None, samesite='Lax')
     return res
 
 @app.route('/logout', methods = ["GET"])
@@ -114,9 +114,9 @@ def verify_registration(num):
         interest_string = ""
         for subject in loads(info)["interests"]:
             interest_string += subject + ","
-        res = make_response(redirect('http://localhost:3000'))
-        res.set_cookie("username", value=str(loads(info)["user"]), max_age=None)
-        res.set_cookie("interests", value=str(interest_string), max_age=None)
+        res = make_response(redirect('http://localhost:3000/dashboard'))
+        res.set_cookie("username", value=str(loads(info)["user"]), max_age=None, samesite='Lax')
+        res.set_cookie("interests", value=str(interest_string), max_age=None, samesite='Lax')
         return res
     return info
 
