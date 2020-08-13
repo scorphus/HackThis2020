@@ -22,7 +22,7 @@ const ProfileCard = (props) => (
         borderRadius="20px"
         style={{boxShadow: "-4px 4px 4px rgba(0,0,0,0.5)"}}
     >
-        <img src={props.img} width="200px" height="200px"></img>
+        <img src={props.img} alt={props.fullName} width="200px" height="200px"></img>
         <h4>{props.fullName}</h4>
     </Tile>
 )

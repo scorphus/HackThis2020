@@ -24,7 +24,12 @@ class Card extends React.Component {
         </button>
         );      
     } else {
-      return <AddCard height={this.props.height} width={this.props.width} borderRadius={this.props.borderRadius} onClick={this.props.onClick}/>
+      return <AddCard height={this.props.height} 
+      width={this.props.width} 
+      borderRadius={this.props.borderRadius} 
+      onClick={this.props.onClick}
+      fontSize={this.props.fontSize}
+      />
     }
   }
 }

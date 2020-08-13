@@ -15,7 +15,7 @@ class AddCard extends React.Component {
       justifyContent: "center",
       borderRadius: this.props.borderRadius,
       border: "none",
-      fontSize: "1rem"
+      fontSize: this.props.fontSize || "1rem"
     };    
 
     const imgStyle = {
