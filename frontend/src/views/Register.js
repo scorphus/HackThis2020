@@ -24,7 +24,7 @@ function Register() {
         credentials: 'include',
         body: JSON.stringify(data),
       };
-      fetch('http://127.0.0.1:5000/register', requestOptions)
+      fetch('/register', requestOptions)
     }
 
     const stage =

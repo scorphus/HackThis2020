@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 from threading import Lock
 from flask import Flask, render_template, session, request, \
-    copy_current_request_context, redirect, g, url_for, Response, make_response
+    copy_current_request_context, redirect, g, url_for, Response, make_response, request
+import requests
 from flask_session import Session
 from functools import wraps
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
@@ -29,6 +30,9 @@ import db
 # Create the app
 app = Flask(__name__)
 CORS(app)
+# app.config.update(
+#     SESSION_COOKIE_SAMESITE='Lax',
+# )
 app.debug = False  # debugger mode
 app.config['SECRET_KEY'] = 'secret!'
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -50,6 +54,22 @@ app.config['MAIL_DEFAULT_SENDER'] = 'hackthiswinningteam@gmail.com'
 app.config['MAIL_PASSWORD'] = 'a1secret'
 mail = Mail(app)
 
+def _proxy(*args, **kwargs):
+    resp = requests.request(
+        method=request.method,
+        url=request.url.replace(request.host_url, 'localhost:3000'),
+        headers={key: value for (key, value) in request.headers if key != 'Host'},
+        data=request.get_data(),
+        cookies=request.cookies,
+        allow_redirects=False)
+
+    excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
+    headers = [(name, value) for (name, value) in resp.raw.headers.items()
+               if name.lower() not in excluded_headers]
+
+    response = Response(resp.content, resp.status_code, headers)
+    return response
+
 # Home Page or smth for redirects
 @app.route('/', methods = ["GET", "POST"])
 def home():
@@ -66,7 +86,7 @@ def dashboard():
 # @cross_origin(supports_credentials=True)
 def login():
     req = request.get_json()
-    print(req)
+    print('Login request JSON: %s' % req)
     username = req['username'].lower()
     password = req['password']
     info = auth.login(username, password)
@@ -77,9 +97,9 @@ def login():
         interest_string += subject + ","
         print(subject)
     print(interest_string)
-    res = make_response(redirect('http://localhost:3000/profile'))
-    res.set_cookie("username", value=str(username), max_age=None, samesite='Lax')
-    res.set_cookie("interests", value=str(interest_string), max_age=None, samesite='Lax')
+    res = make_response(redirect('http://localhost:3000/'))
+    res.set_cookie("username", value=str(username), max_age=None)
+    res.set_cookie("interests", value=str(interest_string), max_age=None)
     return res
 
 @app.route('/logout', methods = ["GET"])
@@ -180,12 +200,6 @@ def sessions(room_id):
 def messageReceived(methods=['GET', 'POST']):
     print('Message Received') 
 
-@app.after_request
-def middleware_for_response(response):
-    # Allowing the credentials in the response.
-    response.headers.add('Access-Control-Allow-Credentials', 'true')
-    return response
-
 @socketio.on('message')
 def message(data):
     msg = data["msg"]
@@ -205,6 +219,12 @@ def on_join(data):
 def on_leave(data):
     leave_room(data["room"])
     socketio.send({"msg": data["from_username"] + " has left the room " + data["room"]}, room = data["room"])
+
+@app.after_request
+def middleware_for_response(response):
+    # Allowing the credentials in the response.
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

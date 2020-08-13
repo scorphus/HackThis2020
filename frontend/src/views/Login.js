@@ -1,21 +1,23 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import styles from "../styles/Auth.module.scss";
 
-function Login() {
+function Login(props) {
     const { register, handleSubmit } = useForm();
 
     function onSubmit(data) {
       console.log(data);
       const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'SameSite':'None' },
+        headers: { 'Content-Type': 'application/json', 'SameSite':'Lax' },
         credentials: 'include',
         body: JSON.stringify(data),
       };
-      fetch('http://127.0.0.1:5000/login', requestOptions)
+      fetch('/login', requestOptions).then(() => {
+          props.history.push("/dashboard")
+      })
     }
 
     return (
