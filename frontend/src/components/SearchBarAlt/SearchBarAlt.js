@@ -15,7 +15,6 @@ export default function SearchBarAlt(props) {
         <div className="searchBarAlt">
             <input style={props.style} className="searchText" 
                 type="text" placeholder={props.placeholderText} onChange={handleEventChange}
-                // defaultValue={props.children}
                 value={value}
                 onKeyDown={(event) => {
                     if (event.key === 13 || event.which === 13) {      

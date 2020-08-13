@@ -5,7 +5,7 @@ import re
 
 from flask_mail import Message
 # import helpers.db
-from db import *
+from helpers.db import *
 
 def login(username, password):
     user = users.find_one({"user":username})

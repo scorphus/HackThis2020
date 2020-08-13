@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Card from "../components/Card/card";
 import SearchBarAlt from "../components/SearchBarAlt/SearchBarAlt";
-import searchImg from "../assets/search_glass.png";
 import livingImg from "../assets/LivingRoomTalking.svg";
 import oneImg from "../assets/OneOnOne.svg";
 
@@ -14,93 +13,93 @@ AOS.init({
     duration: 1200,
 })
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cardCount: 0,
-    };
+export default function Home(props) {
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  const handleSearchChange = (result) => {
+      setSearchTerm(result);
   }
 
-  addCard = () => {
-    this.setState({ cardCount: this.state.cardCount + 1 });
-  };
-
-  render() {
-    const cardWidth = "300px"
-    const cardHeight = "150px"
-
-    return (
-      <div className={styles.container}>
-        <div className={styles.searchContainer}>
-          <div data-aos="fade-down" data-aos-duration="900" className={styles.user}>
-            <h1>Feynman</h1>
-          </div>
-          <div data-aos="fade-down" data-aos-duration="900" data-aos-delay="300" className={styles.caption}>
-            <h2>A World Class Learning Experience</h2>
-          </div>
-          <div data-aos="fade-down" data-aos-duration="900" data-aos-delay="600" className={styles.searchBar}>
-          </div>
+  return (
+    <div className={styles.container}>
+      <div className={styles.searchContainer}>
+        <div data-aos="fade-down" data-aos-duration="900" className={styles.title}>
+          <h1>Epiphany</h1>
         </div>
-        <div data-aos="fade-up" data-aos-duration="900" data-aos-delay="600" className={styles.cardContainer}>
-          <Card
-            add={false}
-            backgroundColor={colors.primaryColor1}
-            width={cardWidth}
-            height={cardHeight}
-            borderRadius="30px"
-          ><p style={{fontWeight: "300", fontSize: "48px"}}>Spanish</p></Card>
-          <Card
-            add={false}
-            backgroundColor={colors.primaryColor2}
-            width={cardWidth}
-            height={cardHeight}
-            borderRadius="30px"
-          ><p style={{fontWeight: "300", fontSize: "48px"}}>Physics</p></Card>
-          <Card add={true} borderRadius="30px" width={cardWidth} height={cardHeight} />
+        <div data-aos="fade-down" data-aos-duration="900" data-aos-delay="300" className={styles.subtitle}>
+          <h2>A World Class Learning Experience</h2>
         </div>
-        <div data-aos="fade-right" className={styles.learningContainer}>
-          <div className={styles.living}>
-            <img src={livingImg} alt="Living room conversation"></img>
-          </div>
-          <div className={styles.livingContent}>
-            <div className={styles.livingText}>
-              <p>
-                Take your learning to the next level with a technique made by
-                one of the world's most influential scientists
-              </p>
-            </div>
-            <div className={styles.livingButton}>
-              <button>Learn More</button>
-            </div>
-          </div>
+        <div data-aos="fade-down" data-aos-duration="900" data-aos-delay="600" className={styles.searchBar}>
+          <SearchBarAlt style={{ width: "60vw", height: "75px", borderRadius: "20px" }}
+            placeholderText="Search for an interesting subject or topic here"
+            text={searchTerm}
+            handleChange={handleSearchChange}
+            onClick={() => {
+              props.history.push(`/search?q=${searchTerm}`)
+            }}
+          />
         </div>
-        <div data-aos="fade-left" className={styles.expandContainer}>
-          <div className={styles.livingContent}>
-            <div className={styles.livingText}>
-              <p>
-                Expand your understanding by engaging in 1-on-1 conversations
-              </p>
-            </div>
-            <div className={styles.livingButton}>
-              <button>Get Started</button>
-            </div>
-          </div>
-          <div className={styles.living}>
-            <img src={oneImg} alt="Two people talking in a whiteboard"></img>
-          </div>
+      </div>
+      <div data-aos="fade-up" data-aos-duration="900" data-aos-delay="600" className={styles.cardContainer}>
+        <Card
+          add={false}
+          backgroundColor={colors.primaryColor1}
+          borderRadius="30px"
+          onClick={() => props.history.push("/search?q=Spanish")}
+        ><p style={{fontWeight: "300", fontSize: "48px"}}>Spanish</p></Card>
+        <Card
+          add={false}
+          backgroundColor={colors.primaryColor2}
+          borderRadius="30px"
+          onClick={() => props.history.push("/search?q=Spanish")}
+        ><p style={{fontWeight: "300", fontSize: "48px"}}>Physics</p></Card>
+        <Card add={true} borderRadius="30px" onClick={() => {
+          if (searchTerm.length > 0) {
+            props.history.push("/createnew", {
+              topic: searchTerm
+            });
+          }
+        }}/>
+      </div>
+      <div data-aos="fade-right" className={styles.learningContainer}>
+        <div className={styles.living}>
+          <img src={livingImg} alt="Living room conversation"></img>
         </div>
-        <div data-aos="fade-up" className={styles.limitContainer}>
-          <div className={styles.content}>
-            <p>There's no limit to what you can learn when you use Feynman</p>
+        <div className={styles.livingContent}>
+          <div className={styles.livingText}>
+            <p>
+              Take your learning to the next level with a technique made by
+              one of the world's most influential scientists
+            </p>
           </div>
-          <div className={styles.button}>
-            <button>Let's Go!</button>
+          <div className={styles.livingButton}>
+            <button onClick={() => props.history.push("/faq")}>Learn More</button>
           </div>
         </div>
       </div>
-    );
-  }
+      <div data-aos="fade-left" className={styles.expandContainer}>
+        <div className={styles.livingContent}>
+          <div className={styles.livingText}>
+            <p>
+              Expand your understanding by engaging in 1-on-1 conversations
+            </p>
+          </div>
+          <div className={styles.livingButton}>
+            <button onClick={() => props.history.push("/register")}>Get Started</button>
+          </div>
+        </div>
+        <div className={styles.living}>
+          <img src={oneImg} alt="Two people talking in a whiteboard"></img>
+        </div>
+      </div>
+      <div data-aos="fade-up" className={styles.limitContainer}>
+        <div className={styles.content}>
+          <p>There's no limit to what you can learn when you use Feynman</p>
+        </div>
+        <div className={styles.button}>
+          <button onClick={() => props.history.push("/dashboard")}>Let's Go!</button>
+        </div>
+      </div>
+    </div>
+  );
 }
-
-export default Home;

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 import Card from "../components/Card/card";
 import TopicSelector from "../components/TopicSelector/TopicSelector";
-import SearchBarAlt from "../components/SearchBarAlt/SearchBarAlt";
 
 import styles from "../styles/Profile.module.scss";
 import colors from "../styles/colors.scss";
@@ -16,15 +15,10 @@ AOS.init({
 export default function Profile(props) {
   //   const username = props.username;
   const username = "potato";
-
-  const [searchTerm, setSearchTerm] = useState("");
+  
   // retrieve user prefs from database here
   //   const [searchResults, setSearchResults] = useState([props.subjectPrefs]);
   const [searchResults, setSearchResults] = useState(["Science", "Math", "CS"]);
-  function handleSearchChange(result) {
-    console.log(result);
-    setSearchTerm(result);
-  }
 
   return (
     <div>

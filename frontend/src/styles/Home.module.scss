@@ -7,122 +7,44 @@
   overflow: hidden;
 }
 
-.bar {
-  width: 100%;
-  background-color: $basegrey;
-  height: 60px;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 20px;
-
-  .signUp {
-    background-color: $primaryColor3;
-    border-radius: 10px;
-    border: none;
-    padding: 5px 10px;
-    text-align: center;
-
-    font-size: 1.5rem;
-    font-weight: normal;
-  }
-
-  .navBar {
-    background-color: white;
-    border-radius: 8px;
-
-    font-size: 1.5rem;
-    padding: 5px 10px;
-
-    margin-right: 10px;
-
-    position: relative;
-    .hamburger {
-      gap: 0.5rem;
-      div {
-        width: 60%;
-        height: 2px;
-        background-color: black;
-        margin: auto;
-      }
-    }
-  }
-}
-
-.square {
-  position: absolute;
-  top: 30px;
-  left: 30px;
-
-  background-color: red;
-  height: 120px;
-  width: 120px;
-}
-
 .searchContainer {
   display: flex;
   flex-direction: column;
   gap: 2vw;
-  margin-top: 3vw;
+  margin-top: 5vh;
+  align-items: center;
   text-align: center;
 }
 
-.user {
+.title {
   h1 {
     font-size: 3rem;
   }
   height: 8vw;
 }
 
-.caption {
+.subtitle {
   h2 {
     font-size: 1.5rem;
     font-weight: 100;
   }
 }
 
-.searchBar {
-  width: 40vw;
-  height: 4vw;
-  position: relative;
-  margin: auto;
-
-  input {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    border: 1px solid #555555;
-    font-size: 1.25rem;
-    padding: 10px 20px;
-    padding-right: 80px;
-  }
-
-  .icon {
-    position: absolute;
-    top: 0.5vw;
-    right: 1vw;
-    height: 3vw;
-    width: 3vw;
-
-    img {
-      height: 100%;
-      width: 100%;
-    }
-  }
-}
-
 .cardContainer {
   display: flex;
-  margin: 10vw auto;
+  margin: 7.5vh auto 10vh;
   align-items: center;
   justify-content: center;
   gap: 5vw;
+  > * {
+    width: 27vw;
+    height: 21vh;
+  }
 }
 
 .learningContainer {
   display: flex;
-
+  margin-bottom: 10vh;
   gap: 5vw;
 
   .living {
@@ -185,6 +107,7 @@
 
 .expandContainer {
   display: flex;
+  margin-bottom: 10vh;
 
   .living {
     width: 80%;
@@ -290,8 +213,19 @@
 
 // responsive design
 @media only screen and (max-width: 1000px) {
+  .searchContainer{
+    .subtitle {
+      margin-top: 3vh;
+    }  
+  }
+
   .cardContainer {
     flex-direction: column;
+    margin-top: 5vh;
+    > * {
+      width: 60vw;
+      height: 20vh
+    }
   }
 
   .learningContainer {
@@ -308,12 +242,23 @@
 
 @media only screen and (max-width: 900px) {
   .searchContainer {
-    .searchBar {
-      input {
-        font-size: 1rem;      
-      }
+    gap: 0;
+    height: 40vh;
+    .title {
+      height: 25%;
     }
+
+    .subtitle {
+      margin: 5vh 0 3vh;
+    }  
   }
+  // .searchContainer {
+  //   .searchBar {
+  //     input {
+  //       font-size: 1rem;      
+  //     }
+  //   }
+  // }
 
   .learningContainer {
     gap: 0;
@@ -363,28 +308,13 @@
 
 @media only screen and (max-width: 750px) {
   .searchContainer {
-    gap: 0;
-    height: 40vw;
-
-    .user {
+    .title {
       height: 30%;
     }
 
-    .caption {
+    .subtitle {
       margin-top: 5vw;
-    }
-
-    .searchBar {
-      margin: 5vw auto;                  
-      width: 60%;      
-      input {    
-        padding: 3vw;         
-        font-size: 1rem;      
-      }
-      .icon {
-        top: 1.5vw;
-      }
-    }    
+    }  
   }
 
   .learningContainer {
@@ -433,41 +363,28 @@
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 600px) {
   .square {
     height: 20vw;
     width: 20vw;
   }
 
   .searchContainer {
-    margin-top: 10vw;
-    height: 50vw;
+    margin-top: 3vh;
+    height: 40vh;
 
-    .user {
+    .title {
       margin-top: 5vw;
-      height: 30%;
+      // height: 30%;
       h1 {
-        font-size: 2rem;
+        font-size: 3rem;
       }
     }
-    
-    .searchBar {
-      width: 80%;
-      input {
-        padding: 5vw;       
-        font-size: 1rem;
-      }
-      .icon {
-        top: 60%;
-        right: 3vw;
-        height: 5vw;
-        width: 5vw;        
-      }
-    }
+
   }
   
   .cardContainer {
-    margin-top: 30vw;
+    margin-top: 5vh;
   }
 
   .learningContainer {
@@ -539,5 +456,11 @@
         font-size: 1.5rem;
       }
     }
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .cardContainer {
+    margin-top: 15vh;
   }
 }
