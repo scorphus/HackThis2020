@@ -21,20 +21,3 @@ body * {
     font-family: "Poppins", sans-serif;
     box-sizing: border-box;
 }
-
-.button {
-    border: none;
-    font-size: 1.1rem;
-    min-width: 120px;
-    height: 40px;
-    border-radius: 10px;
-    background-color: black;
-    color: white;
-
-    transition: 0.2s;
-
-    &:hover {
-        border-radius: 0;
-        cursor: pointer;
-    }
-}

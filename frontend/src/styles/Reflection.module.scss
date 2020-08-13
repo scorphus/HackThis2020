@@ -1,0 +1,176 @@
+@import "./colors.scss";
+@import "./main.scss";
+
+.container {
+  // position: relative;
+  background-color: #fafafa;
+  display: flex;
+  gap: 2vw;
+  align-items: center;
+  overflow: hidden;
+  margin: auto 10vw;
+}
+
+
+.textContainer {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  // position: relative;
+  // left: 66vw;
+  // width: 24vw;
+
+  .title {
+    h1 {
+      font-size: 3rem;
+    }
+    text-align: center;
+  }
+
+  .congratulatoryText {
+    p {
+      font-size: 1.5rem;
+      font-weight: 100;
+    }
+    text-align: center;
+  }
+
+  .awesome {
+    p {
+      font-size: 1.5rem;
+      font-style: bold;
+    }
+    text-align: center;
+  }
+
+  .nextSteps {
+    p {
+      font-size: 1.25rem;
+      font-weight: 100;
+    }
+    text-align: center;
+  }
+}
+
+.summaryContainer {
+  text-align: center;
+  margin: auto;
+  flex: 2;
+  // position: absolute;
+  // left: 8vw;
+  // top: 20vh;
+  // gap: 2vw;
+  // width: 50vw;
+  // height: 50vw;
+  
+  textarea {
+    display: block;
+    resize: none;
+    width: 100%;
+    height: 50vh;
+    font-size: 1.5rem;
+    padding: 10px;
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  // position: relative;
+  // left: 66vw;
+  width: 24vw;
+
+  .reflectionButton {
+    width: 40%;
+    height: 30%;
+    margin: 0 auto 5vw;
+
+    button {
+      border-radius: 15px;
+      padding: 15px;
+      border: none;
+      background-color: $mutedColor3;
+      font-size: 1rem;
+      height: 100%;
+      width: 100%;
+      transition: 150ms;
+    }
+
+    button:focus {
+      outline: 0;
+    }
+
+    button:active {
+      transition: 150ms;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .topicButton {
+    width: 40%;
+    height: 30%;
+    margin: 0 auto 5vw;
+
+    button {
+      border-radius: 15px;
+      padding: 15px;
+      border: none;
+      background-color: $mutedColor4;
+      font-size: 1rem;
+      height: 100%;
+      width: 100%;
+      transition: 150ms;
+    }
+
+    button:focus {
+      outline: 0;
+    }
+
+    button:active {
+      transition: 150ms;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+// responsive design
+@media only screen and (max-width: 1000px) {
+  .container {
+    flex-direction: column-reverse;
+  }
+
+  .textContainer {
+    left: 10vw;
+    width: 80vw;
+  }
+
+  .summaryContainer {
+    top: 5vh;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    left: 0;
+    width: 80vw;
+    height: 50vw;
+    margin-bottom: 10vh;
+
+    textarea {
+        display: block;
+        resize: none;
+        width: 100%;
+        height: 50vh;
+        font-size: 1.5rem;
+    }
+  }
+  .buttonContainer {
+    left: 10vw;
+    width: 80vw;
+    align-items: center;
+    justify-content: center;
+  }
+}

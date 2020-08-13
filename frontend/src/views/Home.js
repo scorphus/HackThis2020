@@ -1,6 +1,7 @@
 import React from "react";
 
 import Card from "../components/Card/card";
+import SearchBarAlt from "../components/SearchBarAlt/SearchBarAlt";
 import searchImg from "../assets/search_glass.png";
 import livingImg from "../assets/LivingRoomTalking.svg";
 import oneImg from "../assets/OneOnOne.svg";
@@ -39,13 +40,9 @@ class Home extends React.Component {
             <h2>A World Class Learning Experience</h2>
           </div>
           <div data-aos="fade-down" data-aos-duration="900" data-aos-delay="600" className={styles.searchBar}>
-            <input type="text" placeholder="Learn something new..."></input>
-            <div className={styles.icon}>
-              <img src={searchImg} alt="Search icon"></img>
-            </div>
           </div>
         </div>
-        <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="600" className={styles.cardContainer}>
+        <div data-aos="fade-up" data-aos-duration="900" data-aos-delay="600" className={styles.cardContainer}>
           <Card
             add={false}
             backgroundColor={colors.primaryColor1}

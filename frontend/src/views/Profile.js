@@ -45,36 +45,13 @@ export default function Profile(props) {
           <h2 style={{ textAlign: "center", fontWeight: "400" }}>
             Change your subject preferences
           </h2>
-          <div>
-          <SearchBarAlt
-            style={{ height: "50px", borderRadius: "10px" }}
-            placeholderText="Search for subject"
-            text={searchTerm}
-            handleChange={handleSearchChange}
-            onClick={() => {
-              // retrieve search results
-              const SEResults = [
-                "something here",
-                "something else here",
-                "even more shit here",
-                "something here",
-                "something else here",
-                "even more shit here",
-                "something here",
-                "something else here",
-                "even more shit here",
-              ];
-              setSearchResults(SEResults);
-            }}
-          />
-          </div>
           <TopicSelector
-            results={searchResults}
-            selectLimit={3}
+            subjects={searchResults}
+            setSubjects={setSearchResults}
+            maxSubjects={3}
             style={{
               backgroundColor: "#fafafa",
               width: "100%",
-              border: "0.5px solid black",
             }}
           />
         </div>

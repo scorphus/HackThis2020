@@ -8,12 +8,14 @@ import Register from "./views/Register";
 import Chat from "./views/Chat";
 import Home from "./views/Home";
 import Dashboard from "./views/Dashboard";
-import AboutUs from "./views/AboutUs";
 import Profile from "./views/Profile";
-import Faq from "./views/FAQ";
-import NotFound from "./views/NotFound";
+import Search from "./views/Search";
 import CreateNew from "./views/CreateNew";
 import Info from "./views/Info";
+import Reflection from "./views/Reflection";
+import AboutUs from "./views/AboutUs";
+import Faq from "./views/FAQ";
+import NotFound from "./views/NotFound";
 
 import { NavigationBar } from './components/navbar';
 
@@ -34,6 +36,8 @@ function App() {
                         <Route exact path="/aboutus" component={AboutUs} />
                         <Route exact path="/createnew" render={(props) => (<CreateNew {...props}/>)} />
                         <Route exact path="/info" render={(props) => (<Info {...props}/>)} />
+                        <Route exact path="/reflection" component={Reflection} />
+                        <Route exact path="/search" component={Search}/>
                         {/* 404 page MUST be last */}
                         <Route component={NotFound} />
                     </Switch>

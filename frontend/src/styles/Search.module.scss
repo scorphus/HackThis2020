@@ -1,0 +1,119 @@
+@import "./colors.scss";
+@import "./main.scss";
+
+.container {
+  position: relative;
+  background-color: #fafafa;
+  overflow: hidden;
+}
+
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2vw;
+  margin-top: 10vh;
+  text-align: center;
+}
+
+.searchBar {
+  width: 40vw;
+  height: 4vw;
+  position: relative;
+  margin: auto;
+
+  input {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid #555555;
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    padding-right: 80px;
+  }
+
+  .icon {
+    position: absolute;
+    top: 0.5vw;
+    right: 1vw;
+    height: 3vw;
+    width: 3vw;
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+.cardContainer {
+  // width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2vh 5vw;
+  align-items: center;
+  justify-content: center;
+  gap: 3vw;
+}
+
+// responsive design
+@media only screen and (max-width: 900px) {
+  .searchContainer {
+    .searchBar {
+      input {
+        font-size: 1rem;      
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .searchContainer {
+    gap: 0;
+    height: 40vw;
+
+    .searchBar {
+      margin: 5vw auto;                  
+      width: 60%;      
+      input {    
+        padding: 3vw;         
+        font-size: 1rem;      
+      }
+      .icon {
+        top: 1.5vw;
+      }
+    }    
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .searchContainer {
+    margin-top: 10vw;
+    height: 50vw;
+
+    .user {
+      margin-top: 5vw;
+      height: 30%;
+      h1 {
+        font-size: 2rem;
+      }
+    }
+    
+    .searchBar {
+      width: 80%;
+      input {
+        padding: 5vw;       
+        font-size: 1rem;
+      }
+      .icon {
+        top: 60%;
+        right: 3vw;
+        height: 5vw;
+        width: 5vw;        
+      }
+    }
+  }
+  
+  .cardContainer {
+    margin-top: 30vw;
+  }
+}

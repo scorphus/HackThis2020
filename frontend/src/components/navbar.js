@@ -14,7 +14,9 @@ export const NavigationBar = () => {
     <button className={styles.icon} onClick={() => setResponsive(!responsive) }>
       {responsive ? <i className="fa fa-times" aria-hidden="true"></i> : <i className="fa fa-bars"></i> }
     </button>
-    <div className="profileContainer">
+    <button disabled={true} className={responsive ? styles.tempButton : styles.tempButtonHide} ></button>
+
+    <div className={styles.profileButton}>
       <Card
         add={false}
         backgroundColor={colors.primaryColor3}
@@ -25,9 +27,9 @@ export const NavigationBar = () => {
         children={<a href="/profile">Profile</a>}
         />
     </div>
-    <Link to="/aboutus">About Us</Link>
-    <Link to="/faq">FAQ</Link>
-    <Link to="/" className="active">Home</Link>
-    <a href="/"><img className={styles.logo} src={logo} alt="Logo"/></a>
+    <Link className={styles.navLink} to="/aboutus">About Us</Link>
+    <Link className={styles.navLink} to="/faq">FAQ</Link>
+    <Link className={styles.navLink} to="/" >Home</Link>
+    <Link to="/" className={styles.logo}><img src={logo} alt="Logo"/></Link>
   </div>);
 }

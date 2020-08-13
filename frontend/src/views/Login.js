@@ -47,7 +47,7 @@ function Login() {
                         ref={register}
                     />
                     <button
-                        className={`${styles.loginButton} button`}
+                        className={`${styles.loginButton} ${styles.button}`}
                         type="submit"
                     >
                         Login

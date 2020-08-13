@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 import Card from "../components/Card/card";
 import Tile from "../components/Tile/Tile";
-import SearchBarAlt from "../components/SearchBarAlt/SearchBarAlt";
 import TopicSelector from "../components/TopicSelector/TopicSelector";
 import GoogleLogo from "../assets/GoogleLogo.svg";
 import WikipediaLogo from "../assets/Wikipedia_W.svg";
@@ -23,8 +22,9 @@ export default function CreateNew(props) {
     const [searchResults, setSearchResults] = useState([]);
     const [summary, setSummary] = useState("");
 
-    // const topic = props.topic;
-    const topic = "pythagoras"; // test term
+    console.log(props.location.state.topic);
+    const topic = props.location.state.topic;
+    // const topic = "pythagoras"; // test term
     const googleSearchTerm = topic.replace(' ', '+');
     const wikipediaSearchTerm = topic.replace(' ', '_');
 
@@ -53,8 +53,8 @@ export default function CreateNew(props) {
                         height="500px"
                         borderRadius="20px"
                         boxShadow="-4px 4px 4px rgba(0,0,0,0.5)">
-                    <h2 style={{textAlign: "center", fontWeight: "normal", fontSize: "28px", marginTop: "-20px"}}><br/>Summary</h2>
-                    <textarea onChange={handleSummaryChange} style={{height: "30vw", marginBottom: "20px"}} rows={20} placeholder="Write your summary here"/>
+                    <h2 style={{textAlign: "center", fontWeight: "normal", fontSize: "28px"}}><br/>Summary</h2>
+                    <textarea onChange={handleSummaryChange} style={{ flexGrow: "1", marginBottom: "20px", resize:"none"}} placeholder="Write your summary here"/>
                 </Tile>
             </div>
             <div className={styles.rightHalf} data-aos="fade-left" data-aos-duration="500">
@@ -64,18 +64,7 @@ export default function CreateNew(props) {
                         borderRadius="20px"
                         boxShadow="-4px 4px 4px rgba(0,0,0,0.5)">
                     <h2 style={{textAlign: "center", fontWeight: "normal", fontSize: "28px"}}>Select one Subject</h2>
-                    <SearchBarAlt style={{width:"350px", height:"50px", borderRadius: "10px"}} 
-                        placeholderText="Search for subject"
-                        text={searchTerm}
-                        handleChange={handleSearchChange}
-                        onClick={() => {
-                            // retrieve search results
-                            const SEResults = ["something here", "something else here", "even more shit here",
-                            "something here", "something else here", "even more shit here","something here", "something else here", "even more shit here",];
-                            setSearchResults(SEResults);
-                        }}
-                        />
-                    <TopicSelector results={searchResults} selectLimit={1} style={{backgroundColor: "#fafafa"}}/>
+                    <TopicSelector subjects={searchResults} setSubjects={setSearchResults} maxSubjects={1} style={{ height: "300px" }}/>
                 </Tile>
                 <Tile   backgroundColor={colors.primaryColor2}
                         width="100%"

@@ -19,7 +19,7 @@ const testSubjects = [
     "potato",
 ];
 
-function TopicSelector({ subjects, setSubjects, maxSubjects }) {
+function TopicSelector({ subjects, setSubjects, maxSubjects, style }) {
     const { register, watch } = useForm();
     const query = watch("search") || "";
 
@@ -56,7 +56,7 @@ function TopicSelector({ subjects, setSubjects, maxSubjects }) {
     }
 
     return (
-        <div>
+        <div className={styles.topicSelectorContainer} style={style}>
             <input
                 type="search"
                 name="search"

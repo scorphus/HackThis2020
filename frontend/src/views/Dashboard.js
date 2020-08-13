@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 import Card from "../components/Card/card";
@@ -18,9 +18,12 @@ export default function Dashboard(props) {
     const [searchTerm, setSearchTerm] = useState("");
 
     function handleSearchChange(result) {
-        console.log(result);
         setSearchTerm(result);
     }
+
+    useEffect(() => {
+        console.log(searchTerm);
+    }, [searchTerm])
 
     const colorBankObj = colors;
     delete colorBankObj.basegrey;
@@ -41,7 +44,10 @@ export default function Dashboard(props) {
                     placeholderText="Search for topic or subject"
                     text={searchTerm}
                     handleChange={handleSearchChange}
-                    onClick={() => history.push(`/search?q=${searchTerm.replace(' ', '+')}`)}
+                    onClick={() => {
+                        console.log(`The search term passed was ${searchTerm}`);
+                        history.push(`/search?q=${searchTerm.replace(' ', '+')}`);
+                    }}
                 />
             </div>
             <div data-aos="fade-up" data-aos-duration="900" data-aos-delay="1500">

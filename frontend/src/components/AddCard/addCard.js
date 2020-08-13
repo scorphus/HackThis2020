@@ -27,7 +27,7 @@ class AddCard extends React.Component {
     }
 
     return (
-      <button className="addcard" style={containerStyle}>
+      <button className="addcard" style={containerStyle} onClick={this.props.onClick}>
         <img src={plus} alt="add" style={imgStyle} width="20%" height="40%"></img>
         <h1 style={headerStyle}>Create New</h1>
       </button>
