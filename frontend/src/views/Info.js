@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 
 import Card from "../components/Card/card";
@@ -17,18 +17,27 @@ AOS.init({
 })
 
 export default function Info(props) {
-    console.log("BRUH");
-    console.log(props.location.state.topic);
+    const [links, setLinks] = useState([]);
+    const [summary, setSummary] = useState("");
+
     const topic = props.location.state.topic;
-    // const topic = "pythagoras"; // test term
     const googleSearchTerm = topic.replace(' ', '+');
     const wikipediaSearchTerm = topic.replace(' ', '_');
 
-    // const summary = props.summary;
-    const summary = "Here is an example summary of the topic";
-
-    // const links = props.links;
-    const links = ["https://plato.stanford.edu/entries/pythagoras/", "https://www.ancient.eu/Pythagoras/", "https://www.britannica.com/biography/Pythagoras"];
+    useEffect(() => {
+        async function populateLinks() {
+            const fetchedLinks = await (await fetch(`/getGoogleLinks?q=${topic}`)).json();
+            // decodeURI doesn't cover the ? and = in url's, so we need decodeURIComponent
+            setLinks(fetchedLinks.map((link) => decodeURIComponent(link)));
+        }
+        populateLinks();
+        async function populateSummary() {
+            const fetchedSummary = await (await fetch(`/getWikipediaSummary?searchTerm=${wikipediaSearchTerm}`)).json();
+            // console.log(fetchedSummary);
+            setSummary(fetchedSummary);
+        }
+        populateSummary();
+    }, []);
 
     return (
         <div className={styles.container}>
@@ -63,11 +72,11 @@ export default function Info(props) {
                     </div>
                 </Tile>
                 <div className="infoLinkContainer">
-                    {links.map((link) => {
+                    {links.map((link, index) => {
                         const urlBaseRegex = /^.+?[^/:](?=[?/]|$)/g;
                         const startOfBaseUrl = link.match(urlBaseRegex);
 
-                        return <Card
+                        return <Card key={index}
                         add={false}
                         backgroundColor={colors.mutedColor2}
                         width="100%"
@@ -85,13 +94,19 @@ export default function Info(props) {
                     backgroundColor={colors.primaryColor3}
                     width="100%"
                     height="75px"
-                    borderRadius="20px">
-                    <Link to="/chat" style={{textDecoration: "none", color: "black"}} data={{
-                        isSummarizer: true,
-                        summary: summary
+                    borderRadius="20px"
+                    onClick={() => {
+                        const requestOptions = {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'SameSite':'None' },
+                            credentials: 'include',
+                            body: JSON.stringify({"topic":topic}),
+                          };
+                          fetch('/messages/join_room', requestOptions).then(() => {
+                              props.history.push("/chat")
+                          })
                     }}>
-                        I'm Ready
-                    </Link>
+                    <p>I'm Ready</p>
                 </Card>
             </div>
         </div>

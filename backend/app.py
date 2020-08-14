@@ -22,6 +22,11 @@ import auth
 import db
 import topics
 
+import search
+index_subject = "subject"
+index_topic = "topic"
+import linkScraper
+import wikipediaSummary
 
 # # Set this variable to "threading", "eventlet" or "gevent" to test the
 # # different async modes, or leave it set to None for the application to choose
@@ -29,13 +34,13 @@ import topics
 # async_mode = None
 
 # Create the app
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
 CORS(app)
 # app.config.update(
 #     SESSION_COOKIE_SAMESITE='Lax',
 # )
-app.debug = False  # debugger mode
-app.config['SECRET_KEY'] = 'secret!'
+app.debug = True  # debugger mode
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -72,10 +77,9 @@ def _proxy(*args, **kwargs):
     return response
 
 # Home Page or smth for redirects
-@app.route('/', methods = ["GET", "POST"])
-def home():
-    # Temp set to index.html. Change to home.html once homepage made
-    return "Home Page Lol. Anyone can see this"
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
 # Home Page or smth for redirects
 @app.route('/dashboard', methods = ["GET", "POST"])
@@ -92,13 +96,13 @@ def login():
     password = req['password']
     info = auth.login(username, password)
     if(info[0] == "I"):
-        return jsonify({ 'response': info })
+        return jsonify({'response': info })
     interest_string = ""
     for subject in loads(info)["interests"]:
         interest_string += subject + ","
         print(subject)
     print(interest_string)
-    res = make_response(jsonify({ 'response': 'DONE' }))
+    res = make_response(jsonify({"result":"DONE"}))
     res.set_cookie("username", value=str(username), max_age=None)
     res.set_cookie("interests", value=str(interest_string), max_age=None)
     return res
@@ -165,6 +169,13 @@ def new_topic():
     topics.create_topic(topic, subject)
     return "DONE"
 
+@app.route('/remove_topic', methods=["POST"])
+def delete_topic():
+    req = request.get_json()
+    topic = req['topic'].lower()
+    db.db.topics.delete_one({"title":topic})
+    return "DONE"
+
 @app.route('/get_subjects')
 # @cross_origin(supports_credentials=True)
 def get_subjects():
@@ -174,12 +185,29 @@ def get_subjects():
 def get_topics():
     return dumps(db.db.topics.find({}))
 
+# Search functionality
+@app.route('/search')
+def searchSubjectTopic():
+    searchTerm = request.args.get('q')
+    return dumps(search.searchTopic(searchTerm))
+
+# Link scraper
+@app.route('/getGoogleLinks')
+def GoogleLinks():
+    searchTerm = request.args.get('q')
+    return dumps(linkScraper.GoogleLinkScraper(searchTerm))
+
+# Summarization function
+@app.route('/getWikipediaSummary')
+def makeWikipediaSummary():
+    searchTerm = request.args.get('searchTerm')
+    return dumps(wikipediaSummary.generateWikipediaSummary(searchTerm));
+
 # CHAT FUNCTION HERE
 @app.route('/messages/join_room', methods=["POST"])
 def make_room():
     req = request.get_json()
     topic = req["topic"]
-    print(topic)
     room_id = hash(topic)
     res = make_response("DONE")
     print(room_id)
@@ -239,6 +267,8 @@ def middleware_for_response(response):
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
+    initializeIndexSubject()
+    populateSubjectTopic()
 
 # Unused code
 '''

@@ -13,7 +13,6 @@ export default function Search(props) {
   const cardWidth = "300px";
   const cardHeight = "150px";
 
-
   const initialSearchTerm = props.location.search.substring(3,).replace('+', ' ').replace('%20', ' ');
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [searchResults, setSearchResults] = useState([]);
@@ -27,18 +26,17 @@ export default function Search(props) {
     setCardColors(colorBank.sort(() => Math.random() - 0.5))
   }, [])
 
-  function handleSearchChange(result) {    
+  function handleSearchChange(result) {
       setSearchTerm(result);
   }
 
-  // temporary placeholder until backend gets wired in
   useEffect(() => {
-    async function populateInitialSearch() {
-      const SEResults = await fetch("https://dog.ceo/api/breeds/image/random");
-      setSearchResults(["Math", "Physics", "Science", "Biology", "Something here", "Somethingelsehere", "hi"]);
+    async function populateSearch() {
+      const SEResults = await (await fetch(`/search?q=${searchTerm}`)).json();
+      setSearchResults(Object.keys(SEResults));
     }
-    populateInitialSearch();
-  }, []);
+    populateSearch();
+  }, [searchTerm]);
 
   // for debugging
   useEffect(() => {
@@ -67,6 +65,14 @@ export default function Search(props) {
             height={cardHeight}
             borderRadius="30px"
             onClick={() => {
+              const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'SameSite':'None' },
+                credentials: 'include',
+                body: JSON.stringify({"topic":result}),
+              };
+              fetch('/remove_topic', requestOptions)
+
               props.history.push("/info", {
                 topic: result
               })

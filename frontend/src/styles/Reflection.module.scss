@@ -5,12 +5,11 @@
   // position: relative;
   background-color: #fafafa;
   display: flex;
-  gap: 2vw;
+  gap: 6vw;
   align-items: center;
   overflow: hidden;
-  margin: auto 10vw;
+  margin: 5vh 10vw;
 }
-
 
 .textContainer {
   flex: 1;
@@ -65,14 +64,16 @@
   // gap: 2vw;
   // width: 50vw;
   // height: 50vw;
-  
+
   textarea {
     display: block;
     resize: none;
     width: 100%;
     height: 50vh;
     font-size: 1.5rem;
-    padding: 10px;
+    padding: 25px;
+    margin-left: 10px;
+    box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.5);
   }
 }
 
