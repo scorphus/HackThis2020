@@ -33,7 +33,7 @@ import wikipediaSummary
 # async_mode = None
 
 # Create the app
-app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
+app = Flask(__name__, static_folder='../build', static_url_path='/')
 CORS(app)
 # app.config.update(
 #     SESSION_COOKIE_SAMESITE='Lax',
@@ -113,7 +113,7 @@ def logout():
     res.set_cookie("interests", '', max_age=0)
     res.set_cookie("room_id", '', max_age=0)
     return res
- 
+
 @app.route('/register', methods=["POST"])
 # @cross_origin(supports_credentials=True)
 def register():
@@ -150,7 +150,7 @@ def fetch_user_data():
 
 @app.route('/summary', methods=["POST"])
 # @cross_origin(supports_credentials=True)
-def send_summary(): 
+def send_summary():
     body = request.form.get('body')
     topic = request.form.get('topic')
     email = loads(session["user_info"])
@@ -242,7 +242,7 @@ def sessions(room_id):
         #return render_template('message.html', username = username, room = room)
 '''
 def messageReceived(methods=['GET', 'POST']):
-    print('Message Received') 
+    print('Message Received')
 
 @socketio.on('message')
 def message(data):
