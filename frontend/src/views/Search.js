@@ -72,6 +72,14 @@ export default function Search(props) {
             height={cardHeight}
             borderRadius="30px"
             onClick={() => {
+              const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'SameSite':'None' },
+                credentials: 'include',
+                body: JSON.stringify({"topic":result}),
+              };
+              fetch('/remove_topic', requestOptions)
+
               props.history.push("/info", {
                 topic: result.topic,
                 room: result.room

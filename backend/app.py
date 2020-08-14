@@ -26,7 +26,6 @@ index_subject = "subject"
 index_topic = "topic"
 import linkScraper
 import wikipediaSummary
-import topics
 
 # # Set this variable to "threading", "eventlet" or "gevent" to test the
 # # different async modes, or leave it set to None for the application to choose
@@ -161,6 +160,15 @@ def send_summary():
     topic = req['topic'].lower()
     subject = req['subject'].lower()
     topics.create_topic(topic, subject)
+    search.populateSubjectTopic()
+    return "DONE"
+
+@app.route('/remove_topic', methods=["POST"])
+def delete_topic():
+    req = request.get_json()
+    topic = req['topic'].lower()
+    db.db.topics.delete_one({"title":topic})
+    search.populateSubjectTopic()
     return "DONE"
 
 @app.route('/get_subjects')
@@ -205,7 +213,6 @@ def makeWikipediaSummary():
 def make_room():
     req = request.get_json()
     topic = req["topic"]
-    print(topic)
     room_id = hash(topic)
     res = make_response("DONE")
     print(room_id)

@@ -38,6 +38,7 @@ def initializeIndexSubject():
     }})
 
 def populateSubjectTopic():
+    es.indices.delete(index='*', ignore=[400, 404])
     # populate subjects
     subjectIDCount = 0
     for doc in subjects.find({}):

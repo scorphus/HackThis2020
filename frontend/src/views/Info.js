@@ -100,7 +100,17 @@ export default function Info(props) {
                     width="100%"
                     height="75px"
                     borderRadius="20px"
-                    onClick={() => props.history.push("/chat", {room: room})}>
+                    onClick={() => {
+                        const requestOptions = {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'SameSite':'None' },
+                            credentials: 'include',
+                            body: JSON.stringify({"topic":topic}),
+                          };
+                          fetch('/messages/join_room', requestOptions).then(() => {
+                              props.history.push("/chat")
+                          })
+                    }}>
                     <p>I'm Ready</p>
                 </Card>
             </div>
