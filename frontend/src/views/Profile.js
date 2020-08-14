@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Cookies from 'js-cookie';
 
 import Card from "../components/Card/card";
@@ -9,7 +9,6 @@ import styles from "../styles/Profile.module.scss";
 import colors from "../styles/colors.scss";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { api } from "../api";
 AOS.init({
   duration: 1200,
 });
@@ -23,6 +22,7 @@ export default function Profile(props) {
   useEffect(() => {
     let interests = Cookies.get("interests").split("\\054").slice(0,-1);
     setSearchResults(interests);
+    console.log(colors);
   }, [])
   // retrieve user prefs from database here
   //   const [searchResults, setSearchResults] = useState([props.subjectPrefs]);
@@ -76,7 +76,7 @@ export default function Profile(props) {
         >
           <Card
             add={false}
-            backgroundColor={colors.primaryColor3}
+            backgroundColor="#27B68B"
             width="150px"
             height="60px"
             borderRadius="20px"
@@ -94,7 +94,7 @@ export default function Profile(props) {
           </Card>
           <Card
             add={false}
-            backgroundColor={colors.warningColor}
+            backgroundColor="#F25749"
             width="150px"
             height="60px"
             borderRadius="20px"
@@ -105,7 +105,7 @@ export default function Profile(props) {
           </Card>
           <Card
             add={false}
-            backgroundColor={colors.basegrey}
+            backgroundColor="#636D73"
             width="150px"
             height="60px"
             borderRadius="20px"

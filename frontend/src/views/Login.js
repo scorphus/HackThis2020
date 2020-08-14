@@ -17,7 +17,7 @@ function Login(props) {
       };
       fetch('/login', requestOptions).then(response => response.json()).then((data) => {
           console.log(data)
-          if(data["response"][0] == 'I') {
+          if(data["response"][0] === 'I') {
             window.alert(data["response"])
           } else {
             props.history.push("/dashboard")

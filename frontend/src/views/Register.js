@@ -45,11 +45,10 @@ function Register(props) {
         <div className={styles.container}>
             <div className={styles.infoBox}>
                 <h1>Welcome</h1>
+                <p>Create an account to begin your journey on Epiphany.</p>
                 <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Laborum dolorum, ratione quia nesciunt similique natus
-                    impedit pariatur rem odio, labore debitis? Odit sunt fugiat
-                    accusantium quaerat non obcaecati veniam amet.
+                    Select the three subjects that interest you the most (you
+                    can always change them later).
                 </p>
                 <Link className={styles.switchAuth} to="/login">
                     Already have an account?

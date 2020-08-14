@@ -40,7 +40,7 @@ function AboutUs() {
                 speed={50}
                 typingDelay={750}
             /></h1>
-            <h3 data-aos="fade-down" data-aos-delay="1500" style={{fontWeight: 400, marginBottom: "5vh"}}>Feynman was created from HackThis 2020, a hackathon organized by the HackIllinois team.</h3>
+            <h3 data-aos="fade-down" data-aos-delay="1500" style={{fontWeight: 400, marginBottom: "5vh"}}>Epiphany was created from HackThis 2020, a hackathon organized by the HackIllinois team.</h3>
             <h2 data-aos="fade" data-aos-delay="2000"style={{fontSize: "36px"}}>Our team</h2>
             <div data-aos="fade" data-aos-delay="2000" style={{display: 'flex', flexWrap: 'wrap', gap: "1vw", width: "80vw", margin: "2vh auto 5vh", justifyContent: "center"}}>
                 {images.map((img) => {

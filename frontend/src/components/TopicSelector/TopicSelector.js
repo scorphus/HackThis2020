@@ -11,15 +11,30 @@ function TopicSelector({ subjects, setSubjects, maxSubjects, style }) {
     const [available, setAvailable] = useState([]);
 
     useEffect(() => {
+        console.log(subjects);
+    }, [subjects])
+
+    useEffect(() => {
         async function fetchSubjects() {
             try {
                 const result = await api.get("/get_subjects")
+                
+                console.log(result.data);
                 setAvailable(result.data.map(subj => subj.title).filter(subj => !subjects.includes(subj)))
             } catch (err) {
                 console.log(err);
             }
         }
         fetchSubjects();
+    }, [])
+
+    useEffect(() => {
+        const subjSet = new Set();
+
+        console.log(subjects);
+        console.log(available);
+
+        setAvailable(available.filter(subj => !subjects.includes(subj)))
     }, [])
 
     function Available({ subject }) {
