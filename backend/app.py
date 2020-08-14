@@ -33,7 +33,7 @@ CORS(app)
 # app.config.update(
 #     SESSION_COOKIE_SAMESITE='Lax',
 # )
-app.debug = False  # debugger mode
+app.debug = True  # debugger mode
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config["SESSION_PERMANENT"] = False
