@@ -231,6 +231,7 @@ def middleware_for_response(response):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 80))
+    #socketio.run(app)
 
 # Unused code
 '''
