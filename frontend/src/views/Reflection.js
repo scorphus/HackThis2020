@@ -10,12 +10,18 @@ AOS.init({
 })
 
 class Reflection extends React.Component {
+
+  send_email() {
+    console.log("HI")
+    console.log("Text:" + this.state.text)
+  }
+
   render() {
     return (
       <div className={styles.container}>
         <div data-aos="fade-right" className={styles.summaryContainer}>
           <form id="summary">
-            <textarea placeholder="Write some thoughts here..."></textarea>
+            <textarea name="text" placeholder="Write some thoughts here..."></textarea>
           </form>
         </div>
         <div data-aos="fade-left" className={styles.textContainer}>
@@ -42,7 +48,7 @@ class Reflection extends React.Component {
           </div>
           <div data-aos="fade-up" className={styles.buttonContainer}>
             <div className={styles.reflectionButton}>
-              <button>Email me my reflection</button>
+              <button onClick={this.sendEmail}>Email me my reflection</button>
             </div>
             <div className={styles.topicButton}>
               <button>I want to learn another topic</button>

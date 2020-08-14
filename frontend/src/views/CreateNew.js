@@ -83,19 +83,18 @@ export default function CreateNew(props) {
                     width="100%"
                     height="75px"
                     borderRadius="20px"
-                    onClick={(event) => {
-                        const alphanumeric = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890"
-                        if (searchTerm.length === 0 || !searchTerm.includes(alphanumeric)) {
-                            console.log("not a valid term")
-                            event.preventDefault();
-                        }
+                    onClick={() => {
+                        const requestOptions = {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'SameSite':'None' },
+                            credentials: 'include',
+                            body: JSON.stringify({"topic":topic}),
+                          };
+                          fetch('/messages/join_room', requestOptions).then(() => {
+                              props.history.push("/chat")
+                          })
                     }}>
-                    <Link to="/chat" style={{textDecoration: "none", color: "black"}} data={{
-                        isSummarizer: true,
-                        summary: summary
-                    }}>
-                        I'm Ready
-                    </Link>
+                    <h1 style={{textAlign: "center", fontWeight: "normal", fontSize: "28px"}}>I'm Ready</h1>
                 </Card>
             </div>
         </div>
