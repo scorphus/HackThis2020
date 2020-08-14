@@ -34,7 +34,7 @@ CORS(app)
 #     SESSION_COOKIE_SAMESITE='Lax',
 # )
 app.debug = False  # debugger mode
-app.config['SECRET_KEY'] = 'secret!'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -231,7 +231,7 @@ def middleware_for_response(response):
     return response
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    app.run(debug=True)
 
 # Unused code
 '''
