@@ -24,8 +24,6 @@ export default function Profile(props) {
     setSearchResults(interests);
     console.log(colors);
   }, [])
-  // retrieve user prefs from database here
-  //   const [searchResults, setSearchResults] = useState([props.subjectPrefs]);
 
   function logOut() {
       const requestOptions = {
@@ -81,16 +79,9 @@ export default function Profile(props) {
             height="60px"
             borderRadius="20px"
             fontSize="24px"
+            onClick={() => props.history.push("/dashboard")}
           >
-            <Link
-              to="/dashboard"
-              style={{ textDecoration: "none", color: "black" }}
-              data={{
-                username: username,
-              }}
-            >
-              Save
-            </Link>
+            <p>Save</p>
           </Card>
           <Card
             add={false}
@@ -101,7 +92,7 @@ export default function Profile(props) {
             fontSize="24px"
             onClick={() => props.history.goBack()}
           >
-            Cancel
+            <p>Cancel</p>
           </Card>
           <Card
             add={false}
@@ -112,7 +103,7 @@ export default function Profile(props) {
             fontSize="24px"
             onClick={logOut}
           >
-            Logout
+            <p>Logout</p>
           </Card>
         </div>
       </div>

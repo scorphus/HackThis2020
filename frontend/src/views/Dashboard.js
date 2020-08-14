@@ -12,7 +12,6 @@ import "aos/dist/aos.css";
 AOS.init({});
 
 export default function Dashboard(props) {
-    // const username = props.username;
     const username = Cookies.get("username");
 
     const history = useHistory();

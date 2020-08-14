@@ -1,5 +1,6 @@
 from datetime import datetime
 from elasticsearch import Elasticsearch
+import json
 
 from db import db, subjects, topics, users
 
@@ -53,7 +54,7 @@ def populateSubjectTopic():
     for doc in topics.find({}):
         convertedBody = {
             'title': doc['title'],
-            'subject': subjects.findOne({"_id": doc['subject']})
+            'subject': subjects.find_one({"_id": doc['subject_id']})["title"]
         }
         es.index(index=index_topic, id=topicIDCount, body=convertedBody)
         topicIDCount += 1
@@ -78,7 +79,11 @@ def searchSubject(searchTerm):
 
 
 def searchTopic(searchTerm):
-    res = es.search(index=index_topic, body={"query": {
+    search_arr = []
+    # req_head
+    search_arr.append({'index': index_topic})
+    # req_body
+    search_arr.append({"query": {
         "fuzzy": {
             "title": {
                 "value": searchTerm,
@@ -89,11 +94,36 @@ def searchTopic(searchTerm):
         }
     }})
 
-    resultList = []
-    print(res['hits']['hits'])
-    for entry in res['hits']['hits']:
-        resultList.append(entry['_source']['title'])
+    # req_head
+    search_arr.append({'index': index_topic})
+    # req_body
+    # search_arr.append({"query": {"match_all" : {}}});
+    search_arr.append({"query": {
+        "fuzzy": {
+            "subject": {
+                "value": searchTerm,
+                "fuzziness": "AUTO",
+                "transpositions": True,
+                "max_expansions": 50
+            }
+        }
+    }})
+
+    request = ''
+    for each in search_arr:
+        request += '%s \n' %json.dumps(each)
+
+    # as you can see, you just need to feed the <body> parameter,
+    # and don't need to specify the <index> and <doc_type> as usual 
+    res = es.msearch(body = request)
+    print(res)
+
+    resultList = {}
+
+    for queryResult in res['responses']:
+        for entry in queryResult['hits']['hits']:
+            resultList[entry['_source']['title']] = entry['_source']['subject']
     
     return resultList
 
-print(searchTopic("calculus"))
+print(searchTopic("physics"))

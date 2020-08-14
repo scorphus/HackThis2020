@@ -20,6 +20,11 @@ sys.path.append(os.path.abspath('./helpers'))
 # Local Imports
 import auth
 import db
+import search
+index_subject = "subject"
+index_topic = "topic"
+import linkScraper
+import wikipediaSummary
 
 
 # # Set this variable to "threading", "eventlet" or "gevent" to test the
@@ -90,13 +95,13 @@ def login():
     password = req['password']
     info = auth.login(username, password)
     if(info[0] == "I"):
-        return jsonify({ 'response': info })
+        return jsonify({'response': info })
     interest_string = ""
     for subject in loads(info)["interests"]:
         interest_string += subject + ","
         print(subject)
     print(interest_string)
-    res = make_response(jsonify({ 'response': 'DONE' }))
+    res = make_response(jsonify({"result":"DONE"}))
     res.set_cookie("username", value=str(username), max_age=None)
     res.set_cookie("interests", value=str(interest_string), max_age=None)
     return res
@@ -171,6 +176,24 @@ def get_subjects():
 def get_topics():
     return dumps(db.db.topics.find({}))
 
+# Search functionality
+@app.route('/search')
+def searchSubjectTopic():
+    searchTerm = request.args.get('q')
+    return dumps(search.searchTopic(searchTerm))
+
+# Link scraper
+@app.route('/getGoogleLinks')
+def GoogleLinks():
+    searchTerm = request.args.get('q')
+    return dumps(linkScraper.GoogleLinkScraper(searchTerm))
+
+# Summarization function
+@app.route('/getWikipediaSummary')
+def makeWikipediaSummary():
+    searchTerm = request.args.get('searchTerm')
+    return dumps(wikipediaSummary.generateWikipediaSummary(searchTerm));
+
 # CHAT FUNCTION HERE
 @app.route('/messages/make_room')
 def make_room():
@@ -230,8 +253,9 @@ def middleware_for_response(response):
     return response
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 80))
-    #socketio.run(app)
+    socketio.run(app, debug=True)
+    initializeIndexSubject()
+    populateSubjectTopic()
 
 # Unused code
 '''
