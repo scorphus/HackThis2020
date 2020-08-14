@@ -3,8 +3,8 @@
 .container {
     border-radius: 20px;
 
-    min-width: 60%;
-    min-height: 60%;
+    height: 60vh;
+    width: 60vw;
 
     position: absolute;
     left: 50%;
@@ -96,13 +96,12 @@
 
 @media only screen and (max-width: 1000px) {
     .container {
-        flex-direction: column-reverse;
+        flex-direction: column;
+        height: auto;
         width: 80%;
+
+        display: block;
         position: relative;
-        top: 0;
-        left: 0;
-        transform: none;
-        margin: 40px auto;
     }
 
     .formBox {

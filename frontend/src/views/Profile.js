@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, Redirect, useHistory } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 import Card from "../components/Card/card";
 import TopicSelector from "../components/TopicSelector/TopicSelector";
@@ -8,17 +9,33 @@ import styles from "../styles/Profile.module.scss";
 import colors from "../styles/colors.scss";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { api } from "../api";
 AOS.init({
   duration: 1200,
 });
 
 export default function Profile(props) {
-  //   const username = props.username;
-  const username = "liseiden";
+  const [searchResults, setSearchResults] = useState([]);
+  const history = useHistory();
 
+  const username = Cookies.get("username");
+
+  useEffect(() => {
+    let interests = Cookies.get("interests").split("\\054").slice(0,-1);
+    setSearchResults(interests);
+  }, [])
   // retrieve user prefs from database here
   //   const [searchResults, setSearchResults] = useState([props.subjectPrefs]);
-  const [searchResults, setSearchResults] = useState(["Science", "Math", "CS"]);
+
+  function logOut() {
+      const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'SameSite':'Lax' },
+        credentials: 'include',
+      };
+
+      fetch("/logout", requestOptions).then(res => res.json()).then(_ => history.push('/'))
+  }
 
   return (
     <div>
@@ -46,6 +63,7 @@ export default function Profile(props) {
             style={{
               backgroundColor: "#fafafa",
               width: "100%",
+              height: "50vh"
             }}
           />
         </div>
@@ -53,12 +71,13 @@ export default function Profile(props) {
           data-aos="fade-left"
           data-aos-duration="800"
           data-aos-delay="600"
+          data-aos-offset="-500"
           className={styles.contentSide}
         >
           <Card
             add={false}
             backgroundColor={colors.primaryColor3}
-            width="100%"
+            width="150px"
             height="60px"
             borderRadius="20px"
             fontSize="24px"
@@ -76,13 +95,24 @@ export default function Profile(props) {
           <Card
             add={false}
             backgroundColor={colors.warningColor}
-            width="100%"
+            width="150px"
             height="60px"
             borderRadius="20px"
             fontSize="24px"
             onClick={() => props.history.goBack()}
           >
             Cancel
+          </Card>
+          <Card
+            add={false}
+            backgroundColor={colors.basegrey}
+            width="150px"
+            height="60px"
+            borderRadius="20px"
+            fontSize="24px"
+            onClick={logOut}
+          >
+            Logout
           </Card>
         </div>
       </div>

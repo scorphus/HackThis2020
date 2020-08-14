@@ -1,29 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { api } from "../../api"
 
 import styles from "./TopicSelector.module.scss";
-
-const testSubjects = [
-    "Mathematics",
-    "Computer Science",
-    "Biology",
-    "Chemistry",
-    "Physics",
-    "Psychology",
-    "Literature",
-    "Engineering",
-    "Finance",
-    "Electronics",
-    "Astronomy",
-    "Memeology",
-    "potato",
-];
 
 function TopicSelector({ subjects, setSubjects, maxSubjects, style }) {
     const { register, watch } = useForm();
     const query = watch("search") || "";
 
-    const [available, setAvailable] = useState(testSubjects);
+    const [available, setAvailable] = useState([]);
+
+    useEffect(() => {
+        async function fetchSubjects() {
+            try {
+                const result = await api.get("/get_subjects")
+                setAvailable(result.data.map(subj => subj.title).filter(subj => !subjects.includes(subj)))
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchSubjects();
+    }, [])
 
     function Available({ subject }) {
         return (
@@ -32,7 +29,7 @@ function TopicSelector({ subjects, setSubjects, maxSubjects, style }) {
                     if (subjects.length >= maxSubjects) return;
 
                     setAvailable(available.filter((subj) => subj !== subject));
-                    setSubjects(subjects.concat(subject));
+                    if(!subjects.includes(subject)) setSubjects(subjects.concat(subject));
                 }}
                 className={subjects.length < maxSubjects ? styles.available : styles.unavailable}
             >
@@ -46,11 +43,12 @@ function TopicSelector({ subjects, setSubjects, maxSubjects, style }) {
             <div
                 onClick={() => {
                     setSubjects(subjects.filter((subj) => subj !== subject));
-                    setAvailable(available.concat(subject));
+                    if(!available.includes(subject)) setAvailable(available.concat(subject));
                 }}
                 className={styles.selected}
             >
                 {subject}
+                <i className={`fa fa-times ${styles.closeButton}`}></i>
             </div>
         );
     }

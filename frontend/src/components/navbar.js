@@ -24,7 +24,7 @@ export const NavigationBar = () => {
         height="50px"
         borderRadius="10px"
         z-index={100}
-        children={<a href="/profile">Profile</a>}
+        children={<Link to="/profile">Profile</Link>}
         />
     </div>
     <Link className={styles.navLink} to="/aboutus">About Us</Link>

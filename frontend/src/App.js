@@ -18,6 +18,7 @@ import Faq from "./views/FAQ";
 import NotFound from "./views/NotFound";
 
 import { NavigationBar } from './components/navbar';
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
     return (
@@ -26,17 +27,17 @@ function App() {
                 <div className="App">
                     <NavigationBar />
                     <Switch>
-                        <Route exact path="/login" component={Login}/>
-                        <Route exact path="/register" component={Register} />
-                        <Route exact path="/chat" component={Chat}/>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/dashboard" component={Dashboard} />
-                        <Route exact path="/profile" render={(props) => (<Profile {...props}/>)} />
+                        <PrivateRoute inverse exact path="/login" component={Login} alt="/" />
+                        <PrivateRoute inverse exact path="/register" component={Register} alt="/" />
+                        <PrivateRoute exact path="/chat" component={Chat}/>
+                        <PrivateRoute inverse exact path="/" component={Home} alt="/dashboard" />
+                        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                        <PrivateRoute exact path="/profile" component={Profile} />
                         <Route exact path="/faq" component={Faq} />
                         <Route exact path="/aboutus" component={AboutUs} />
-                        <Route exact path="/createnew" render={(props) => (<CreateNew {...props}/>)} />
-                        <Route exact path="/info" render={(props) => (<Info {...props}/>)} />
-                        <Route exact path="/reflection" component={Reflection} />
+                        <PrivateRoute exact path="/createnew" component={CreateNew} />
+                        <PrivateRoute exact path="/info" component={Info} />
+                        <PrivateRoute exact path="/reflection" component={Reflection} />
                         <Route exact path="/search" component={Search}/>
                         {/* 404 page MUST be last */}
                         <Route component={NotFound} />

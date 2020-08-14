@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Cookies from 'js-cookie';
 
 import Card from "../components/Card/card";
 import SearchBarAlt from "../components/SearchBarAlt/SearchBarAlt";
@@ -51,13 +52,17 @@ export default function Home(props) {
           add={false}
           backgroundColor={colors.primaryColor2}
           borderRadius="30px"
-          onClick={() => props.history.push("/search?q=Spanish")}
+          onClick={() => props.history.push("/search?q=Physics")}
         ><p style={{fontWeight: "300", fontSize: "48px"}}>Physics</p></Card>
         <Card add={true} borderRadius="30px" onClick={() => {
           if (searchTerm.length > 0) {
-            props.history.push("/createnew", {
-              topic: searchTerm
-            });
+            if (Cookies.get("username") !== null && Cookies.get("username") !== undefined) {
+              props.history.push("/createnew", {
+                topic: searchTerm
+              });
+            }
+          } else {
+            props.history.push("/login");
           }
         }}/>
       </div>
@@ -85,7 +90,7 @@ export default function Home(props) {
             </p>
           </div>
           <div className={styles.livingButton}>
-            <button onClick={() => props.history.push("/register")}>Get Started</button>
+            <button onClick={() => props.history.push("/login")}>Get Started</button>
           </div>
         </div>
         <div className={styles.living}>
@@ -94,10 +99,10 @@ export default function Home(props) {
       </div>
       <div data-aos="fade-up" className={styles.limitContainer}>
         <div className={styles.content}>
-          <p>There's no limit to what you can learn when you use Feynman</p>
+          <p>There's no limit to what you can learn when you use Epiphany</p>
         </div>
         <div className={styles.button}>
-          <button onClick={() => props.history.push("/dashboard")}>Let's Go!</button>
+          <button onClick={() => props.history.push("/login")}>Let's Go!</button>
         </div>
       </div>
     </div>

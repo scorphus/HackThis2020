@@ -67,7 +67,7 @@ function Chat() {
             console.log("got message");
             console.log(data);
 
-            if (data.msg.length == 0) {
+            if (data.msg.length === 0) {
                 return;
             }
             setMessages((m) =>

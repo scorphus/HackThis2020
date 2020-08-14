@@ -17,6 +17,7 @@ AOS.init({
 })
 
 export default function Info(props) {
+    console.log("BRUH");
     console.log(props.location.state.topic);
     const topic = props.location.state.topic;
     // const topic = "pythagoras"; // test term

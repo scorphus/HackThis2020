@@ -5,7 +5,7 @@ import styles from "../styles/Auth.module.scss";
 import { Link } from "react-router-dom";
 import TopicSelector from "../components/TopicSelector/TopicSelector";
 
-function Register() {
+function Register(props) {
     const [formStage, setFormStage] = useState(0);
 
     const [creds, setCreds] = useState({})
@@ -24,7 +24,9 @@ function Register() {
         credentials: 'include',
         body: JSON.stringify(data),
       };
-      fetch('http://127.0.0.1:5000/register', requestOptions)
+      fetch('/register', requestOptions).then(() => {
+          props.history.push("/dashboard")
+      })
     }
 
     const stage =
