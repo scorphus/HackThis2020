@@ -21,12 +21,12 @@ sys.path.append(os.path.abspath('./helpers'))
 import auth
 import db
 import search
+import topics
 index_subject = "subject"
 index_topic = "topic"
 import linkScraper
 import wikipediaSummary
 import topics
-
 
 # # Set this variable to "threading", "eventlet" or "gevent" to test the
 # # different async modes, or leave it set to None for the application to choose
@@ -158,12 +158,6 @@ def send_summary():
     msg = Message(subject="Your summary from " + topic, sender=app.config.get("MAIL_USERNAME"), recipients=[email])
     msg.html = render_template("email.html", content=body)
     mail.send(msg)
-    return "DONE"
-
-@app.route('/create_topic', methods=["POST"])
-# @cross_origin(supports_credentials=True)
-def new_topic():
-    req = request.get_json()
     topic = req['topic'].lower()
     subject = req['subject'].lower()
     topics.create_topic(topic, subject)
@@ -178,9 +172,19 @@ def get_subjects():
 def get_topics():
     return dumps(db.db.topics.find({}))
 
+# create a new topic
+@app.route('/create_topic', methods=['POST'])
+def createTopic():
+    title = request.get_json()['topic']
+    subject = request.get_json()['subject']
+    result = topics.create_topic(title, subject)
+    search.populateSubjectTopic()
+    return (' ', 201)
+
 # Search functionality
 @app.route('/search')
 def searchSubjectTopic():
+    search.populateSubjectTopic()
     searchTerm = request.args.get('q')
     return dumps(search.searchTopic(searchTerm))
 
