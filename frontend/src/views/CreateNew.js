@@ -22,7 +22,6 @@ export default function CreateNew(props) {
     const [searchResults, setSearchResults] = useState([]);
     const [summary, setSummary] = useState("");
 
-    console.log(props.location.state.topic);
     const topic = props.location.state.topic;
     // const topic = "pythagoras"; // test term
     const googleSearchTerm = topic.replace(' ', '+');
@@ -83,19 +82,29 @@ export default function CreateNew(props) {
                     width="100%"
                     height="75px"
                     borderRadius="20px"
-                    onClick={(event) => {
-                        const alphanumeric = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890"
-                        if (searchTerm.length === 0 || !searchTerm.includes(alphanumeric)) {
-                            console.log("not a valid term")
-                            event.preventDefault();
-                        }
+                    onClick={() => {
+                        console.log(searchResults)
+                        // first we make a topic
+                        const requestOptions = {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'SameSite':'None' },
+                            credentials: 'include',
+                            body: JSON.stringify({"topic":topic, "subject":searchResults[0]}),
+                          };
+                          fetch('/create_topic', requestOptions)
+
+                        // then a room
+                        const requestOptions2 = {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'SameSite':'None' },
+                            credentials: 'include',
+                            body: JSON.stringify({"topic":topic}),
+                          };
+                          fetch('/messages/join_room', requestOptions2).then(() => {
+                              props.history.push("/chat")
+                          })
                     }}>
-                    <Link to="/chat" style={{textDecoration: "none", color: "black"}} data={{
-                        isSummarizer: true,
-                        summary: summary
-                    }}>
-                        I'm Ready
-                    </Link>
+                    <h1 style={{textAlign: "center", fontWeight: "normal", fontSize: "28px"}}>I'm Ready</h1>
                 </Card>
             </div>
         </div>

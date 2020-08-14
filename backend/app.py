@@ -25,6 +25,7 @@ index_subject = "subject"
 index_topic = "topic"
 import linkScraper
 import wikipediaSummary
+import topics
 
 
 # # Set this variable to "threading", "eventlet" or "gevent" to test the
@@ -161,9 +162,10 @@ def send_summary():
 
 @app.route('/create_topic', methods=["POST"])
 # @cross_origin(supports_credentials=True)
-def new(topic, subject):
-    topic = request.form.get('topic').lower()
-    subject = request.form.get('subject').lower()
+def new_topic():
+    req = request.get_json()
+    topic = req['topic'].lower()
+    subject = req['subject'].lower()
     topics.create_topic(topic, subject)
     return "DONE"
 
@@ -195,21 +197,26 @@ def makeWikipediaSummary():
     return dumps(wikipediaSummary.generateWikipediaSummary(searchTerm));
 
 # CHAT FUNCTION HERE
-@app.route('/messages/make_room')
+@app.route('/messages/join_room', methods=["POST"])
 def make_room():
-    
-    # If logged out and trying to troll
-    if not request.cookies.get('login_info'):
-        return redirect(url_for('home'))
-    else:
-        #Generate Room ID
-        # random_room_id = "temp"
-        random_room_id = uuid.uuid4().hex # access the _id of subjects instead of rng 
-        res = make_response(redirect(url_for('sessions', room_id = random_room_id)))
-        res.set_cookie("room_id", value=random_room_id, max_age=None)
-        return res
+    req = request.get_json()
+    topic = req["topic"]
+    print(topic)
+    room_id = hash(topic)
+    res = make_response("DONE")
+    print(room_id)
+    res.set_cookie("room_id", value=str(room_id), max_age=None)
+    res.set_cookie("topic", value=str(topic), max_age=None)
+    return res
 
-@app.route('/messages/<room_id>')
+@app.route('/messages/leave_room')
+def leave_room():
+    res = make_response("DONE")
+    res.set_cookie("room_id", value="bye", max_age=0)
+    res.set_cookie("topic", value="bye", max_age=0)
+    return res
+
+'''@app.route('/messages/<room_id>')
 def sessions(room_id):
     username = request.cookies.get('login_info')
     room = request.cookies.get('room_id')
@@ -222,7 +229,7 @@ def sessions(room_id):
         #username = request.cookies.get('login_info')
         #room = request.cookies.get('room_id')
         #return render_template('message.html', username = username, room = room)
-
+'''
 def messageReceived(methods=['GET', 'POST']):
     print('Message Received') 
 
@@ -239,12 +246,12 @@ def message(data):
 @socketio.on('join')
 def on_join(data):
     join_room(data["room"])
-    socketio.send({"msg": data["from_username"] + " has joined the room " + data["room"]}, room = data["room"])
+    socketio.send({"msg": data["from_username"] + " has joined the room"}, room = data["room"])
 
 @socketio.on('leave')
 def on_leave(data):
-    leave_room(data["room"])
-    socketio.send({"msg": data["from_username"] + " has left the room " + data["room"]}, room = data["room"])
+    leave_room()
+    socketio.send({"msg": data["from_username"] + " has left the room"}, room = data["room"])
 
 @app.after_request
 def middleware_for_response(response):
@@ -268,7 +275,6 @@ def login():
     password = req['password']
     session["user_info"] = auth.login(username, password)
     return session["user_info"]
-
 @app.route('/register', methods=["POST"])
 @cross_origin(supports_credentials=True)
 def register():
@@ -283,5 +289,4 @@ def register():
         mail.send(msg)
         return "DONE"
     return msg_string
-
 '''
