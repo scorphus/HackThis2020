@@ -167,6 +167,7 @@ def new_topic():
     topic = req['topic'].lower()
     subject = req['subject'].lower()
     topics.create_topic(topic, subject)
+    search.populateSubjectTopic()
     return "DONE"
 
 @app.route('/remove_topic', methods=["POST"])
@@ -174,6 +175,7 @@ def delete_topic():
     req = request.get_json()
     topic = req['topic'].lower()
     db.db.topics.delete_one({"title":topic})
+    search.populateSubjectTopic()
     return "DONE"
 
 @app.route('/get_subjects')
@@ -188,7 +190,6 @@ def get_topics():
 # Search functionality
 @app.route('/search')
 def searchSubjectTopic():
-    search.populateSubjectTopic()
     searchTerm = request.args.get('q')
     return dumps(search.searchTopic(searchTerm))
 

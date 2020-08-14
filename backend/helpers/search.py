@@ -38,6 +38,7 @@ def initializeIndexSubject():
     }})
 
 def populateSubjectTopic():
+    es.indices.delete(index='*', ignore=[400, 404])
     # populate subjects
     subjectIDCount = 0
     for doc in subjects.find({}):
@@ -116,7 +117,7 @@ def searchTopic(searchTerm):
     # as you can see, you just need to feed the <body> parameter,
     # and don't need to specify the <index> and <doc_type> as usual 
     res = es.msearch(body = request)
-    print(res)
+#     print(res)
 
     resultList = {}
 
