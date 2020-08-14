@@ -22,7 +22,6 @@ export default function CreateNew(props) {
     const [searchResults, setSearchResults] = useState([]);
     const [summary, setSummary] = useState("");
 
-    console.log(props.location.state.topic);
     const topic = props.location.state.topic;
     // const topic = "pythagoras"; // test term
     const googleSearchTerm = topic.replace(' ', '+');
@@ -84,13 +83,24 @@ export default function CreateNew(props) {
                     height="75px"
                     borderRadius="20px"
                     onClick={() => {
+                        console.log(searchResults)
+                        // first we make a topic
                         const requestOptions = {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'SameSite':'None' },
+                            credentials: 'include',
+                            body: JSON.stringify({"topic":topic, "subject":searchResults[0]}),
+                          };
+                          fetch('/create_topic', requestOptions)
+
+                        // then a room
+                        const requestOptions2 = {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json', 'SameSite':'None' },
                             credentials: 'include',
                             body: JSON.stringify({"topic":topic}),
                           };
-                          fetch('/messages/join_room', requestOptions).then(() => {
+                          fetch('/messages/join_room', requestOptions2).then(() => {
                               props.history.push("/chat")
                           })
                     }}>

@@ -20,6 +20,7 @@ sys.path.append(os.path.abspath('./helpers'))
 # Local Imports
 import auth
 import db
+import topics
 
 
 # # Set this variable to "threading", "eventlet" or "gevent" to test the
@@ -157,9 +158,10 @@ def send_summary():
 
 @app.route('/create_topic', methods=["POST"])
 # @cross_origin(supports_credentials=True)
-def new(topic, subject):
-    topic = request.form.get('topic').lower()
-    subject = request.form.get('subject').lower()
+def new_topic():
+    req = request.get_json()
+    topic = req['topic'].lower()
+    subject = req['subject'].lower()
     topics.create_topic(topic, subject)
     return "DONE"
 

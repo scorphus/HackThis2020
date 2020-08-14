@@ -30,7 +30,7 @@ class Reflection extends React.Component {
           </div>
           <div className={styles.congratulatoryText}>
             <p>
-                You just explained the topic of <i>Pythagorean Theorem!</i>
+                You just explained something! We hope you learned something as well!
             </p>
           </div>
           <div className={styles.awesome}>
@@ -48,7 +48,7 @@ class Reflection extends React.Component {
           </div>
           <div data-aos="fade-up" className={styles.buttonContainer}>
             <div className={styles.reflectionButton}>
-              <button onClick={this.sendEmail}>Email me my reflection</button>
+              <button onclick={() => this.sendEmail}>Email me my reflection</button>
             </div>
             <div className={styles.topicButton}>
               <button>I want to learn another topic</button>
