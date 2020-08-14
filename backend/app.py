@@ -11,7 +11,7 @@ from flask_pymongo import pymongo
 from flask_cors import CORS, cross_origin
 from flask_mail import Mail, Message
 
-from bson.json_util import loads, dumps
+from bson.json_util import loads, dumps, ObjectId
 import uuid
 import os, sys, time
 
@@ -264,9 +264,9 @@ def middleware_for_response(response):
     return response
 
 if __name__ == '__main__':
+    search.initializeIndexSubject()
+    search.populateSubjectTopic()
     socketio.run(app, debug=True)
-    initializeIndexSubject()
-    populateSubjectTopic()
 
 # Unused code
 '''

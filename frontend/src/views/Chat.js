@@ -15,7 +15,7 @@ AOS.init({
 const connectMsg = "Connected. Say hello!";
 const disconnectMsg = "Disconnected";
 
-function Chat() {
+function Chat(props) {
     const history = useHistory();
 
     const [messages, setMessages] = useState([]);
@@ -118,7 +118,7 @@ function Chat() {
                         }
 
                         return (
-                            <div className={styles.message}>
+                            <div key={message.time} className={styles.message}>
                                 {showName && (
                                     <p className={styles.username}>
                                         {message.username}
@@ -182,6 +182,7 @@ function Chat() {
                 className={styles.chatBox}
                 data-aos="fade-down"
                 data-aos-once="true"
+                data-aos-offset="-500"
             >
                 <input
                     autoFocus={true}

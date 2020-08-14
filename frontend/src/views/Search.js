@@ -27,13 +27,20 @@ export default function Search(props) {
   }, [])
 
   function handleSearchChange(result) {
-      setSearchTerm(result);
+    setSearchTerm(result);
   }
 
   useEffect(() => {
     async function populateSearch() {
       const SEResults = await (await fetch(`/search?q=${searchTerm}`)).json();
-      setSearchResults(Object.keys(SEResults));
+      // format: {id: {'topic': topicName, 'subject': subjectName}}
+      console.log(Object.entries(SEResults));
+      
+      setSearchResults(Object.entries(SEResults).map((([key, value]) => ({
+        room: key,
+        topic: value.topic,
+        subject: value.subject
+      }))))
     }
     populateSearch();
   }, [searchTerm]);
@@ -66,11 +73,12 @@ export default function Search(props) {
             borderRadius="30px"
             onClick={() => {
               props.history.push("/info", {
-                topic: result
+                topic: result.topic,
+                room: result.room
               })
             }}
             >
-              <p style={{padding: "0 20px", fontSize: fontSize, color: "black", textDecoration: "none"}}>{result}</p>
+              <p style={{padding: "0 20px", fontSize: fontSize, color: "black", textDecoration: "none"}}>{result.topic}</p>
             </Card>
           })}
           <Card key={searchResults.length}
