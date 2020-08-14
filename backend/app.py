@@ -188,6 +188,7 @@ def get_topics():
 # Search functionality
 @app.route('/search')
 def searchSubjectTopic():
+    search.populateSubjectTopic()
     searchTerm = request.args.get('q')
     return dumps(search.searchTopic(searchTerm))
 
