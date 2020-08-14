@@ -20,7 +20,6 @@ itsdangerous==1.1.0
 Jinja2==2.10
 MarkupSafe==1.1.0
 monotonic==1.5
-pkg-resources==0.0.0
 pymongo==3.11.0
 python-engineio==3.13.1
 python-socketio==4.6.0
