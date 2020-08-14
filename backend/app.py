@@ -28,7 +28,7 @@ import db
 # async_mode = None
 
 # Create the app
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
 CORS(app)
 # app.config.update(
 #     SESSION_COOKIE_SAMESITE='Lax',
@@ -71,10 +71,9 @@ def _proxy(*args, **kwargs):
     return response
 
 # Home Page or smth for redirects
-@app.route('/', methods = ["GET", "POST"])
-def home():
-    # Temp set to index.html. Change to home.html once homepage made
-    return "Home Page Lol. Anyone can see this"
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
 # Home Page or smth for redirects
 @app.route('/dashboard', methods = ["GET", "POST"])
@@ -231,7 +230,7 @@ def middleware_for_response(response):
     return response
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 80))
 
 # Unused code
 '''
